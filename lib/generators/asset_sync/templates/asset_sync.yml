@@ -1,0 +1,11 @@
+development:
+  access_key_id: 'MY_ACCESS_KEY'
+  secret_access_key: 'MY_ACCESS_SECRET'
+  bucket: "my_bucket"
+  existing_remote_files: keep
+
+production:
+  access_key_id: 'MY_ACCESS_KEY'
+  secret_access_key: 'MY_ACCESS_SECRET'
+  bucket: "my_bucket"
+  existing_remote_files: delete

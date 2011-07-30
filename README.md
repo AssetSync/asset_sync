@@ -13,18 +13,23 @@ Add the gem to your Gemfile
 
     gem "asset_sync"
 
+Generate the rake task and config files
+
+    rails g asset_sync:install
+
 ## Configuration
 
 Configure __config/environments/production.rb__ to use Amazon
 S3 as the asset host and ensure precompiling is enabled.
 
+    # config/environments/production.rb
     config.action_controller.asset_host = Proc.new do |source|
       request.ssl? 'https://my_bucket.s3.amazonaws.com' : 'http://my_bucket.s3.amazonaws.com'
     end
 
 Add your Amazon S3 configuration details to
-    config/asset_sync.yml
-
+    
+    # config/asset_sync.yml
     development:
       access_key_id: 'MY_ACCESS_KEY'
       secret_access_key: 'MY_ACCESS_SECRET'
@@ -37,14 +42,13 @@ Add your Amazon S3 configuration details to
       bucket: "my_bucket"
       existing_remote_files: "delete"
 
-Create a rake task e.g. __lib/tasks/assets.rake__ to attach to the rails 
-precompile task:
+A rake task is installed with the generator to enhance the rails 
+precompile task by automatically running after it:
 
+    # lib/tasks/asset_sync.rake
     Rake::Task["assets:precompile"].enhance do
       AssetSync::Assets.sync
     end
-
-This will attach and automatically run after the assets:precompile task.
 
 ## Todo
 
