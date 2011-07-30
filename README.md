@@ -55,9 +55,10 @@ This will attach and automatically run after the assets:precompile task.
 ## Credits
 
 Have borrowed ideas from:
-- [https://github.com/moocode/asset_id](https://github.com/moocode/asset_id)
-- [https://gist.github.com/1053855](https://gist.github.com/1053855)
+
+ - [https://github.com/moocode/asset_id](https://github.com/moocode/asset_id)
+ - [https://gist.github.com/1053855](https://gist.github.com/1053855)
 
 ## License
 
-MIT License. Copyright 2011 Rumble Labs Ltd. rumblelabs.com
+MIT License. Copyright 2011 Rumble Labs Ltd. [rumblelabs.com](http://rumblelabs.com)
