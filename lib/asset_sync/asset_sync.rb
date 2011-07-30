@@ -17,6 +17,10 @@ module AssetSync
       @bucket ||= connection.directories.get(s3_config["bucket"])
     end
     
+    def self.keep_existing_remote_files
+      (s3_config["existing_remote_files"]) ? (s3_config["existing_remote_files"] == "keep") : true 
+    end
+    
     def self.path
       "#{Rails.root.to_s}/public"
     end
@@ -68,7 +72,7 @@ module AssetSync
     end
 
     def self.sync
-       delete_extra_remote_files   
+       delete_extra_remote_files unless keep_existing_remote_files
        upload_files
        STDERR.puts "Done."
     end    

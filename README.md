@@ -2,14 +2,18 @@
 
 Synchronises Assets between Rails and S3.
 
-After you run assets:precompile your assets will be synchronised with your S3 
-bucket, deleting unused files and only uploading the files it needs to.
+Asset Sync is built to run with the new Rails Asset Pipeline feature of Rails 3.1.  After you run __bundle exec rake assets:precompile__ your assets will be synchronised to your S3 
+bucket, optionally deleting unused files and only uploading the files it needs to.
 
-## Usage
+This was initially built and is intended to work on [Heroku](http://heroku.com)
+
+## Installation
 
 Add the gem to your Gemfile
 
     gem "asset_sync"
+
+## Configuration
 
 Configure __config/environments/production.rb__ to use Amazon
 S3 as the asset host and ensure precompiling is enabled.
@@ -20,16 +24,18 @@ S3 as the asset host and ensure precompiling is enabled.
 
 Add your Amazon S3 configuration details to
     config/asset_sync.yml
-    
+
     development:
       access_key_id: 'MY_ACCESS_KEY'
       secret_access_key: 'MY_ACCESS_SECRET'
       bucket: "my_bucket"
+      existing_remote_files: "keep"
 
     production:
       access_key_id: 'MY_ACCESS_KEY'
       secret_access_key: 'MY_ACCESS_SECRET'
       bucket: "my_bucket"
+      existing_remote_files: "delete"
 
 Create a rake task e.g. __lib/tasks/assets.rake__ to attach to the rails 
 precompile task:
@@ -37,3 +43,21 @@ precompile task:
     Rake::Task["assets:precompile"].enhance do
       AssetSync::Assets.sync
     end
+
+This will attach and automatically run after the assets:precompile task.
+
+## Todo
+
+1. Write some specs
+2. Add some before and after filters for deleting and uploading
+3. Provide more configuration options
+
+## Credits
+
+Have borrowed ideas from:
+- [https://github.com/moocode/asset_id](https://github.com/moocode/asset_id)
+- [https://gist.github.com/1053855](https://gist.github.com/1053855)
+
+## License
+
+MIT License. Copyright 2011 Rumble Labs Ltd. rumblelabs.com
