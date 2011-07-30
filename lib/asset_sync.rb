@@ -1,5 +1,2 @@
-require "asset_sync/version"
-
-module AssetSync
-  # Your code goes here...
-end
+require 'fog'
+require "asset_sync/asset_sync"

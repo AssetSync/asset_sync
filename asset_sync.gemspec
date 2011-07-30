@@ -1,17 +1,19 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "asset_sync/version"
 
 Gem::Specification.new do |s|
   s.name        = "asset_sync"
-  s.version     = AssetSync::VERSION
+  s.version     = '0.0.1'
+  s.date        = '2011-07-30'
   s.authors     = ["Simon Hamilton"]
   s.email       = ["shamilton@rumblelabs.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = "Synchronises Assets between Rails and S3"
+  s.description = "After you run assets:precompile your assets will be synchronised with your S3 bucket, deleting unused files and only uploading the files it needs to."
 
   s.rubyforge_project = "asset_sync"
+
+  s.add_dependency('fog')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
