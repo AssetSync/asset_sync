@@ -1,9 +1,11 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 
+require "asset_sync/version"
+
 Gem::Specification.new do |s|
   s.name        = "asset_sync"
-  s.version     = '0.0.1'
+  s.version     = AssetSync::VERSION
   s.date        = '2011-07-30'
   s.authors     = ["Simon Hamilton"]
   s.email       = ["shamilton@rumblelabs.com"]
@@ -14,6 +16,8 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "asset_sync"
 
   s.add_dependency('fog')
+  
+  s.add_development_dependency "rspec"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

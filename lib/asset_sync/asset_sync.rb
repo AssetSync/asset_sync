@@ -1,6 +1,4 @@
 module AssetSync
-  VERSION = "0.0.1"
-
   class Storage
 
     def self.s3_config
