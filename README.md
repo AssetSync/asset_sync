@@ -20,6 +20,11 @@ S3 as the asset host and ensure precompiling is enabled.
 
 Add your Amazon S3 configuration details to
     config/asset_sync.yml
+    
+    development:
+      access_key_id: 'MY_ACCESS_KEY'
+      secret_access_key: 'MY_ACCESS_SECRET'
+      bucket: "my_bucket"
 
     production:
       access_key_id: 'MY_ACCESS_KEY'
@@ -30,5 +35,5 @@ Create a rake task e.g. __lib/tasks/assets.rake__ to attach to the rails
 precompile task:
 
     Rake::Task["assets:precompile"].enhance do
-      AssetSync::Storage.sync
+      AssetSync::Assets.sync
     end

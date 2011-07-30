@@ -1,5 +1,5 @@
 module AssetSync
-  class Storage
+  class Assets
 
     def self.s3_config
       @config ||= YAML.load_file(File.join(Rails.root, "config/asset_sync.yml"))[Rails.env] rescue nil || {}
@@ -58,11 +58,11 @@ module AssetSync
     def self.upload_files
       # get a fresh list of remote files
       remote_files = get_remote_files
-      local_files_to_upload = (remote_files | $local_files) - (remote_files & $local_files)
+      local_files_to_upload = (remote_files | local_files) - (remote_files & local_files)
 
       # Upload new files
       local_files_to_upload.each do |f|
-        next unless File.file? "#{$path}/#{f}" # Only files.
+        next unless File.file? "#{path}/#{f}" # Only files.
         upload_file f
       end
     end
