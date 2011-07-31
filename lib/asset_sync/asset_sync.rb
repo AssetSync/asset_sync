@@ -6,11 +6,14 @@ module AssetSync
     end
 
     def self.connection
-      Fog::Storage.new(
+      storage = {
         :provider => 'AWS', 
         :aws_access_key_id => s3_config["access_key_id"],
         :aws_secret_access_key => s3_config["secret_access_key"]
-      )
+      }
+      storage.merge!({:region => s3_config["region"]}) if s3_config.has_key?("region")
+
+      Fog::Storage.new(storage)
     end
 
     def self.bucket

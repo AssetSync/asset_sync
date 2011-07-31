@@ -27,7 +27,7 @@ S3 as the asset host and ensure precompiling is enabled.
       request.ssl? 'https://my_bucket.s3.amazonaws.com' : 'http://my_bucket.s3.amazonaws.com'
     end
 
-Add your Amazon S3 configuration details to
+Add your Amazon S3 configuration details to **asset_sync.yml**
     
     # config/asset_sync.yml
     development:
@@ -41,6 +41,13 @@ Add your Amazon S3 configuration details to
       secret_access_key: 'MY_ACCESS_SECRET'
       bucket: "my_bucket"
       existing_remote_files: "delete"
+
+If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following
+
+    production:
+      access_key_id: 'MY_ACCESS_KEY'
+      secret_access_key: 'MY_ACCESS_SECRET'
+      region: 'eu-west-1'
 
 A rake task is installed with the generator to enhance the rails 
 precompile task by automatically running after it:
