@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY 
   s.authors     = ["Simon Hamilton"]
   s.email       = ["shamilton@rumblelabs.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/rumblelabs/asset_sync"
   s.summary     = %q{Synchronises Assets between Rails and S3}
   s.description = %q{After you run assets:precompile your assets will be synchronised with your S3 bucket, deleting unused files and only uploading the files it needs to.}
 
