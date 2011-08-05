@@ -13,12 +13,24 @@ module AssetSync
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')
     end
 
+    def aws_access_key
+      "<%= ENV['AWS_ACCESS_KEY'] %>"
+    end
+
+    def aws_access_secret
+      "<%= ENV['AWS_ACCESS_SECRET'] %>"
+    end
+
+    def app_name
+      @app_name ||= Rails.application.is_a?(Rails::Application) && Rails.application.class.name.sub(/::Application$/, "").downcase
+    end
+
     def generate_config
-      copy_file "asset_sync.yml", "config/asset_sync.yml"
+      template "asset_sync.yml", "config/asset_sync.yml"
     end
     
     def generate_rake_task
-      copy_file "asset_sync.rake", "lib/tasks/asset_sync.rake"
+      template "asset_sync.rake", "lib/tasks/asset_sync.rake"
     end
   end
 end
