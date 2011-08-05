@@ -2,7 +2,7 @@ module AssetSync
   class Assets
 
     def self.s3_config
-      @config ||= YAML.load_file(File.join(Rails.root, "config/asset_sync.yml"))[Rails.env] rescue nil || {}
+      @config ||= YAML.load(ERB.new(IO.read(File.join(Rails.root, "config/asset_sync.yml"))).result)[Rails.env] rescue nil || {}
     end
 
     def self.connection
