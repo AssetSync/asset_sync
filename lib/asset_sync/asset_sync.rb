@@ -1,18 +1,20 @@
 module AssetSync
-  
-  def self.configure(&proc)
-    @config ||= Config.new
-    yield @config
-  end
-  
-  class Assets
 
-    def self.config
+  class << self
+
+    def config
       @config ||= Config.new
       raise Config::Invalid("Your configuration in (config/asset_sync.yml or config/initializers/asset_sync.rb) is missing or invalid, please refer to the documention and emend") unless @config && @config.valid?
       @config
     end
 
+    def configure(&proc)
+      @config ||= Config.new
+      yield @config
+    end
+  end
+
+  class Assets
 
     def self.connection
       Fog::Storage.new(self.config.fog_options)

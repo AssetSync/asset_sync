@@ -16,23 +16,28 @@ module AssetSync
     end
 
     def yml_exists?
-      File.exists?(yml_path)
+      File.exists?(self.yml_path)
+    end
+
+    def yml
+      y ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
+      HashWithIndifferentAccess.new(y)
     end
 
     def yml_path
       File.join(Rails.root, "config/asset_sync.yml")
     end
 
-    def from_yml
-      yml = YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
-      aws_access_key = yml[:aws_access_key]
-      aws_access_secret = yml[:aws_access_secret]
-      aws_bucket = yml[:aws_bucket]
-      region = yml[:aws_bucket]
+    def load_yml!
+      self.aws_access_key = yml[:aws_access_key]
+      self.aws_access_secret = yml[:aws_access_secret]
+      self.aws_bucket = yml[:aws_bucket]
+      self.region = yml[:aws_bucket]
 
       # TODO deprecate old style config settings
-      aws_access_key = yml[:aws_access_key_id]
-      aws_access_secret = yml[:aws_secret_access_key]
+      self.aws_access_key = yml[:access_key_id] if yml.has_key?(:access_key_id)
+      self.aws_access_secret = yml[:secret_access_key] if yml.has_key?(:secret_access_key)
+      self.aws_bucket = yml[:bucket] if yml.has_key?(:bucket)
     end
 
     def fog_options
@@ -41,7 +46,7 @@ module AssetSync
         :aws_access_key_id => aws_access_key,
         :aws_secret_access_key => aws_access_secret
       }
-      storage.merge!({:region => region) if region
+      storage.merge!({:region => region}) if region
       return storage
     end
 
