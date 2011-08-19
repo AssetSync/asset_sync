@@ -93,6 +93,10 @@ precompile task by automatically running after it:
 2. Add some before and after filters for deleting and uploading
 3. Provide more configuration options
 
+  * Get config working for new and old styles
+  * Get main class stuff working again
+
+
 ## Credits
 
 Have borrowed ideas from:
