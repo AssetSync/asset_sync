@@ -1,4 +1,10 @@
 module AssetSync
+  
+  def self.configure(&proc)
+    @config ||= Config.new
+    yield @config
+  end
+  
   class Assets
 
     def self.config
@@ -7,10 +13,6 @@ module AssetSync
       @config
     end
 
-    def self.configure(&proc)
-      @config ||= Config.new
-      yield @config
-    end
 
     def self.connection
       Fog::Storage.new(self.config.fog_options)
