@@ -1,27 +1,27 @@
 module AssetSync
   class Assets
 
-    def self.s3_config
-      @config ||= YAML.load(ERB.new(IO.read(File.join(Rails.root, "config/asset_sync.yml"))).result)[Rails.env] rescue nil || {}
+    def self.config
+      @config ||= Config.new
+      raise Config::Invalid("Your configuration in (config/asset_sync.yml or config/initializers/asset_sync.rb) is missing or invalid, please refer to the documention and emend") unless @config && @config.valid?
+      @config
+    end
+
+    def self.configure(&proc)
+      @config ||= Config.new
+      yield @config
     end
 
     def self.connection
-      storage = {
-        :provider => 'AWS', 
-        :aws_access_key_id => s3_config["access_key_id"],
-        :aws_secret_access_key => s3_config["secret_access_key"]
-      }
-      storage.merge!({:region => s3_config["region"]}) if s3_config.has_key?("region")
-
-      Fog::Storage.new(storage)
+      Fog::Storage.new(self.config.fog_options)
     end
 
     def self.bucket
-      @bucket ||= connection.directories.get(s3_config["bucket"])
+      @bucket ||= connection.directories.get(self.config.bucket)
     end
     
     def self.keep_existing_remote_files
-      (s3_config["existing_remote_files"]) ? (s3_config["existing_remote_files"] == "keep") : true 
+      (self.config.existing_remote_files) ? (self.config.existing_remote_files == "keep") : true 
     end
     
     def self.path

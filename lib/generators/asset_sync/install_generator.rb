@@ -4,10 +4,7 @@ module AssetSync
     desc "Install a config/asset_sync.yml and the asset:precompile rake task enhancer"
 
     # Commandline options can be defined here using Thor-like options:
-    class_option :my_opt, :type => :boolean, :default => false, :desc => "My Option"
-
-    # I can later access that option using:
-    # options[:my_opt]
+    class_option :use_yml, :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
 
     def self.source_root
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')
@@ -26,9 +23,17 @@ module AssetSync
     end
 
     def generate_config
-      template "asset_sync.yml", "config/asset_sync.yml"
+      if options[:use_yml]
+        template "asset_sync.yml", "config/asset_sync.yml"
+      end
     end
-    
+
+    def generate_initializer
+      unless options[:use_yml]
+        template "asset_sync.rb", "config/initializers/asset_sync.rb"
+      end
+    end
+
     def generate_rake_task
       template "asset_sync.rake", "lib/tasks/asset_sync.rake"
     end
