@@ -16,7 +16,7 @@ module AssetSync
       load_yml! if yml_exists?
     end
 
-    def keep_existing_remote_files?
+    def existing_remote_files?
       (self.existing_remote_files) ? (self.existing_remote_files == "keep") : true 
     end
 
@@ -47,13 +47,13 @@ module AssetSync
     end
 
     def fog_options
-      storage = {
+      options = {
         :provider => provider, 
         :aws_access_key_id => aws_access_key,
         :aws_secret_access_key => aws_access_secret
       }
-      storage.merge!({:region => aws_region}) if aws_region
-      return storage
+      options.merge!({:region => aws_region}) if aws_region
+      return options
     end
 
     def valid?
