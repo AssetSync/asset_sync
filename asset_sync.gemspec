@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "asset_sync"
 
   s.add_dependency('fog')
-  
+
   s.add_development_dependency "rspec"
+  s.add_development_dependency "bundler"
+  s.add_development_dependency "jeweler"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

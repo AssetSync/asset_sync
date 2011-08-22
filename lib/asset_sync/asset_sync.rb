@@ -2,6 +2,10 @@ module AssetSync
 
   class << self
 
+    def config=(data)
+      @config = data
+    end
+
     def config
       @config ||= Config.new
       raise Config::Invalid("Your configuration in (config/asset_sync.yml or config/initializers/asset_sync.rb) is missing or invalid, please refer to the documention and emend") unless @config && @config.valid?
@@ -25,7 +29,7 @@ module AssetSync
     end
     
     def self.keep_existing_remote_files
-      (self.config.existing_remote_files) ? (self.config.existing_remote_files == "keep") : true 
+      self.config.existing_remote_files?
     end
     
     def self.path
