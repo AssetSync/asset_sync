@@ -53,7 +53,8 @@ module AssetSync
       file = bucket.files.create(
         :key => "#{f}",
         :body => File.open("#{path}/#{f}"),
-        :public => true
+        :public => true,
+        'Cache-Control' => 'max-age=29030400, public'
       )
     end
 
