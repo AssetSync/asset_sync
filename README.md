@@ -16,6 +16,10 @@ Add the gem to your Gemfile
 Generate the rake task and config files
 
     rails g asset_sync:install
+    
+If you would like to use a YAML file for configuration instead of the default (Rails Initializer) then 
+
+    rails g asset_sync:install --use-yml
 
 ## Configuration
 
@@ -27,31 +31,56 @@ S3 as the asset host and ensure precompiling is enabled.
       request.ssl? ? 'https://my_bucket.s3.amazonaws.com' : 'http://my_bucket.s3.amazonaws.com'
     end
 
-### asset_sync.yml
+We support two methods of configuration.
 
-The recommend way to configure your **asset_sync.yml** is by adding an environment variable. That way your access keys are not checked into version control.
+* Rails Initializer
+* A YAML config file
+
+Using an **Initializer** is the default method and is best used with **environment** variables. It's the recommended approach for deployments on Heroku.
+
+Using a **YAML** config file is a traditional strategy for Capistrano deployments. If you are using [Moonshine](https://github.com/railsmachine/moonshine) (which we would recommend) then it is best used with [shared configuration files](https://github.com/railsmachine/moonshine/wiki/Shared-Configuration-Files).
+
+The recommend way to configure **asset_sync** is by using environment variables however it's up to you, it will work fine if you hard code them too. The main reason is that then your access keys are not checked into version control.
+
+### Initializer (config/initializers/asset_sync.rb)
+
+The generator will create a Rails initializer at `config/initializers/asset_sync.rb`.
+
+    AssetSync.configure do |config|
+      config.aws_access_key = ENV['AWS_ACCESS_KEY']
+      config.aws_access_secret = ENV['AWS_ACCESS_SECRET']
+      config.aws_bucket = ENV['AWS_BUCKET']
+      # config.aws_region = 'eu-west-1'
+      config.existing_remote_files = "keep"
+    end
+
+
+### YAML (config/asset_sync.yml)
+
+If you used the `--use-yml` flag, the generator will create a YAML file at `config/initializers/asset_sync.rb`.
 
     defaults: &defaults
-      access_key_id: "<%= ENV['AWS_ACCESS_KEY'] %>"
-      secret_access_key: "<%= ENV['AWS_ACCESS_SECRET'] %>"
+      aws_access_key: "<%= ENV['AWS_ACCESS_KEY'] %>"
+      aws_access_secret: "<%= ENV['AWS_ACCESS_SECRET'] %>"
       # You may need to specify what region your S3 bucket is in
-      # region: "eu-west-1"
+      # aws_region: "eu-west-1"
 
     development:
       <<: *defaults
-      bucket: "backoffice_development"
+      aws_bucket: "rails_app_development"
       existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
 
     test:
       <<: *defaults
-      bucket: "backoffice_test"
+      aws_bucket: "rails_app_test"
       existing_remote_files: keep
 
     production:
       <<: *defaults
-      bucket: "backoffice_production"
+      aws_bucket: "rails_app_production"
       existing_remote_files: delete # Existing pre-compiled assets on S3 will be deleted
 
+### Environment Variables
 
 Add your Amazon S3 configuration details to **heroku**
 
@@ -63,19 +92,28 @@ Or add to a traditional unix system
     export AWS_ACCESS_KEY=xxxx
     export AWS_ACCESS_SECRET=xxxx
 
-If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following
-
-    production:
-      access_key_id: 'MY_ACCESS_KEY'
-      secret_access_key: 'MY_ACCESS_SECRET'
-      region: 'eu-west-1'
-
 ### Available Configuration Options
 
 * **access\_key\_id**: your Amazon S3 access key
 * **secret_access\_key**: your Amazon S3 access secret
 * **region**: the region your S3 bucket is in e.g. *eu-west-1*
 * **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
+
+## Amazon S3 Multiple Region Support
+
+If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following with YAML.
+
+    production:
+      # ...
+      region: 'eu-west-1'
+
+Or via the initializer
+
+    AssetSync.configure do |config|
+      # ...
+      config.aws_region = 'eu-west-1'
+    end
+
 
 ## Rake Task
 
@@ -84,18 +122,14 @@ precompile task by automatically running after it:
 
     # lib/tasks/asset_sync.rake
     Rake::Task["assets:precompile"].enhance do
-      AssetSync::Assets.sync
+      AssetSync.sync
     end
 
 ## Todo
 
-1. Write some specs
-2. Add some before and after filters for deleting and uploading
-3. Provide more configuration options
-
-  * Get config working for new and old styles
-  * Get main class stuff working again
-
+1. Add some before and after filters for deleting and uploading
+2. Support more cloud storage providers
+3. Better test coverage
 
 ## Credits
 
