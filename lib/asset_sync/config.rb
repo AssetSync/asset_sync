@@ -17,7 +17,7 @@ module AssetSync
     end
 
     def existing_remote_files?
-      (self.existing_remote_files) ? (self.existing_remote_files == "keep") : true 
+      (self.existing_remote_files == "keep")
     end
 
 
