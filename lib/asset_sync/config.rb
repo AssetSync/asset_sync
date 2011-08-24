@@ -17,7 +17,7 @@ module AssetSync
     end
 
     def existing_remote_files?
-      (self.existing_remote_files) ? (self.existing_remote_files == "keep") : true 
+      (self.existing_remote_files == "keep")
     end
 
 
@@ -34,16 +34,17 @@ module AssetSync
     end
 
     def load_yml!
-      self.aws_access_key    = yml["aws_access_key"]
-      self.aws_access_secret = yml["aws_access_secret"]
-      self.aws_bucket        = yml["aws_bucket"]
-      self.aws_region        = yml["aws_region"]
+      self.aws_access_key         = yml["aws_access_key"]
+      self.aws_access_secret      = yml["aws_access_secret"]
+      self.aws_bucket             = yml["aws_bucket"]
+      self.aws_region             = yml["aws_region"]
+      self.existing_remote_files  = yml["existing_remote_files"]
 
       # TODO deprecate old style config settings
-      self.aws_access_key    = yml["access_key_id"] if yml.has_key?("access_key_id")
-      self.aws_access_secret = yml["secret_access_key"] if yml.has_key?("secret_access_key")
-      self.aws_bucket        = yml["bucket"] if yml.has_key?("bucket")
-      self.aws_region        = yml["region"] if yml.has_key?("region")
+      self.aws_access_key         = yml["access_key_id"] if yml.has_key?("access_key_id")
+      self.aws_access_secret      = yml["secret_access_key"] if yml.has_key?("secret_access_key")
+      self.aws_bucket             = yml["bucket"] if yml.has_key?("bucket")
+      self.aws_region             = yml["region"] if yml.has_key?("region")
     end
 
     def fog_options
