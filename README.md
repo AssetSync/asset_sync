@@ -114,7 +114,6 @@ Or via the initializer
       config.aws_region = 'eu-west-1'
     end
 
-
 ## Rake Task
 
 A rake task is installed with the generator to enhance the rails 
