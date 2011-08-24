@@ -15,7 +15,7 @@ module AssetSync
       @bucket ||= connection.directories.get(self.config.aws_bucket)
     end
 
-    def keep_existing_remote_files
+    def keep_existing_remote_files?
       self.config.existing_remote_files?
     end
 
@@ -39,9 +39,11 @@ module AssetSync
     end
 
     def delete_extra_remote_files
+      STDERR.puts "Fetching files to flag for delete"
       remote_files = get_remote_files
       from_remote_files_to_delete = (local_files | remote_files) - (local_files & remote_files)
-
+      
+      STDERR.puts "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
       bucket.files.each do |f|
         delete_file(f, from_remote_files_to_delete)
@@ -71,7 +73,7 @@ module AssetSync
     end
 
     def sync
-       delete_extra_remote_files unless keep_existing_remote_files
+       delete_extra_remote_files unless keep_existing_remote_files?
        upload_files
        STDERR.puts "Done."
     end
