@@ -56,7 +56,7 @@ module AssetSync
         :key => "#{f}",
         :body => File.open("#{path}/#{f}"),
         :public => true,
-        'Cache-Control' => 'max-age=31557600'
+        :cache_control => "max-age=31557600"
       )
     end
 
