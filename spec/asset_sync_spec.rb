@@ -70,3 +70,16 @@ describe AssetSync, 'from yml' do
   end
 
 end
+
+describe AssetSync, 'with no configuration' do
+
+  before(:all) do
+    Rails.root = 'without_yml'
+    AssetSync.config = AssetSync::Config.new
+  end
+
+  it "should be invalid" do
+    lambda{ AssetSync.config.valid?.should == false }.should raise_error(AssetSync::Config::Invalid)
+  end
+
+end
