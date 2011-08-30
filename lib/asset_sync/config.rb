@@ -1,5 +1,6 @@
 module AssetSync
   class Config
+    include ActiveModel::Validations
 
     class Invalid < StandardError; end
 
@@ -8,6 +9,11 @@ module AssetSync
     attr_accessor :aws_bucket
     attr_accessor :aws_region
     attr_accessor :existing_remote_files
+
+    validates :aws_access_key,        :presence => true
+    validates :aws_access_secret,     :presence => true
+    validates :aws_bucket,            :presence => true
+    validates :existing_remote_files, :inclusion => {:in => %w(keep delete)}
 
     def initialize
       self.provider = 'AWS'
@@ -55,10 +61,6 @@ module AssetSync
       }
       options.merge!({:region => aws_region}) if aws_region
       return options
-    end
-
-    def valid?
-      true
     end
 
   end

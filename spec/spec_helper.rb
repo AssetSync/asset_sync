@@ -14,12 +14,18 @@ require 'asset_sync'
 
 class Rails
 
+  @@path = 'without_yml'
+
   def self.env
     "test"
   end
 
+  def self.root=(path)
+    @@path = path
+  end
+
   def self.root
-    File.expand_path(File.join('spec', 'rails_app'))
+    File.expand_path(File.join('spec', @@path))
   end
 
 end
