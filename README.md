@@ -12,7 +12,7 @@ This was initially built and is intended to work on [Heroku](http://heroku.com)
 We are currently trying to talk with Heroku to iron these out.
 
 1. Will not work on heroku on an application with a *RAILS_ENV* configured as anything other than production
-2. Will not work using ENV variables with the configuration as described below, you must hardcode all variables
+2. Will not work on heroku using ENV variables with the configuration as described below, you must hardcode all variables
 
 ### 1. RAILS_ENV
 
