@@ -7,6 +7,41 @@ bucket, optionally deleting unused files and only uploading the files it needs t
 
 This was initially built and is intended to work on [Heroku](http://heroku.com)
 
+## KNOWN ISSUES (IMPORTANT)
+
+We are currently trying to talk with Heroku to iron these out.
+
+1. Will not work on heroku on an application with a *RAILS_ENV* configured as anything other than production
+2. Will not work using ENV variables with the configuration as described below, you must hardcode all variables
+
+### 1. RAILS_ENV
+
+When you see `rake assets:precompile` during deployment. Herok is actually running something like
+
+    env RAILS_ENV=production DATABASE_URL=scheme://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
+
+This means the *RAILS_ENV* you have set via *heroku:config* is not used.
+
+**Workaround:** you could have just one S3 bucket dedicated to assets and ensure to set keep the existing remote files
+
+    AssetSync.configure do |config|
+      ...
+      config.aws_bucket = 'app-assets'
+      config.existing_remote_files = "keep"
+    end
+
+### 2. ENV varables not available
+
+Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available.
+
+**Workaround:** you could just hardcode your AWS credentials in the initializer or yml
+
+    AssetSync.configure do |config|
+      config.aws_access_key = 'xxx'
+      config.aws_access_secret = 'xxx'
+      config.aws_bucket = 'mybucket'
+    end
+
 ## Installation
 
 Add the gem to your Gemfile
