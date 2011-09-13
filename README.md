@@ -63,7 +63,7 @@ S3 as the asset host and ensure precompiling is enabled.
 
     # config/environments/production.rb
     config.action_controller.asset_host = Proc.new do |source, request|
-      request.ssl? ? 'https://my_bucket.s3.amazonaws.com' : 'http://my_bucket.s3.amazonaws.com'
+      request.ssl? ? "https://#{ENV['AWS_BUCKET']}.s3.amazonaws.com" : "http://#{ENV['AWS_BUCKET']}.s3.amazonaws.com"
     end
 
 We support two methods of configuration.
@@ -102,17 +102,17 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
 
     development:
       <<: *defaults
-      aws_bucket: "rails_app_development"
+      aws_bucket: "rails-app-development"
       existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
 
     test:
       <<: *defaults
-      aws_bucket: "rails_app_test"
+      aws_bucket: "rails-app-test"
       existing_remote_files: keep
 
     production:
       <<: *defaults
-      aws_bucket: "rails_app_production"
+      aws_bucket: "rails-app-production"
       existing_remote_files: delete # Existing pre-compiled assets on S3 will be deleted
 
 ### Environment Variables
@@ -120,18 +120,20 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
 Add your Amazon S3 configuration details to **heroku**
 
     heroku config:add AWS_ACCESS_KEY=xxxx
-    heroku config:add AWS_ACCESS_KEY=xxxx
+    heroku config:add AWS_ACCESS_SECRET=xxxx
+    heroku config:add AWS_BUCKET=xxxx
 
 Or add to a traditional unix system
 
     export AWS_ACCESS_KEY=xxxx
     export AWS_ACCESS_SECRET=xxxx
+    export AWS_BUCKET=xxxx
 
 ### Available Configuration Options
 
-* **access\_key\_id**: your Amazon S3 access key
-* **secret_access\_key**: your Amazon S3 access secret
-* **region**: the region your S3 bucket is in e.g. *eu-west-1*
+* **aws\_access\_key**: your Amazon S3 access key
+* **aws\_access\_secret**: your Amazon S3 access secret
+* **aws\_region**: the region your S3 bucket is in e.g. *eu-west-1*
 * **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
 
 ## Amazon S3 Multiple Region Support
@@ -140,7 +142,7 @@ If you are using anything other than the US buckets with S3 then you'll want to 
 
     production:
       # ...
-      region: 'eu-west-1'
+      aws\_region: 'eu-west-1'
 
 Or via the initializer
 
@@ -148,7 +150,6 @@ Or via the initializer
       # ...
       config.aws_region = 'eu-west-1'
     end
-
 
 ## Rake Task
 

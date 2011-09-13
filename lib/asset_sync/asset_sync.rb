@@ -8,7 +8,7 @@ module AssetSync
 
     def config
       @config ||= Config.new
-      raise Config::Invalid("Your configuration in (config/asset_sync.yml or config/initializers/asset_sync.rb) is missing or invalid, please refer to the documention and emend") unless @config && @config.valid?
+      raise Config::Invalid.new(@config.errors.full_messages.join(', ')) unless @config && @config.valid?
       @config
     end
 
