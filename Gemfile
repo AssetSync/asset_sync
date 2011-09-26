@@ -1,3 +1,2 @@
-source "http://localhost:8808"
-
+source :rubygems
 gemspec
