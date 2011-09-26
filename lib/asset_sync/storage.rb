@@ -1,6 +1,8 @@
 module AssetSync
   class Storage
 
+    class BucketNotFound < StandardError; end
+
     attr_accessor :config
 
     def initialize(cfg)
@@ -28,6 +30,7 @@ module AssetSync
     end
 
     def get_remote_files
+      raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.")
       return bucket.files.map { |f| f.key }
     end
 
