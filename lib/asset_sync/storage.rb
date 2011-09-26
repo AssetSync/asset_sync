@@ -30,7 +30,7 @@ module AssetSync
     end
 
     def get_remote_files
-      raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.")
+      raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.") unless bucket
       return bucket.files.map { |f| f.key }
     end
 
