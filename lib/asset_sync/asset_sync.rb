@@ -8,7 +8,6 @@ module AssetSync
 
     def config
       @config ||= Config.new
-      raise Config::Invalid.new(@config.errors.full_messages.join(', ')) unless @config && @config.valid?
       @config
     end
 
@@ -22,6 +21,7 @@ module AssetSync
     end
 
     def sync
+      raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
       self.storage.sync
     end
 

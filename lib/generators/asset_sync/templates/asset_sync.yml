@@ -3,19 +3,25 @@ defaults: &defaults
   secret_access_key: "<%= aws_access_secret %>"
   # You may need to specify what region your S3 bucket is in
   # region: "eu-west-1"
+  existing_remote_files: keep
 
 development:
   <<: *defaults
   bucket: "<%= app_name %>_development"
-  existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
+  # Existing pre-compiled assets on S3 will be kept
+  # existing_remote_files: keep
 
 test:
   <<: *defaults
   bucket: "<%= app_name %>_test"
-  existing_remote_files: keep
+
+staging:
+  <<: *defaults
+  bucket: "<%= app_name %>_test"
 
 production:
   <<: *defaults
   bucket: "<%= app_name %>_production"
-  existing_remote_files: delete # Existing pre-compiled assets on S3 will be deleted
+  # Existing pre-compiled assets on S3 will be deleted
+  # existing_remote_files: delete 
 
