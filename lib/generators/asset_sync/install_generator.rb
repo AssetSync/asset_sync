@@ -34,8 +34,8 @@ module AssetSync
       end
     end
 
-    def generate_rake_task
-      template "asset_sync.rake", "lib/tasks/asset_sync.rake"
-    end
+    # def generate_rake_task
+    #   template "asset_sync.rake", "lib/tasks/asset_sync.rake"
+    # end
   end
 end

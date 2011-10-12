@@ -40,11 +40,11 @@ module AssetSync
     end
 
     def load_yml!
-      self.aws_access_key         = yml["aws_access_key"]
-      self.aws_access_secret      = yml["aws_access_secret"]
-      self.aws_bucket             = yml["aws_bucket"]
-      self.aws_region             = yml["aws_region"]
-      self.existing_remote_files  = yml["existing_remote_files"]
+      self.aws_access_key         = yml["aws_access_key"] if yml.has_key?("aws_access_key")
+      self.aws_access_secret      = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")
+      self.aws_bucket             = yml["aws_bucket"] if yml.has_key?("aws_bucket")
+      self.aws_region             = yml["aws_region"] if yml.has_key?("aws_region")
+      self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
 
       # TODO deprecate old style config settings
       self.aws_access_key         = yml["access_key_id"] if yml.has_key?("access_key_id")
