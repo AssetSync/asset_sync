@@ -9,12 +9,8 @@ class Engine < Rails::Engine
     if File.exists?( app_initializer )
       STDERR.puts "AssetSync: using #{app_initializer}"
       load app_initializer
-    # elsif File.exists?( app_yaml )
-    # do nothing as yaml will be loaded on initialize of AssetSync
     else
-      STDERR.puts "AssetSync: using default configuration from ENV variables"
-      STDERR.puts "AssetSync: AWS_ACCESS_KEY:#{ENV['AWS_ACCESS_KEY']}"
-
+      STDERR.puts "AssetSync: using default configuration from built-in initializer"
       AssetSync.configure do |config|
         config.aws_access_key = ENV['AWS_ACCESS_KEY']
         config.aws_access_secret = ENV['AWS_ACCESS_SECRET']
