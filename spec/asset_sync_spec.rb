@@ -79,7 +79,7 @@ describe AssetSync, 'with no configuration' do
   end
 
   it "should be invalid" do
-    lambda{ AssetSync.config.valid?.should == false }.should raise_error(AssetSync::Config::Invalid)
+    lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
   end
 
 end

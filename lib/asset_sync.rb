@@ -6,5 +6,5 @@ require 'asset_sync/config'
 require 'asset_sync/storage'
 
 
-require 'asset_sync/railtie'
-require 'asset_sync/engine'
+require 'asset_sync/railtie' if defined?(Rails)
+require 'asset_sync/engine'  if defined?(Rails)
