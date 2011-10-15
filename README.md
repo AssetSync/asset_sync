@@ -32,7 +32,7 @@ This means the *RAILS_ENV* you have set via *heroku:config* is not used.
 
 ### 2. ENV varables not available
 
-Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available.
+Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available. For now you can just run `heroku run rake assets:precompile` after deploy.
 
 **Workaround:** you could just hardcode your AWS credentials in the initializer or yml
 
@@ -47,6 +47,8 @@ Currently when heroku runs `rake assets:precompile` during deployment. It does n
 Add the gem to your Gemfile
 
     gem "asset_sync"
+
+> The following steps are now optional as of version **0.1.7** there is a built-in initializer [lib/engine.rb](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb)
 
 Generate the rake task and config files
 
