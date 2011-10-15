@@ -16,7 +16,7 @@ We are currently trying to talk with Heroku to iron these out.
 
 ### 1. RAILS_ENV
 
-When you see `rake assets:precompile` during deployment. Herok is actually running something like
+When you see `rake assets:precompile` during deployment. Heroku is actually running something like
 
     env RAILS_ENV=production DATABASE_URL=scheme://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
 
