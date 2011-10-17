@@ -7,10 +7,10 @@ class Engine < Rails::Engine
     app_yaml = File.join(Rails.root, 'config/asset_sync.yml')
 
     if File.exists?( app_initializer )
-      STDERR.puts "AssetSync: using #{app_initializer}"
+      # STDERR.puts "AssetSync: using #{app_initializer}"
       load app_initializer
     else
-      STDERR.puts "AssetSync: using default configuration from built-in initializer"
+      # STDERR.puts "AssetSync: using default configuration from built-in initializer"
       AssetSync.configure do |config|
         config.aws_access_key = ENV['AWS_ACCESS_KEY']
         config.aws_access_secret = ENV['AWS_ACCESS_SECRET']
@@ -20,7 +20,7 @@ class Engine < Rails::Engine
     end
 
     if File.exists?( app_yaml )
-      STDERR.puts "AssetSync: YAML file found #{app_yaml} settings will be merged into the configuration"
+      # STDERR.puts "AssetSync: YAML file found #{app_yaml} settings will be merged into the configuration"
     end
   end
 
