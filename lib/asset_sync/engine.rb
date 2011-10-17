@@ -19,9 +19,9 @@ class Engine < Rails::Engine
       end
     end
 
-    if File.exists?( app_yaml )
-      # STDERR.puts "AssetSync: YAML file found #{app_yaml} settings will be merged into the configuration"
-    end
+    # if File.exists?( app_yaml )
+    # STDERR.puts "AssetSync: YAML file found #{app_yaml} settings will be merged into the configuration"
+    # end
   end
 
 end
