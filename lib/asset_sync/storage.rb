@@ -1,6 +1,5 @@
 module AssetSync
   class Storage
-
     class BucketNotFound < StandardError; end
 
     attr_accessor :config
@@ -80,6 +79,5 @@ module AssetSync
        upload_files
        STDERR.puts "Done."
     end
-
   end
 end

@@ -2,45 +2,9 @@
 
 Synchronises Assets between Rails and S3.
 
-Asset Sync is built to run with the new Rails Asset Pipeline feature of Rails 3.1.  After you run __bundle exec rake assets:precompile__ your assets will be synchronised to your S3 
-bucket, optionally deleting unused files and only uploading the files it needs to.
+Asset Sync is built to run with the new Rails Asset Pipeline feature of Rails 3.1.  After you run __bundle exec rake assets:precompile:primary RAILS_ENV=production RAILS_GROUPS=assets__ (optionally set `RAILS_GROUPS` if you're using assets group in you Gemfile) only your digest assets will be synchronised to your S3 bucket, optionally deleting unused files and only uploading the files it needs to.
 
-This was initially built and is intended to work on [Heroku](http://heroku.com)
-
-## KNOWN ISSUES (IMPORTANT)
-
-We are currently trying to talk with Heroku to iron these out.
-
-1. Will not work on heroku on an application with a *RAILS_ENV* configured as anything other than production
-2. Will not work on heroku using ENV variables with the configuration as described below, you must hardcode all variables
-
-### 1. RAILS_ENV
-
-When you see `rake assets:precompile` during deployment. Heroku is actually running something like
-
-    env RAILS_ENV=production DATABASE_URL=scheme://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
-
-This means the *RAILS_ENV* you have set via *heroku:config* is not used.
-
-**Workaround:** you could have just one S3 bucket dedicated to assets and ensure to set keep the existing remote files
-
-    AssetSync.configure do |config|
-      ...
-      config.aws_bucket = 'app-assets'
-      config.existing_remote_files = "keep"
-    end
-
-### 2. ENV varables not available
-
-Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available. For now you can just run `heroku run rake assets:precompile` after deploy.
-
-**Workaround:** you could just hardcode your AWS credentials in the initializer or yml
-
-    AssetSync.configure do |config|
-      config.aws_access_key = 'xxx'
-      config.aws_access_secret = 'xxx'
-      config.aws_bucket = 'mybucket'
-    end
+This was initially built and is intended to work on [Engine Yard](http://engineyard.com)
 
 ## Installation
 
@@ -73,7 +37,7 @@ We support two methods of configuration.
 * Rails Initializer
 * A YAML config file
 
-Using an **Initializer** is the default method and is best used with **environment** variables. It's the recommended approach for deployments on Heroku.
+Using an **Initializer** is the default method and is best used with **environment** variables. It's the recommended approach for deployments on Heroku or Engine Yard.
 
 Using a **YAML** config file is a traditional strategy for Capistrano deployments. If you are using [Moonshine](https://github.com/railsmachine/moonshine) (which we would recommend) then it is best used with [shared configuration files](https://github.com/railsmachine/moonshine/wiki/Shared-Configuration-Files).
 
@@ -151,16 +115,6 @@ Or via the initializer
     AssetSync.configure do |config|
       # ...
       config.aws_region = 'eu-west-1'
-    end
-
-## Rake Task
-
-A rake task is installed with the generator to enhance the rails 
-precompile task by automatically running after it:
-
-    # lib/tasks/asset_sync.rake
-    Rake::Task["assets:precompile"].enhance do
-      AssetSync.sync
     end
 
 ## Todo

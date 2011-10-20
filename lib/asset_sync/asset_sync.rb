@@ -1,7 +1,5 @@
 module AssetSync
-
   class << self
-
     def config=(data)
       @config = data
     end
@@ -24,7 +22,5 @@ module AssetSync
       raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
       self.storage.sync
     end
-
   end
-
 end

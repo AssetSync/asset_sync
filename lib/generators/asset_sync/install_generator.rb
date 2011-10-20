@@ -1,7 +1,7 @@
 require 'rails/generators'
 module AssetSync
   class InstallGenerator < Rails::Generators::Base
-    desc "Install a config/asset_sync.yml and the asset:precompile rake task enhancer"
+    desc "Install a config/asset_sync.yml"
 
     # Commandline options can be defined here using Thor-like options:
     class_option :use_yml, :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
@@ -25,17 +25,9 @@ module AssetSync
     def generate_config
       if options[:use_yml]
         template "asset_sync.yml", "config/asset_sync.yml"
-      end
-    end
-
-    def generate_initializer
-      unless options[:use_yml]
+      else
         template "asset_sync.rb", "config/initializers/asset_sync.rb"
       end
     end
-
-    # def generate_rake_task
-    #   template "asset_sync.rake", "lib/tasks/asset_sync.rake"
-    # end
   end
 end

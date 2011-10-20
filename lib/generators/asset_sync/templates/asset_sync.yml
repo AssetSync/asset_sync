@@ -24,4 +24,3 @@ production:
   bucket: "<%= app_name %>_production"
   # Existing pre-compiled assets on S3 will be deleted
   # existing_remote_files: delete 
-

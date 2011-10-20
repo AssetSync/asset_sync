@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
-
 describe AssetSync, 'with initializer' do
-
   before(:all) do
     Rails.root = 'without_yml'
     AssetSync.config = AssetSync::Config.new
@@ -38,12 +36,9 @@ describe AssetSync, 'with initializer' do
   it "should configure aws_access_key" do
     AssetSync.config.existing_remote_files.should == "keep"
   end
-
 end
 
-
 describe AssetSync, 'from yml' do
-
   before(:all) do
     Rails.root = 'with_yml'
     AssetSync.config = AssetSync::Config.new
@@ -68,11 +63,9 @@ describe AssetSync, 'from yml' do
   it "should configure aws_access_key" do
     AssetSync.config.existing_remote_files.should == "keep"
   end
-
 end
 
 describe AssetSync, 'with no configuration' do
-
   before(:all) do
     Rails.root = 'without_yml'
     AssetSync.config = AssetSync::Config.new
@@ -81,5 +74,4 @@ describe AssetSync, 'with no configuration' do
   it "should be invalid" do
     lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
   end
-
 end

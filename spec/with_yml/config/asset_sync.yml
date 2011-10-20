@@ -17,4 +17,3 @@ production:
   <<: *defaults
   bucket: "rails_app_production"
   existing_remote_files: delete
-
