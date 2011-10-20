@@ -1,4 +1,4 @@
-Rake::Task["assets:precompile"].enhance do
+Rake::Task["assets:precompile:primary"].enhance do
   # rails 3.1.1 will clear out Rails.application.config if the env vars
   # RAILS_GROUP and RAILS_ENV are not defined. We need to reload the
   # assets environment in this case.
