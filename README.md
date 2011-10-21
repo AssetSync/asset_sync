@@ -94,7 +94,7 @@ The generator will create a Rails initializer at `config/initializers/asset_sync
 
 ### YAML (config/asset_sync.yml)
 
-If you used the `--use-yml` flag, the generator will create a YAML file at `config/initializers/asset_sync.rb`.
+If you used the `--use-yml` flag, the generator will create a YAML file at `config/asset_sync.yml`.
 
     defaults: &defaults
       aws_access_key: "<%= ENV['AWS_ACCESS_KEY'] %>"
