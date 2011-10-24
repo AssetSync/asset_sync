@@ -61,19 +61,18 @@ module AssetSync
         :cache_control => "max-age=31557600"
       }
 
-      ext = File.extname(f)
-      gzip = ext == ".gz"
+      gzipped = "#{f}.gz"
 
-      if gzip && config.gzip?
-        original = f.gsub(/\.gz$/,'')
-        original_ext = File.extname( original )[1..-1]
-        mime = Mime::Type.lookup_by_extension( original_ext )
+      if File.exists?(gzipped) && config.gzip?
+        ext = File.extname( f )[1..-1]
+        mime = Mime::Type.lookup_by_extension( ext )
         file.merge!({
-          :key => original,
+          :key => f,
+          :body => File.open("#{path}/#{gzipped}"),
           :content_type     => mime,
           :content_encoding => 'gzip'
         })
-        STDERR.puts "Uploading: #{f} in place of #{original}"
+        STDERR.puts "Uploading: #{gzipped} in place of #{f}"
       else
         STDERR.puts "Uploading: #{f}"
       end
