@@ -61,6 +61,7 @@ module AssetSync
         :cache_control => "max-age=31557600"
       }
 
+      # TODO don't bother uploading gzipped assets if we're doing this
       gzipped = "#{path}/#{f}.gz"
 
       if File.exists?(gzipped) && config.gzip?
