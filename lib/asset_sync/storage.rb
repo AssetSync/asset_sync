@@ -54,7 +54,6 @@ module AssetSync
     end
 
     def upload_file(f)
-      STDERR.puts "Uploading: #{f}"
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
@@ -66,12 +65,17 @@ module AssetSync
       gzip = ext == ".gz"
 
       if gzip
-        real_ext = File.extname( f.gsub(/\.gz$/,'') )[1..-1]
-        mime = Mime::Type.lookup_by_extension( real_ext )
+        original = f.gsub(/\.gz$/,'')
+        original_ext = File.extname( original )[1..-1]
+        mime = Mime::Type.lookup_by_extension( original_ext )
         file.merge!({
+          :key => original,
           :content_type     => mime,
           :content_encoding => 'gzip'
         })
+        STDERR.puts "Uploading: #{f} in place of #{original}"
+      else
+        STDERR.puts "Uploading: #{f}"
       end
 
       file = bucket.files.create( file )
