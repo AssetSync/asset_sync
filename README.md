@@ -26,7 +26,7 @@ This means the *RAILS_ENV* you have set via *heroku:config* is not used.
 
     AssetSync.configure do |config|
       ...
-      config.aws_bucket = 'app-assets'
+      config.fog_directory = 'app-assets'
       config.existing_remote_files = "keep"
     end
 
@@ -37,9 +37,9 @@ Currently when heroku runs `rake assets:precompile` during deployment. It does n
 **Workaround:** you could just hardcode your AWS credentials in the initializer or yml
 
     AssetSync.configure do |config|
-      config.aws_access_key = 'xxx'
-      config.aws_access_secret = 'xxx'
-      config.aws_bucket = 'mybucket'
+      config.aws_access_key_id_id = 'xxx'
+      config.aws_secret_access_key = 'xxx'
+      config.fog_directory = 'mybucket'
     end
 
 ## Installation
@@ -65,7 +65,7 @@ S3 as the asset host and ensure precompiling is enabled.
 
     # config/environments/production.rb
     config.action_controller.asset_host = Proc.new do |source, request|
-      request.ssl? ? "https://#{ENV['AWS_BUCKET']}.s3.amazonaws.com" : "http://#{ENV['AWS_BUCKET']}.s3.amazonaws.com"
+      request.ssl? ? "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com" : "http://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
     end
 
 We support two methods of configuration.
@@ -84,15 +84,21 @@ The recommend way to configure **asset_sync** is by using environment variables 
 The generator will create a Rails initializer at `config/initializers/asset_sync.rb`.
 
     AssetSync.configure do |config|
-      config.aws_access_key = ENV['AWS_ACCESS_KEY']
-      config.aws_access_secret = ENV['AWS_ACCESS_SECRET']
-      config.aws_bucket = ENV['AWS_BUCKET']
-      config.existing_remote_files = "keep"
+      config.fog_provider = 'AWS'
+      config.fog_directory = ENV['FOG_DIRECTORY']
+      config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
+      config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+      # Don't delete files from the store
+      # config.existing_remote_files = "keep"
+      #
       # Increase upload performance by configuring your region
-      # config.aws_region = "eu-west-1"
+      # config.fog_region = 'eu-west-1'
+      #
       # Automatically replace files with their equivalent gzip compressed version
       # config.gzip_compression = true
-      # Use the Rails generated 'manifest.yml' file to produce the list of files to upload instead of searching the assets directory.
+      #
+      # Use the Rails generated 'manifest.yml' file to produce the list of files to 
+      # upload instead of searching the assets directory.
       # config.manifest = true
     end
 
@@ -102,31 +108,25 @@ The generator will create a Rails initializer at `config/initializers/asset_sync
 If you used the `--use-yml` flag, the generator will create a YAML file at `config/asset_sync.yml`.
 
     defaults: &defaults
-      aws_access_key: "<%= ENV['AWS_ACCESS_KEY'] %>"
-      aws_access_secret: "<%= ENV['AWS_ACCESS_SECRET'] %>"
+      aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
+      aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
       # You may need to specify what region your S3 bucket is in
-      # aws_region: "eu-west-1"
-      existing_remote_files: keep
-      # Automatically replace files with their equivalent gzip compressed version
-      # gzip_compression = true
-
+      # fog_region: "eu-west-1"
+      existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
+      # gzip_compression: true # Automatically replace files with their equivalent gzip compressed version
 
     development:
       <<: *defaults
-      aws_bucket: "rails-app-development"
-      existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
+      fog_directory: "rails-app-development"
 
     test:
       <<: *defaults
-      aws_bucket: "rails-app-test"
-
-    staging:
-      <<: *defaults
-      aws_bucket: "rails-app-staging"
+      fog_directory: "rails-app-test"
+      existing_remote_files: keep
 
     production:
       <<: *defaults
-      aws_bucket: "rails-app-production"
+      fog_directory: "rails-app-production"
       # Existing pre-compiled assets on S3 will be deleted
       # existing_remote_files: delete
 
@@ -134,30 +134,41 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
 
 Add your Amazon S3 configuration details to **heroku**
 
-    heroku config:add AWS_ACCESS_KEY=xxxx
-    heroku config:add AWS_ACCESS_SECRET=xxxx
-    heroku config:add AWS_BUCKET=xxxx
+    heroku config:add AWS_ACCESS_KEY_ID=xxxx
+    heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
+    heroku config:add FOG_DIRECTORY=xxxx
 
 Or add to a traditional unix system
 
-    export AWS_ACCESS_KEY=xxxx
-    export AWS_ACCESS_SECRET=xxxx
-    export AWS_BUCKET=xxxx
+    export AWS_ACCESS_KEY_ID=xxxx
+    export AWS_SECRET_ACCESS_KEY=xxxx
+    export FOG_DIRECTORY=xxxx
 
 ### Available Configuration Options
 
-* **aws\_access\_key**: your Amazon S3 access key
-* **aws\_access\_secret**: your Amazon S3 access secret
-* **aws\_region**: the region your S3 bucket is in e.g. *eu-west-1*
-* **existing\_remote\_files**: what to do with previously precompiled files, options are **keep** or **delete**
+#### AssetSync
+
+* **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
 * **gzip\_compression**: when enabled, will automatically replace files that have a gzip compressed equivalent with the compressed version.
 * **manifest**: when enabled, will use the `manifest.yml` generated by Rails to get the list of local files to upload. **experimental**
 
-## Automatic gzip compression
+#### Required (Fog)
+* **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files)
+* **fog\_directory**: your bucket name
 
-With the `gzip_compression` option enabled, when uploading your assets. If a file has a gzip compressed equivalent we will replace that asset with the compressed version and sets the correct headers for S3 to serve it. For example, if you have a file **master.css** and it was compressed to **master.css.gz** we will upload the **.gz** file to S3 in place of the uncompressed file.
+#### Optional
 
-If the compressed file is actually larger than the uncompressed file we will ignore this rule and upload the standard uncompressed version.
+* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+
+#### AWS
+
+* **aws\_access\_key\_id**: your Amazon S3 access key
+* **aws\_secret\_access\_key**: your Amazon S3 access secret
+
+#### Rackspace
+
+* **rackspace\_username**: your Rackspace username
+* **rackspace\_api\_key**: your Rackspace API Key.
 
 
 ## Amazon S3 Multiple Region Support
@@ -172,8 +183,15 @@ Or via the initializer
 
     AssetSync.configure do |config|
       # ...
-      config.aws_region = 'eu-west-1'
+      config.fog_region = 'eu-west-1'
     end
+
+## Automatic gzip compression
+
+With the `gzip_compression` option enabled, when uploading your assets. If a file has a gzip compressed equivalent we will replace that asset with the compressed version and sets the correct headers for S3 to serve it. For example, if you have a file **master.css** and it was compressed to **master.css.gz** we will upload the **.gz** file to S3 in place of the uncompressed file.
+
+If the compressed file is actually larger than the uncompressed file we will ignore this rule and upload the standard uncompressed version.
+
 
 ## Rake Task
 
