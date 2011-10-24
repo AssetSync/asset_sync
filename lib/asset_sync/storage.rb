@@ -68,7 +68,7 @@ module AssetSync
         mime = Mime::Type.lookup_by_extension( ext )
         file.merge!({
           :key => f,
-          :body => File.open("#{path}/#{gzipped}"),
+          :body => File.open(gzipped),
           :content_type     => mime,
           :content_encoding => 'gzip'
         })
