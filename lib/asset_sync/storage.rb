@@ -62,12 +62,14 @@ module AssetSync
       }
 
       gzipped = "#{path}/#{f}.gz"
+      ignore = false
 
-      if File.extname(f) == ".gz" && config.gzip?
+      if config.gzip? && File.extname(f) == ".gz"
         # Don't bother uploading gzipped assets if we are in gzip_compression mode
         # as we will overwrite file.css with file.css.gz if it exists.
         STDERR.puts "Ignoring: #{f}"
-      elsif File.exists?(gzipped) && config.gzip?
+        ignore = true
+      elsif config.gzip? && File.exists?(gzipped)
         ext = File.extname( f )[1..-1]
         mime = Mime::Type.lookup_by_extension( ext )
         file.merge!({
@@ -81,7 +83,7 @@ module AssetSync
         STDERR.puts "Uploading: #{f}"
       end
 
-      file = bucket.files.create( file )
+      file = bucket.files.create( file ) unless ignore
     end
 
     def upload_files
