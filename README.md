@@ -26,7 +26,7 @@ This means the *RAILS_ENV* you have set via *heroku:config* is not used.
 
     AssetSync.configure do |config|
       ...
-      config.aws_bucket = 'app-assets'
+      config.fog_directory = 'app-assets'
       config.existing_remote_files = "keep"
     end
 
@@ -37,9 +37,9 @@ Currently when heroku runs `rake assets:precompile` during deployment. It does n
 **Workaround:** you could just hardcode your AWS credentials in the initializer or yml
 
     AssetSync.configure do |config|
-      config.aws_access_key = 'xxx'
-      config.aws_access_secret = 'xxx'
-      config.aws_bucket = 'mybucket'
+      config.aws_access_key_id_id = 'xxx'
+      config.aws_secret_access_key = 'xxx'
+      config.fog_directory = 'mybucket'
     end
 
 ## Installation
@@ -65,7 +65,7 @@ S3 as the asset host and ensure precompiling is enabled.
 
     # config/environments/production.rb
     config.action_controller.asset_host = Proc.new do |source, request|
-      request.ssl? ? "https://#{ENV['AWS_BUCKET']}.s3.amazonaws.com" : "http://#{ENV['AWS_BUCKET']}.s3.amazonaws.com"
+      request.ssl? ? "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com" : "http://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
     end
 
 We support two methods of configuration.
@@ -84,10 +84,11 @@ The recommend way to configure **asset_sync** is by using environment variables 
 The generator will create a Rails initializer at `config/initializers/asset_sync.rb`.
 
     AssetSync.configure do |config|
-      config.aws_access_key = ENV['AWS_ACCESS_KEY']
-      config.aws_access_secret = ENV['AWS_ACCESS_SECRET']
-      config.aws_bucket = ENV['AWS_BUCKET']
-      # config.aws_region = 'eu-west-1'
+      config.fog_provider = 'AWS'
+      config.fog_directory = ENV['FOG_DIRECTORY']
+      config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
+      config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+      # config.fog_region = 'eu-west-1'
       config.existing_remote_files = "keep"
     end
 
@@ -97,46 +98,64 @@ The generator will create a Rails initializer at `config/initializers/asset_sync
 If you used the `--use-yml` flag, the generator will create a YAML file at `config/asset_sync.yml`.
 
     defaults: &defaults
-      aws_access_key: "<%= ENV['AWS_ACCESS_KEY'] %>"
-      aws_access_secret: "<%= ENV['AWS_ACCESS_SECRET'] %>"
+      aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
+      aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
       # You may need to specify what region your S3 bucket is in
-      # aws_region: "eu-west-1"
+      # fog_region: "eu-west-1"
 
     development:
       <<: *defaults
-      aws_bucket: "rails-app-development"
+      fog_directory: "rails-app-development"
       existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
 
     test:
       <<: *defaults
-      aws_bucket: "rails-app-test"
+      fog_directory: "rails-app-test"
       existing_remote_files: keep
 
     production:
       <<: *defaults
-      aws_bucket: "rails-app-production"
+      fog_directory: "rails-app-production"
       existing_remote_files: delete # Existing pre-compiled assets on S3 will be deleted
 
 ### Environment Variables
 
 Add your Amazon S3 configuration details to **heroku**
 
-    heroku config:add AWS_ACCESS_KEY=xxxx
-    heroku config:add AWS_ACCESS_SECRET=xxxx
-    heroku config:add AWS_BUCKET=xxxx
+    heroku config:add AWS_ACCESS_KEY_ID=xxxx
+    heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
+    heroku config:add FOG_DIRECTORY=xxxx
 
 Or add to a traditional unix system
 
-    export AWS_ACCESS_KEY=xxxx
-    export AWS_ACCESS_SECRET=xxxx
-    export AWS_BUCKET=xxxx
+    export AWS_ACCESS_KEY_ID=xxxx
+    export AWS_SECRET_ACCESS_KEY=xxxx
+    export FOG_DIRECTORY=xxxx
 
 ### Available Configuration Options
 
-* **aws\_access\_key**: your Amazon S3 access key
-* **aws\_access\_secret**: your Amazon S3 access secret
-* **aws\_region**: the region your S3 bucket is in e.g. *eu-west-1*
+#### AssetSync
+
 * **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
+
+#### Required (Fog)
+* **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files)
+* **fog\_directory**: your bucket name
+
+#### Optional
+
+* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+
+#### AWS
+
+* **aws\_access\_key\_id**: your Amazon S3 access key
+* **aws\_secret\_access\_key**: your Amazon S3 access secret
+
+#### Rackspace
+
+* **rackspace\_username**: your Rackspace username
+* **rackspace\_api\_key**: your Rackspace API Key.
+
 
 ## Amazon S3 Multiple Region Support
 
@@ -150,7 +169,7 @@ Or via the initializer
 
     AssetSync.configure do |config|
       # ...
-      config.aws_region = 'eu-west-1'
+      config.fog_region = 'eu-west-1'
     end
 
 ## Rake Task

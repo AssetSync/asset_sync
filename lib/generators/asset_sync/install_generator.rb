@@ -11,11 +11,11 @@ module AssetSync
     end
 
     def aws_access_key
-      "<%= ENV['AWS_ACCESS_KEY'] %>"
+      "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
     end
 
     def aws_access_secret
-      "<%= ENV['AWS_ACCESS_SECRET'] %>"
+      "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
     end
 
     def app_name
