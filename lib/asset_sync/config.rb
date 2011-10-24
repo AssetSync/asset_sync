@@ -101,8 +101,8 @@ module AssetSync
       options = { :provider => fog_provider }
       if aws?
         options.merge!({
-          :aws_access_key_id => aws_access_key,
-          :aws_secret_access_key => aws_access_secret
+          :aws_access_key_id => aws_access_key_id,
+          :aws_secret_access_key => aws_secret_access_key
         })
       elsif rackspace?
         options.merge!({
