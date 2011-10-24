@@ -1,0 +1,20 @@
+defaults: &defaults
+  fog_provider: "Rackspace"
+  rackspace_username: "xxxx"
+  rackspace_api_key: "zzzz"
+  region: "eu-west-1"
+
+development:
+  <<: *defaults
+  fog_directory: "rails_app_development"
+  existing_remote_files: keep
+
+test:
+  <<: *defaults
+  fog_directory: "rails_app_test"
+  existing_remote_files: keep
+
+production:
+  <<: *defaults
+  fog_directory: "rails_app_production"
+  existing_remote_files: delete

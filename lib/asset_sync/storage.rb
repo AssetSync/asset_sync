@@ -45,7 +45,7 @@ module AssetSync
     end 
 
     def get_remote_files
-      raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.") unless bucket
+      raise BucketNotFound.new("#{self.config.fog_provider} Bucket: #{self.config.fog_directory} not found.") unless bucket
       # fixes: https://github.com/rumblelabs/asset_sync/issues/16
       #        (work-around for https://github.com/fog/fog/issues/596)
       files = []

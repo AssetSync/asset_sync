@@ -1,0 +1,83 @@
+require File.dirname(__FILE__) + '/spec_helper'
+
+
+describe AssetSync, 'using Rackspace with initializer' do
+
+  before(:all) do
+    Rails.root = 'without_yml'
+    AssetSync.config = AssetSync::Config.new
+    AssetSync.configure do |config|
+      config.fog_provider          = 'Rackspace'
+      config.fog_directory         = 'mybucket'
+      config.fog_region            = 'dunno'
+      config.rackspace_username    = 'aaaa'
+      config.rackspace_api_key     = 'bbbb'
+      config.existing_remote_files = 'keep'
+    end
+  end
+
+  it "should configure provider as AWS" do
+    AssetSync.config.fog_provider.should == 'Rackspace'
+    AssetSync.config.should be_rackspace
+  end
+
+  it "should keep existing remote files" do
+    AssetSync.config.existing_remote_files?.should == true
+  end
+
+  it "should configure rackspace_username" do
+    AssetSync.config.rackspace_username.should == "aaaa"
+  end
+
+  it "should configure rackspace_api_key" do
+    AssetSync.config.rackspace_api_key.should == "bbbb"
+  end
+
+  it "should configure fog_directory" do
+    AssetSync.config.fog_directory.should == "mybucket"
+  end
+
+  it "should configure fog_region" do
+    AssetSync.config.fog_region.should == "dunno"
+  end
+
+  it "should configure existing_remote_files" do
+    AssetSync.config.existing_remote_files.should == "keep"
+  end
+
+end
+
+
+describe AssetSync, 'using Rackspace from yml' do
+
+  before(:all) do
+    Rails.root = 'rackspace_with_yml'
+    AssetSync.config = AssetSync::Config.new
+  end
+
+  it "should keep existing remote files" do
+    AssetSync.config.existing_remote_files?.should == true
+  end
+
+  it "should configure rackspace_username" do
+    AssetSync.config.rackspace_username.should == "xxxx"
+  end
+
+  it "should configure rackspace_api_key" do
+    AssetSync.config.rackspace_api_key.should == "zzzz"
+  end
+
+  it "should configure fog_directory" do
+    AssetSync.config.fog_directory.should == "rails_app_test"
+  end
+
+  it "should configure fog_region" do
+    AssetSync.config.fog_region.should == "eu-west-1"
+  end
+
+  it "should configure existing_remote_files" do
+    AssetSync.config.existing_remote_files.should == "keep"
+  end
+
+
+end
