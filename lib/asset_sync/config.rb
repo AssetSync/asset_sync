@@ -85,7 +85,7 @@ module AssetSync
 
 
     def fog_options
-      options = { :provider => provider }
+      options = { :provider => fog_provider }
       if aws?
         options.merge!({
           :aws_access_key_id => aws_access_key,
