@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -10,10 +11,10 @@ end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
+
 require 'asset_sync'
 
 class Rails
-
   @@path = 'without_yml'
 
   def self.env
@@ -27,5 +28,4 @@ class Rails
   def self.root
     File.expand_path(File.join('spec', @@path))
   end
-
 end
