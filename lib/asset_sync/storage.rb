@@ -55,12 +55,14 @@ module AssetSync
 
     def upload_file(f)
       STDERR.puts "Uploading: #{f}"
-      file = bucket.files.create(
-        :key => "#{f}",
+      file = {
+        :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :cache_control => "max-age=31557600"
-      )
+      }
+
+      file = bucket.files.create( file )
     end
 
     def upload_files
