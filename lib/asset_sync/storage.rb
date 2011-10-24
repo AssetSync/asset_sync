@@ -61,7 +61,7 @@ module AssetSync
         :cache_control => "max-age=31557600"
       }
 
-      gzipped = "#{f}.gz"
+      gzipped = "#{path}/#{f}.gz"
 
       if File.exists?(gzipped) && config.gzip?
         ext = File.extname( f )[1..-1]
