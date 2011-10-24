@@ -64,7 +64,7 @@ module AssetSync
       ext = File.extname(f)
       gzip = ext == ".gz"
 
-      if gzip
+      if gzip && config.gzip?
         original = f.gsub(/\.gz$/,'')
         original_ext = File.extname( original )[1..-1]
         mime = Mime::Type.lookup_by_extension( original_ext )
