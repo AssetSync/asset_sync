@@ -62,6 +62,18 @@ module AssetSync
         :cache_control => "max-age=31557600"
       }
 
+      ext = File.extname(f)
+      gzip = ext == ".gz"
+
+      if gzip
+        real_ext = File.extname( f.gsub(/\.gz$/,'') )[1..-1]
+        mime = Mime::Type.lookup_by_extension( real_ext )
+        file.merge!({
+          :content_type     => mime,
+          :content_encoding => 'gzip'
+        })
+      end
+
       file = bucket.files.create( file )
     end
 
