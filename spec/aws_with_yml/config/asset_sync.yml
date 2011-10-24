@@ -1,20 +1,20 @@
 defaults: &defaults
-  access_key_id: "xxxx"
-  secret_access_key: "zzzz"
+  fog_provider: "AWS"
+  aws_access_key_id: "xxxx"
+  aws_secret_access_key: "zzzz"
   region: "eu-west-1"
 
 development:
   <<: *defaults
-  bucket: "rails_app_development"
+  fog_directory: "rails_app_development"
   existing_remote_files: keep
 
 test:
   <<: *defaults
-  bucket: "rails_app_test"
+  fog_directory: "rails_app_test"
   existing_remote_files: keep
 
 production:
   <<: *defaults
-  bucket: "rails_app_production"
+  fog_directory: "rails_app_production"
   existing_remote_files: delete
-

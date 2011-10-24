@@ -4,20 +4,33 @@ module AssetSync
 
     class Invalid < StandardError; end
 
-    attr_accessor :provider
-    attr_accessor :aws_access_key, :aws_access_secret
-    attr_accessor :aws_bucket
-    attr_accessor :aws_region
-    attr_accessor :existing_remote_files
+    # AssetSync
+    attr_accessor :existing_remote_files # What do do with your existing remote files? (keep or delete)
 
-    validates :aws_access_key,        :presence => true
-    validates :aws_access_secret,     :presence => true
-    validates :aws_bucket,            :presence => true
-    validates :existing_remote_files, :inclusion => {:in => %w(keep delete)}
+    # FOG configuration
+    attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
+    attr_accessor :fog_directory         # e.g. 'the-bucket-name'
+    attr_accessor :fog_region            # e.g. 'eu-west-1'
+
+    # Amazon AWS
+    attr_accessor :aws_access_key_id, :aws_secret_access_key
+
+    # Rackspace
+    attr_accessor :rackspace_username, :rackspace_api_key
+
+    validates :existing_remote_files, :inclusion => { :in => %w(keep delete) }
+
+    validates :fog_provider,          :presence => true
+    validates :fog_directory,         :presence => true
+
+    validates :aws_access_key_id,     :presence => true, :if => :aws?
+    validates :aws_secret_access_key, :presence => true, :if => :aws?
+    validates :rackspace_username,    :presence => true, :if => :rackspace?
+    validates :rackspace_api_key,     :presence => true, :if => :rackspace?
+
 
     def initialize
-      self.provider = 'AWS'
-      self.aws_region = nil
+      self.fog_region = nil
       self.existing_remote_files = 'keep'
       load_yml! if yml_exists?
     end
@@ -26,6 +39,13 @@ module AssetSync
       (self.existing_remote_files == "keep")
     end
 
+    def aws?
+      fog_provider == 'AWS'
+    end
+
+    def rackspace?
+      fog_provider == 'Rackspace'
+    end
 
     def yml_exists?
       File.exists?(self.yml_path)
@@ -40,26 +60,47 @@ module AssetSync
     end
 
     def load_yml!
-      self.aws_access_key         = yml["aws_access_key"] if yml.has_key?("aws_access_key")
-      self.aws_access_secret      = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")
-      self.aws_bucket             = yml["aws_bucket"] if yml.has_key?("aws_bucket")
-      self.aws_region             = yml["aws_region"] if yml.has_key?("aws_region")
+      self.fog_provider          = yml["fog_provider"]
+      self.fog_directory         = yml["fog_directory"]
+      self.fog_region            = yml["fog_region"]
+      self.aws_access_key_id     = yml["aws_access_key_id"]
+      self.aws_secret_access_key = yml["aws_secret_access_key"]
+      self.rackspace_username    = yml["rackspace_username"]
+      self.rackspace_api_key     = yml["rackspace_api_key"]
+      self.existing_remote_files = yml["existing_remote_files"]
+
+      # TODO deprecate the other old style config settings. FML.
+      self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
+      self.aws_secret_access_key  = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")
+      self.fog_directory          = yml["aws_bucket"] if yml.has_key?("aws_bucket")
+      self.fog_region             = yml["aws_region"] if yml.has_key?("aws_region")
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
 
       # TODO deprecate old style config settings
-      self.aws_access_key         = yml["access_key_id"] if yml.has_key?("access_key_id")
-      self.aws_access_secret      = yml["secret_access_key"] if yml.has_key?("secret_access_key")
-      self.aws_bucket             = yml["bucket"] if yml.has_key?("bucket")
-      self.aws_region             = yml["region"] if yml.has_key?("region")
+      self.aws_access_key_id      = yml["access_key_id"] if yml.has_key?("access_key_id")
+      self.aws_secret_access_key  = yml["secret_access_key"] if yml.has_key?("secret_access_key")
+      self.fog_directory          = yml["bucket"] if yml.has_key?("bucket")
+      self.fog_region             = yml["region"] if yml.has_key?("region")
     end
 
+
     def fog_options
-      options = {
-        :provider => provider, 
-        :aws_access_key_id => aws_access_key,
-        :aws_secret_access_key => aws_access_secret
-      }
-      options.merge!({:region => aws_region}) if aws_region
+      options = { :provider => provider }
+      if aws?
+        options.merge!({
+          :aws_access_key_id => aws_access_key,
+          :aws_secret_access_key => aws_access_secret
+        })
+      elsif rackspace?
+        options.merge!({
+          :rackspace_username => rackspace_username,
+          :rackspace_api_key => rackspace_api_key
+        })
+      else
+        raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
+      end
+
+      options.merge!({:region => fog_region}) if fog_region
       return options
     end
 

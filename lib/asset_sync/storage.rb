@@ -14,7 +14,7 @@ module AssetSync
     end
 
     def bucket
-      @bucket ||= connection.directories.get(self.config.aws_bucket)
+      @bucket ||= connection.directories.get(self.config.fog_directory)
     end
 
     def keep_existing_remote_files?
@@ -30,7 +30,7 @@ module AssetSync
     end
 
     def get_remote_files
-      raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.") unless bucket
+      raise BucketNotFound.new("#{self.config.fog_provider} Bucket: #{self.config.fog_directory} not found.") unless bucket
       return bucket.files.map { |f| f.key }
     end
 
