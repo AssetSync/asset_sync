@@ -72,9 +72,7 @@ module AssetSync
           :body => File.open(gzipped),
           :content_type     => mime,
           :content_encoding => 'gzip',
-          :headers => {
-            "Vary" => "Accept-Encoding"
-          }
+          :vary => "Accept-Encoding"
         })
         STDERR.puts "Uploading: #{gzipped} in place of #{f}"
       else
