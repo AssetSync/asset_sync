@@ -61,10 +61,13 @@ module AssetSync
         :cache_control => "max-age=31557600"
       }
 
-      # TODO don't bother uploading gzipped assets if we're doing this
       gzipped = "#{path}/#{f}.gz"
 
-      if File.exists?(gzipped) && config.gzip?
+      if File.extname(f) == ".gz" && config.gzip?
+        # Don't bother uploading gzipped assets if we are in gzip_compression mode
+        # as we will overwrite file.css with file.css.gz if it exists.
+        STDERR.puts "Ignoring: #{f}"
+      elsif File.exists?(gzipped) && config.gzip?
         ext = File.extname( f )[1..-1]
         mime = Mime::Type.lookup_by_extension( ext )
         file.merge!({
