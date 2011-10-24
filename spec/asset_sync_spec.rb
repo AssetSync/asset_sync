@@ -83,3 +83,17 @@ describe AssetSync, 'with no configuration' do
   end
 
 end
+
+describe AssetSync, 'with gzip_compression enabled' do
+
+  before(:all) do
+    Rails.root = 'without_yml'
+    AssetSync.config = AssetSync::Config.new
+    AssetSync.config.gzip_compression = true
+  end
+
+  it "config.gzip? should be true" do
+    AssetSync.config.gzip?.should be_true
+  end
+
+end
