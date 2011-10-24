@@ -5,7 +5,7 @@ module AssetSync
     class Invalid < StandardError; end
 
     # AssetSync
-    attr_accessor :existing_remote_files # What do do with your existing remote files? (keep or delete)
+    attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
