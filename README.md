@@ -103,25 +103,24 @@ The generator will create a Rails initializer at `config/initializers/asset_sync
 If you used the `--use-yml` flag, the generator will create a YAML file at `config/asset_sync.yml`.
 
     defaults: &defaults
+      fog_provider: "AWS"
+      fog_directory: "rails-app-assets"
       aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
       aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
-      # You may need to specify what region your S3 bucket is in
+      # You may need to specify what region your storage bucket is in
       # fog_region: "eu-west-1"
+      existing_remote_files: delete # Existing pre-compiled assets on S3 will be kept
 
     development:
       <<: *defaults
-      fog_directory: "rails-app-development"
-      existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
 
     test:
       <<: *defaults
-      fog_directory: "rails-app-test"
-      existing_remote_files: keep
 
     production:
       <<: *defaults
       fog_directory: "rails-app-production"
-      existing_remote_files: delete # Existing pre-compiled assets on S3 will be deleted
+      existing_remote_files: keep # Existing pre-compiled assets on S3 will be deleted
 
 ### Environment Variables
 
