@@ -50,13 +50,18 @@ Add the gem to your Gemfile
 
 > The following steps are now optional as of version **0.1.7** there is a built-in initializer [lib/engine.rb](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb)
 
-Generate the rake task and config files
+Generate the rake task and config file
 
     rails g asset_sync:install
     
 If you would like to use a YAML file for configuration instead of the default (Rails Initializer) then 
 
     rails g asset_sync:install --use-yml
+
+The default *provider* is `AWS` but you can pick which one you need.
+
+    rails g asset_sync:install --provider=Rackspace
+    rails g asset_sync:install --provider=AWS
 
 ## Configuration
 
