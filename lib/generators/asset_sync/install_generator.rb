@@ -4,18 +4,36 @@ module AssetSync
     desc "Install a config/asset_sync.yml and the asset:precompile rake task enhancer"
 
     # Commandline options can be defined here using Thor-like options:
-    class_option :use_yml, :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
+    class_option :use_yml,   :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
+    class_option :aws,       :type => :boolean, :default => true,  :desc => "Generate with support for Amazon AWS (S3)"
+    class_option :rackspace, :type => :boolean, :default => false, :desc => "Generate with support for Rackspace (Cloud Files)"
 
     def self.source_root
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')
     end
 
-    def aws_access_key
+    def aws?
+      options[:aws]
+    end
+
+    def rackspace?
+      options[:rackspace]
+    end
+
+    def aws_access_key_id
       "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
     end
 
-    def aws_access_secret
+    def aws_secret_access_key
       "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
+    end
+
+    def rackspace_username
+      "<%= ENV['RACKSPACE_USERNAME'] %>"
+    end
+
+    def rackspace_api_key
+      "<%= ENV['RACKSPACE_API_KEY'] %>"
     end
 
     def app_name
@@ -34,8 +52,5 @@ module AssetSync
       end
     end
 
-    # def generate_rake_task
-    #   template "asset_sync.rake", "lib/tasks/asset_sync.rake"
-    # end
   end
 end

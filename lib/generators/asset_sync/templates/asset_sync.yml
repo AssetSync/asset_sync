@@ -1,30 +1,30 @@
 defaults: &defaults
-  aws_access_key: "<%= aws_access_key %>"
-  aws_access_secret: "<%= aws_access_secret %>"
-  # You may need to specify what region your S3 bucket is in
-  # aws_region: "eu-west-1"
+  <%- if aws? -%>
+  fog_provider: 'AWS'
+  aws_access_key_id: "<%= aws_access_key_id %>"
+  aws_secret_access_key: "<%= aws_secret_access_key %>"
+  <%- elsif rackspace? -%>
+  fog_provider: 'Rackspace'
+  rackspace_username: "<%= rackspace_username %>"
+  rackspace_api_key: "<%= rackspace_api_key %>"
+  <%- end -%>
+  fog_directory: "<%= app_name %>-assets"
+  # You may need to specify what region your storage bucket is in
+  # fog_region: "eu-west-1"
   existing_remote_files: keep
+  # To delete existing remote files.
+  # existing_remote_files: delete 
   # Automatically replace files with their equivalent gzip compressed version
   # gzip_compression = true
 
-
 development:
   <<: *defaults
-  aws_bucket: "<%= app_name %>_development"
-  # Existing pre-compiled assets on S3 will be kept
-  # existing_remote_files: keep
 
 test:
   <<: *defaults
-  aws_bucket: "<%= app_name %>_test"
 
 staging:
   <<: *defaults
-  aws_bucket: "<%= app_name %>_test"
 
 production:
   <<: *defaults
-  aws_bucket: "<%= app_name %>_production"
-  # Existing pre-compiled assets on S3 will be deleted
-  # existing_remote_files: delete 
-
