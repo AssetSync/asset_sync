@@ -54,6 +54,7 @@ module AssetSync
     end
 
     def upload_file(f)
+      # TODO output files in debug logs as asset filename only.
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
