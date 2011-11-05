@@ -70,15 +70,24 @@ module AssetSync
         STDERR.puts "Ignoring: #{f}"
         ignore = true
       elsif config.gzip? && File.exists?(gzipped)
-        ext = File.extname( f )[1..-1]
-        mime = Mime::Type.lookup_by_extension( ext )
-        file.merge!({
-          :key => f,
-          :body => File.open(gzipped),
-          :content_type     => mime,
-          :content_encoding => 'gzip'
-        })
-        STDERR.puts "Uploading: #{gzipped} in place of #{f}"
+        original_size = File.size("#{path}/#{f}")
+        gzipped_size  = File.size(gzipped)
+
+        if gzipped_size < original_size
+          percentage = ((gzipped_size.to_f/original_size.to_f)*100).round(2)
+          ext = File.extname( f )[1..-1]
+          mime = Mime::Type.lookup_by_extension( ext )
+          file.merge!({
+            :key => f,
+            :body => File.open(gzipped),
+            :content_type     => mime,
+            :content_encoding => 'gzip'
+          })
+          STDERR.puts "Uploading: #{gzipped} in place of #{f} saving #{percentage}"
+        else
+          percentage = ((original_size.to_f/gzipped_size.to_f)*100).round(2)
+          STDERR.puts "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage})"
+        end
       else
         STDERR.puts "Uploading: #{f}"
       end
