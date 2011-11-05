@@ -155,10 +155,9 @@ Or via the initializer
 
 ## Rake Task
 
-A rake task is installed with the generator to enhance the rails 
-precompile task by automatically running after it:
+A rake task is included in asset\_sync to enhance the rails precompile task by automatically running after it:
 
-    # lib/tasks/asset_sync.rake
+    # asset_sync/lib/tasks/asset_sync.rake
     Rake::Task["assets:precompile"].enhance do
       AssetSync.sync
     end
