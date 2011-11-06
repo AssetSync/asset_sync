@@ -39,6 +39,10 @@ describe AssetSync, 'with initializer' do
     AssetSync.config.existing_remote_files.should == "keep"
   end
 
+  it "should default gzip_compression to false" do
+    AssetSync.config.gzip_compression.should be_false
+  end
+
 end
 
 
@@ -67,6 +71,10 @@ describe AssetSync, 'from yml' do
 
   it "should configure aws_access_key" do
     AssetSync.config.existing_remote_files.should == "keep"
+  end
+
+  it "should default gzip_compression to false" do
+    AssetSync.config.gzip_compression.should be_false
   end
 
 end
