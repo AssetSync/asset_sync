@@ -54,13 +54,46 @@ module AssetSync
     end
 
     def upload_file(f)
-      STDERR.puts "Uploading: #{f}"
-      file = bucket.files.create(
-        :key => "#{f}",
+      # TODO output files in debug logs as asset filename only.
+      file = {
+        :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :cache_control => "max-age=31557600"
-      )
+      }
+
+      gzipped = "#{path}/#{f}.gz"
+      ignore = false
+
+      if config.gzip? && File.extname(f) == ".gz"
+        # Don't bother uploading gzipped assets if we are in gzip_compression mode
+        # as we will overwrite file.css with file.css.gz if it exists.
+        STDERR.puts "Ignoring: #{f}"
+        ignore = true
+      elsif config.gzip? && File.exists?(gzipped)
+        original_size = File.size("#{path}/#{f}")
+        gzipped_size  = File.size(gzipped)
+
+        if gzipped_size < original_size
+          percentage = ((gzipped_size.to_f/original_size.to_f)*100).round(2)
+          ext = File.extname( f )[1..-1]
+          mime = Mime::Type.lookup_by_extension( ext )
+          file.merge!({
+            :key => f,
+            :body => File.open(gzipped),
+            :content_type     => mime,
+            :content_encoding => 'gzip'
+          })
+          STDERR.puts "Uploading: #{gzipped} in place of #{f} saving #{percentage}%"
+        else
+          percentage = ((original_size.to_f/gzipped_size.to_f)*100).round(2)
+          STDERR.puts "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage}%)"
+        end
+      else
+        STDERR.puts "Uploading: #{f}"
+      end
+
+      file = bucket.files.create( file ) unless ignore
     end
 
     def upload_files

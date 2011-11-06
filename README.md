@@ -136,7 +136,15 @@ Or add to a traditional unix system
 * **aws\_access\_key**: your Amazon S3 access key
 * **aws\_access\_secret**: your Amazon S3 access secret
 * **aws\_region**: the region your S3 bucket is in e.g. *eu-west-1*
-* **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
+* **existing\_remote\_files**: what to do with previously precompiled files, options are **keep** or **delete**
+* **gzip\_compression**: when enabled, will automatically replace files that have a gzip compressed equivalent with the compressed version.
+
+## Automatic gzip compression
+
+With the `gzip_compression` option enabled, when uploading your assets. If a file has a gzip compressed equivalent we will replace that asset with the compressed version and sets the correct headers for S3 to serve it. For example, if you have a file **master.css** and it was compressed to **master.css.gz** we will upload the **.gz** file to S3 in place of the uncompressed file.
+
+If the compressed file is actually larger than the uncompressed file we will ignore this rule and upload the standard uncompressed version.
+
 
 ## Amazon S3 Multiple Region Support
 

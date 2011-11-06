@@ -39,6 +39,10 @@ describe AssetSync, 'with initializer' do
     AssetSync.config.existing_remote_files.should == "keep"
   end
 
+  it "should default gzip_compression to false" do
+    AssetSync.config.gzip_compression.should be_false
+  end
+
 end
 
 
@@ -69,6 +73,10 @@ describe AssetSync, 'from yml' do
     AssetSync.config.existing_remote_files.should == "keep"
   end
 
+  it "should default gzip_compression to false" do
+    AssetSync.config.gzip_compression.should be_false
+  end
+
 end
 
 describe AssetSync, 'with no configuration' do
@@ -80,6 +88,20 @@ describe AssetSync, 'with no configuration' do
 
   it "should be invalid" do
     lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
+  end
+
+end
+
+describe AssetSync, 'with gzip_compression enabled' do
+
+  before(:all) do
+    Rails.root = 'without_yml'
+    AssetSync.config = AssetSync::Config.new
+    AssetSync.config.gzip_compression = true
+  end
+
+  it "config.gzip? should be true" do
+    AssetSync.config.gzip?.should be_true
   end
 
 end
