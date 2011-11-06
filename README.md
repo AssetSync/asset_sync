@@ -136,7 +136,8 @@ Or add to a traditional unix system
 * **aws\_access\_key**: your Amazon S3 access key
 * **aws\_access\_secret**: your Amazon S3 access secret
 * **aws\_region**: the region your S3 bucket is in e.g. *eu-west-1*
-* **existing_remote_files**: what to do with previously precompiled files, options are **keep** or **delete**
+* **existing\_remote\_files**: what to do with previously precompiled files, options are **keep** or **delete**
+* **gzip\_compression**: when enabled, will automatically replace files that have a gzip compressed equivalent with the compressed version. 
 
 ## Amazon S3 Multiple Region Support
 
