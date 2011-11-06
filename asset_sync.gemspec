@@ -6,12 +6,12 @@ require "asset_sync/version"
 Gem::Specification.new do |s|
   s.name        = "asset_sync"
   s.version     = AssetSync::VERSION
-  s.date        = "2011-08-30"
+  s.date        = "2011-11-05"
   s.platform    = Gem::Platform::RUBY 
   s.authors     = ["Simon Hamilton", "David Rice"]
   s.email       = ["shamilton@rumblelabs.com", "me@davidjrice.co.uk"]
   s.homepage    = "https://github.com/rumblelabs/asset_sync"
-  s.summary     = %q{Synchronises Assets between Rails and S3}
+  s.summary     = %q{Synchronises Assets in a Rails 3 application and S3/Cloudfront}
   s.description = %q{After you run assets:precompile your assets will be synchronised with your S3 bucket, deleting unused files and only uploading the files it needs to.}
 
   s.rubyforge_project = "asset_sync"
