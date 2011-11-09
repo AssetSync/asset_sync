@@ -14,7 +14,8 @@ module AssetSync
     end
 
     def bucket
-      @bucket ||= connection.directories.get(self.config.aws_bucket)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/18
+      @bucket ||= connection.directories.get(self.config.aws_bucket, :prefix => 'assets')
     end
 
     def keep_existing_remote_files?
