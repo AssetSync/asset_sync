@@ -60,7 +60,8 @@ module AssetSync
     def delete_extra_remote_files
       STDERR.puts "Fetching files to flag for delete"
       remote_files = get_remote_files
-      from_remote_files_to_delete = (local_files | remote_files) - (local_files & remote_files)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
+      from_remote_files_to_delete = remote_files - local_files
       
       STDERR.puts "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
@@ -115,7 +116,8 @@ module AssetSync
     def upload_files
       # get a fresh list of remote files
       remote_files = get_remote_files
-      local_files_to_upload = (remote_files | local_files) - (remote_files & local_files)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
+      local_files_to_upload = local_files - remote_files
 
       # Upload new files
       local_files_to_upload.each do |f|
@@ -125,8 +127,9 @@ module AssetSync
     end
 
     def sync
-       delete_extra_remote_files unless keep_existing_remote_files?
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
        upload_files
+       delete_extra_remote_files unless keep_existing_remote_files?
        STDERR.puts "Done."
     end
 
