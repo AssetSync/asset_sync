@@ -27,8 +27,19 @@ module AssetSync
     end
 
     def local_files
-      Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+      @local_files ||= get_local_files 
     end
+
+    def get_local_files
+      if self.config.manifest
+        path = File.join(self.config.manifest, 'manifest.yml')
+        if File.exists?(path)
+          yml = YAML.load(IO.read(path))
+          return yml.values.map { |f| File.join('assets', f) }
+        end
+      end
+      Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+    end 
 
     def get_remote_files
       raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.") unless bucket
