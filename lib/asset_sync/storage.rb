@@ -14,7 +14,8 @@ module AssetSync
     end
 
     def bucket
-      @bucket ||= connection.directories.get(self.config.aws_bucket)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/18
+      @bucket ||= connection.directories.get(self.config.aws_bucket, :prefix => 'assets')
     end
 
     def keep_existing_remote_files?
@@ -26,12 +27,27 @@ module AssetSync
     end
 
     def local_files
-      Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+      @local_files ||= get_local_files 
     end
+
+    def get_local_files
+      if self.config.manifest
+        path = File.join(self.config.manifest, 'manifest.yml')
+        if File.exists?(path)
+          yml = YAML.load(IO.read(path))
+          return yml.values.map { |f| File.join('assets', f) }
+        end
+      end
+      Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+    end 
 
     def get_remote_files
       raise BucketNotFound.new("AWS Bucket: #{self.config.aws_bucket} not found.") unless bucket
-      return bucket.files.map { |f| f.key }
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/16
+      #        (work-around for https://github.com/fog/fog/issues/596)
+      files = []
+      bucket.files.each { |f| files << f.key }
+      return files
     end
 
     def delete_file(f, remote_files_to_delete)
@@ -44,7 +60,8 @@ module AssetSync
     def delete_extra_remote_files
       STDERR.puts "Fetching files to flag for delete"
       remote_files = get_remote_files
-      from_remote_files_to_delete = (local_files | remote_files) - (local_files & remote_files)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
+      from_remote_files_to_delete = remote_files - local_files
       
       STDERR.puts "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
@@ -99,7 +116,8 @@ module AssetSync
     def upload_files
       # get a fresh list of remote files
       remote_files = get_remote_files
-      local_files_to_upload = (remote_files | local_files) - (remote_files & local_files)
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
+      local_files_to_upload = local_files - remote_files
 
       # Upload new files
       local_files_to_upload.each do |f|
@@ -109,8 +127,9 @@ module AssetSync
     end
 
     def sync
-       delete_extra_remote_files unless keep_existing_remote_files?
+      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
        upload_files
+       delete_extra_remote_files unless keep_existing_remote_files?
        STDERR.puts "Done."
     end
 

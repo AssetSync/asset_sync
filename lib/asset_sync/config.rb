@@ -10,6 +10,7 @@ module AssetSync
     attr_accessor :aws_region
     attr_accessor :existing_remote_files
     attr_accessor :gzip_compression
+    attr_accessor :manifest
 
     validates :aws_access_key,        :presence => true
     validates :aws_access_secret,     :presence => true
@@ -21,6 +22,7 @@ module AssetSync
       self.aws_region = nil
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
+      self.manifest = nil
       load_yml! if yml_exists?
     end
 
@@ -52,6 +54,7 @@ module AssetSync
       self.aws_region             = yml["aws_region"] if yml.has_key?("aws_region")
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
+      self.manifest               = yml["manifest"] if yml.has_key?("manifest")
 
       # TODO deprecate old style config settings
       self.aws_access_key         = yml["access_key_id"] if yml.has_key?("access_key_id")
