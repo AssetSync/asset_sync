@@ -185,7 +185,7 @@ If you are using anything other than the US buckets with S3 then you'll want to 
 
     production:
       # ...
-      aws\_region: 'eu-west-1'
+      aws_region: 'eu-west-1'
 
 Or via the initializer
 
