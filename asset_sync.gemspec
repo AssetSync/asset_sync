@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Simon Hamilton", "David Rice"]
   s.email       = ["shamilton@rumblelabs.com", "me@davidjrice.co.uk"]
   s.homepage    = "https://github.com/rumblelabs/asset_sync"
-  s.summary     = %q{Synchronises Assets in a Rails 3 application and S3/Cloudfront}
-  s.description = %q{After you run assets:precompile your assets will be synchronised with your S3 bucket, deleting unused files and only uploading the files it needs to.}
+  s.summary     = %q{Synchronises Assets in a Rails 3 application and Amazon S3/Cloudfront and Rackspace Cloudfiles}
+  s.description = %q{After you run assets:precompile your compiled assets will be synchronised with your S3 bucket.}
 
   s.rubyforge_project = "asset_sync"
 
