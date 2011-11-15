@@ -179,26 +179,6 @@ Or add to a traditional unix system
 * **rackspace\_username**: your Rackspace username
 * **rackspace\_api\_key**: your Rackspace API Key.
 
-
-#### Required (Fog)
-* **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files)
-* **fog\_directory**: your bucket name
-
-#### Optional
-
-* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
-
-#### AWS
-
-* **aws\_access\_key\_id**: your Amazon S3 access key
-* **aws\_secret\_access\_key**: your Amazon S3 access secret
-
-#### Rackspace
-
-* **rackspace\_username**: your Rackspace username
-* **rackspace\_api\_key**: your Rackspace API Key.
-
-
 ## Amazon S3 Multiple Region Support
 
 If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following with YAML.
