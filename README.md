@@ -7,6 +7,10 @@ bucket, optionally deleting unused files and only uploading the files it needs t
 
 This was initially built and is intended to work on [Heroku](http://heroku.com)
 
+## Upgrading?
+
+If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All of the references to config variables have changed to reference those used in **Fog**. Ensure to backup your `asset\_sync.rb` or `asset\_sync.yml` files and re-run the generator. You may also then need to update your ENV configuration variables (or you can change the ones that are referenced).
+
 ## KNOWN ISSUES (IMPORTANT)
 
 We are currently trying to talk with Heroku to iron these out.
