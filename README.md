@@ -127,13 +127,6 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
 
     development:
       <<: *defaults
-      fog_directory: "rails-app-development"
-=======
-      existing_remote_files: delete # Existing pre-compiled assets on S3 will be kept
-
-    development:
-      <<: *defaults
->>>>>>> Tidy readme
 
     test:
       <<: *defaults
@@ -141,12 +134,6 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
     production:
       <<: *defaults
       fog_directory: "rails-app-production"
-<<<<<<< HEAD
-      # Existing pre-compiled assets on S3 will be deleted
-      # existing_remote_files: delete
-=======
-      existing_remote_files: keep # Existing pre-compiled assets on S3 will be deleted
->>>>>>> Tidy readme
 
 ### Environment Variables
 
