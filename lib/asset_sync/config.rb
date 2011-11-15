@@ -22,8 +22,13 @@ module AssetSync
       self.aws_region = nil
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
-      self.manifest = nil
+      self.manifest = false
       load_yml! if yml_exists?
+    end
+
+    def manifest_path
+      default = File.join(Rails.root, 'public', 'assets', 'manifest.yml')
+      Rails.application.config.assets.manifest || default
     end
 
     def gzip?

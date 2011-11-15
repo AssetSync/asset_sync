@@ -32,12 +32,15 @@ module AssetSync
 
     def get_local_files
       if self.config.manifest
-        path = File.join(self.config.manifest, 'manifest.yml')
-        if File.exists?(path)
-          yml = YAML.load(IO.read(path))
+        if File.exists?(self.config.manifest_path)
+          yml = YAML.load(IO.read(self.config.manifest_path))
+          STDERR.puts "Using: Manifest #{self.config.manifest_path}"
           return yml.values.map { |f| File.join('assets', f) }
+        else
+          STDERR.puts "Warning: manifest.yml not found at #{self.config.manifest_path}"
         end
       end
+      STDERR.puts "Using: Directory Search of #{path}/assets"
       Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
     end 
 
