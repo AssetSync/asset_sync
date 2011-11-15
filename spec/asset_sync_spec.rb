@@ -43,6 +43,10 @@ describe AssetSync, 'with initializer' do
     AssetSync.config.gzip_compression.should be_false
   end
 
+  it "should default manifest to false" do
+    AssetSync.config.manifest.should be_false
+  end
+
 end
 
 
@@ -77,6 +81,10 @@ describe AssetSync, 'from yml' do
     AssetSync.config.gzip_compression.should be_false
   end
 
+  it "should default manifest to false" do
+    AssetSync.config.manifest.should be_false
+  end
+  
 end
 
 describe AssetSync, 'with no configuration' do
@@ -102,6 +110,31 @@ describe AssetSync, 'with gzip_compression enabled' do
 
   it "config.gzip? should be true" do
     AssetSync.config.gzip?.should be_true
+  end
+
+end
+
+describe AssetSync, 'with manifest enabled' do
+
+  before(:all) do
+    Rails.root = 'without_yml'
+    AssetSync.config = AssetSync::Config.new
+    AssetSync.config.manifest = true
+  end
+
+  it "config.manifest should be true" do
+    AssetSync.config.manifest.should be_true
+  end
+
+  it "config.manifest_path should default to public/assets.." do
+    pending
+    AssetSync.config.manifest_path.should =~ "public/assets/manifest.yml"
+  end
+
+  it "config.manifest_path should default to public/assets.." do
+    pending
+    Rails.app.config.assets.manifest = "/var/assets/manifest.yml"
+    AssetSync.config.manifest_path.should == "/var/assets/manifest.yml"
   end
 
 end
