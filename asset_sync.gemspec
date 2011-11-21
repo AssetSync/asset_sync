@@ -6,10 +6,10 @@ require "asset_sync/version"
 Gem::Specification.new do |s|
   s.name        = "asset_sync"
   s.version     = AssetSync::VERSION
-  s.date        = "2011-11-15"
+  s.date        = "2011-11-21"
   s.platform    = Gem::Platform::RUBY 
-  s.authors     = ["Simon Hamilton", "David Rice"]
-  s.email       = ["shamilton@rumblelabs.com", "me@davidjrice.co.uk"]
+  s.authors     = ["Simon Hamilton", "David Rice", "Phil McClure"]
+  s.email       = ["shamilton@rumblelabs.com", "me@davidjrice.co.uk", "pmcclure@rumblelabs.com"]
   s.homepage    = "https://github.com/rumblelabs/asset_sync"
   s.summary     = %q{Synchronises Assets in a Rails 3 application and Amazon S3/Cloudfront and Rackspace Cloudfiles}
   s.description = %q{After you run assets:precompile your compiled assets will be synchronised with your S3 bucket.}
