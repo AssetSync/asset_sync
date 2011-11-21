@@ -9,7 +9,7 @@ class Engine < Rails::Engine
     if File.exists?( app_initializer )
       # STDERR.puts "AssetSync: using #{app_initializer}"
       load app_initializer
-    else
+    elsif !File.exists?( app_initializer ) && !File.exists?( app_yaml )
       # STDERR.puts "AssetSync: using default configuration from built-in initializer"
       AssetSync.configure do |config|
         config.fog_provider = ENV['FOG_PROVIDER']
