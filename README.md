@@ -41,7 +41,7 @@ Currently when heroku runs `rake assets:precompile` during deployment. It does n
 **Workaround:** you could just hardcode your AWS credentials in the initializer or yml
 
     AssetSync.configure do |config|
-      config.aws_access_key_id_id = 'xxx'
+      config.aws_access_key_id = 'xxx'
       config.aws_secret_access_key = 'xxx'
       config.fog_directory = 'mybucket'
     end
