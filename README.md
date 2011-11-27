@@ -179,6 +179,10 @@ Or add to a traditional unix system
 * **rackspace\_username**: your Rackspace username
 * **rackspace\_api\_key**: your Rackspace API Key.
 
+#### Rackspace Optional
+
+* **rackspace\_auth\_url**: Rackspace auth URL, for Rackspace London use: lon.auth.api.rackspacecloud.com
+
 ## Amazon S3 Multiple Region Support
 
 If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following with YAML.
