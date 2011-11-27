@@ -16,7 +16,7 @@ describe AssetSync, 'using Rackspace with initializer' do
     end
   end
 
-  it "should configure provider as AWS" do
+  it "should configure provider as Rackspace" do
     AssetSync.config.fog_provider.should == 'Rackspace'
     AssetSync.config.should be_rackspace
   end
@@ -43,6 +43,14 @@ describe AssetSync, 'using Rackspace with initializer' do
 
   it "should configure existing_remote_files" do
     AssetSync.config.existing_remote_files.should == "keep"
+  end
+
+  it "should configure existing_remote_files" do
+    AssetSync.config.existing_remote_files.should == "keep"
+  end
+
+  it "should default rackspace_auth_url to false" do
+    AssetSync.config.rackspace_auth_url.should be_false
   end
 
 end
