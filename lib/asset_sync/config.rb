@@ -8,6 +8,7 @@ module AssetSync
     attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
     attr_accessor :gzip_compression
     attr_accessor :manifest
+    attr_accessor :is_heroku
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -35,6 +36,7 @@ module AssetSync
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
       self.manifest = false
+      self.is_heroku = false
       load_yml! if yml_exists?
     end
 
@@ -53,6 +55,10 @@ module AssetSync
 
     def aws?
       fog_provider == 'AWS'
+    end
+    
+    def is_heroku?
+      is_heroku == true
     end
 
     def rackspace?
@@ -82,7 +88,8 @@ module AssetSync
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
-
+      self.is_heroku              = yml["is_heroku"] if yml.has_key?("is_heroku")
+      
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
       self.aws_secret_access_key  = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")

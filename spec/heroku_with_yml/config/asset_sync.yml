@@ -1,0 +1,14 @@
+defaults: &defaults
+  is_heroku: true
+
+development:
+  <<: *default
+  existing_remote_files: keep
+
+test:
+  <<: *defaults
+  existing_remote_files: keep
+
+production:
+  <<: *defaults
+  existing_remote_files: delete

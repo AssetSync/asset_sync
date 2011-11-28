@@ -106,6 +106,22 @@ describe AssetSync, 'with no configuration' do
 
 end
 
+describe AssetSync, 'with heroku configuration' do
+
+  before(:all) do
+    Rails.root = 'heroku_with_yml'
+    AssetSync.config = AssetSync::Config.new
+    AssetSync.configure do |config|
+      config.is_heroku = true
+    end
+  end
+
+  it "should not raise an invalid exception" do
+    lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
+  end
+
+end
+
 describe AssetSync, 'with gzip_compression enabled' do
 
   before(:all) do
