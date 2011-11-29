@@ -21,8 +21,12 @@ module AssetSync
     end
 
     def sync
-      raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
-      self.storage.sync
+      if config.fail_silently?
+        puts config.errors.full_messages.join(', ') unless config && config.valid?
+      else
+        raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
+      end
+      self.storage.sync if config && config.valid?
     end
 
   end
