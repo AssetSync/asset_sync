@@ -207,9 +207,9 @@ If the compressed file is actually larger than the uncompressed file we will ign
 
 ## Heroku
 
-With Rails 3.1 on the Heroku cedar stack, the deployment process automatically runs `rake assets:precompile`.  Due to the methods with which Heroku compile slugs, there will be an error raised by asset_sync as the environment is not available.
+With Rails 3.1 on the Heroku cedar stack, the deployment process automatically runs `rake assets:precompile`. If you are using **ENV** variable style configuration. Due to the methods with which Heroku compile slugs, there will be an error raised by asset_sync as the environment is not available. This causes heroku to install the `rails31_enable_runtime_asset_compilation` plugin which is not necessary when using **asset_sync** and also massively slows down the first incoming requests to your app.
 
-To prevent this part of the deploy from failing, but carry on as normal set `fail_silently` to true in your configuration.
+To prevent this part of the deploy from failing (asset_sync raising a config error), but carry on as normal set `fail_silently` to true in your configuration and ensure to run `heroku run rake assets:precompile` after deploy.
 
 ## Rake Task
 
