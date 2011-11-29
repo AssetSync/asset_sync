@@ -21,10 +21,10 @@ module AssetSync
     end
 
     def sync
-      unless config.is_heroku?
-        raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
-      else
+      if config.fail_silently?
         puts config.errors.full_messages.join(', ') unless config && config.valid?
+      else
+        raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
       end
       self.storage.sync if config && config.valid?
     end

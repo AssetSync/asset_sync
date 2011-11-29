@@ -106,13 +106,13 @@ describe AssetSync, 'with no configuration' do
 
 end
 
-describe AssetSync, 'with heroku configuration' do
+describe AssetSync, 'with fail_silent configuration' do
 
   before(:all) do
-    Rails.root = 'heroku_with_yml'
+    Rails.root = 'without_yml'
     AssetSync.config = AssetSync::Config.new
     AssetSync.configure do |config|
-      config.is_heroku = true
+      config.fail_silently = true
     end
   end
 
