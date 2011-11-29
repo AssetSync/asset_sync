@@ -110,6 +110,9 @@ The generator will create a Rails initializer at `config/initializers/asset_sync
       # Use the Rails generated 'manifest.yml' file to produce the list of files to 
       # upload instead of searching the assets directory.
       # config.manifest = true
+      #
+      # Fail silently.  Useful for environments such as Heroku
+      # config.fail_silently = true
     end
 
 
@@ -129,6 +132,8 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
       # existing_remote_files: delete
       # Automatically replace files with their equivalent gzip compressed version
       # gzip_compression: true
+      # Fail silently.  Useful for environments such as Heroku
+      # fail_silently = true
 
     development:
       <<: *defaults
@@ -200,6 +205,11 @@ With the `gzip_compression` option enabled, when uploading your assets. If a fil
 
 If the compressed file is actually larger than the uncompressed file we will ignore this rule and upload the standard uncompressed version.
 
+## Heroku
+
+With Rails 3.1 on the Heroku cedar stack, the deployment process automatically runs `rake assets:precompile`.  Due to the methods with which Heroku compile slugs, there will be an error raised by asset_sync as the environment is not available.
+
+To prevent this part of the deploy from failing, but carry on as normal set `fail_silently` to true in your configuration.
 
 ## Rake Task
 
