@@ -19,7 +19,7 @@ module AssetSync
     attr_accessor :aws_access_key_id, :aws_secret_access_key
 
     # Rackspace
-    attr_accessor :rackspace_username, :rackspace_api_key
+    attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
 
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete) }
 
@@ -84,6 +84,7 @@ module AssetSync
       self.aws_access_key_id     = yml["aws_access_key_id"]
       self.aws_secret_access_key = yml["aws_secret_access_key"]
       self.rackspace_username    = yml["rackspace_username"]
+      self.rackspace_auth_url    = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
       self.rackspace_api_key     = yml["rackspace_api_key"]
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
@@ -116,6 +117,9 @@ module AssetSync
           :rackspace_username => rackspace_username,
           :rackspace_api_key => rackspace_api_key
         })
+
+        options.merge!({ :rackspace_auth_url => rackspace_auth_url }) if rackspace_auth_url
+
       else
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
       end
