@@ -108,9 +108,11 @@ module AssetSync
       elsif rackspace?
         options.merge!({
           :rackspace_username => rackspace_username,
-          :rackspace_api_key => rackspace_api_key,
-          :rackspace_auth_url => rackspace_auth_url
+          :rackspace_api_key => rackspace_api_key
         })
+
+        options.merge!({ :rackspace_auth_url => rackspace_auth_url }) if rackspace_auth_url
+
       else
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
       end
