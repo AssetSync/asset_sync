@@ -41,7 +41,7 @@ module AssetSync
     end
 
     def manifest_path
-      default = File.join(Rails.root, 'public', 'assets', 'manifest.yml')
+      default = File.join(Rails.root, 'public', Rails.application.config.assets.prefix, 'manifest.yml')
       Rails.application.config.assets.manifest || default
     end
 

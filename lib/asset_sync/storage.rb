@@ -15,7 +15,7 @@ module AssetSync
 
     def bucket
       # fixes: https://github.com/rumblelabs/asset_sync/issues/18
-      @bucket ||= connection.directories.get(self.config.fog_directory, :prefix => 'assets')
+      @bucket ||= connection.directories.get(self.config.fog_directory, :prefix => Rails.application.config.assets.prefix)
     end
 
     def keep_existing_remote_files?
@@ -35,14 +35,14 @@ module AssetSync
         if File.exists?(self.config.manifest_path)
           yml = YAML.load(IO.read(self.config.manifest_path))
           STDERR.puts "Using: Manifest #{self.config.manifest_path}"
-          return yml.values.map { |f| File.join('assets', f) }
+          return yml.values.map { |f| File.join(Rails.application.config.assets.prefix, f) }
         else
           STDERR.puts "Warning: manifest.yml not found at #{self.config.manifest_path}"
         end
       end
-      STDERR.puts "Using: Directory Search of #{path}/assets"
-      Dir["#{path}/assets/**/**"].map { |f| f[path.length+1,f.length-path.length] }
-    end 
+      STDERR.puts "Using: Directory Search of #{path}/#{Rails.application.config.assets.prefix}"
+      Dir["#{path}/#{Rails.application.config.assets.prefix}/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+    end
 
     def get_remote_files
       raise BucketNotFound.new("#{self.config.fog_provider} Bucket: #{self.config.fog_directory} not found.") unless bucket
