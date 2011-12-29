@@ -27,7 +27,7 @@ module AssetSync
     end
 
     def local_files
-      @local_files ||= get_local_files 
+      @local_files ||= get_local_files
     end
 
     def get_local_files
@@ -65,7 +65,7 @@ module AssetSync
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       from_remote_files_to_delete = remote_files - local_files
-      
+
       STDERR.puts "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
       bucket.files.each do |f|
