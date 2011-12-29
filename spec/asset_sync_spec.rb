@@ -141,5 +141,10 @@ describe AssetSync do
       Rails.application.config.assets.manifest = "/var/assets/manifest.yml"
       AssetSync.config.manifest_path.should == "/var/assets/manifest.yml"
     end
+
+    it "config.manifest_path should default to public/custom_assets.." do
+      Rails.application.config.assets.prefix = 'custom_assets'
+      AssetSync.config.manifest_path.should =~ /public\/custom_assets\/manifest.yml/
+    end
   end
 end
