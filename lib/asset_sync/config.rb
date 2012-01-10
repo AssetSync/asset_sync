@@ -41,7 +41,7 @@ module AssetSync
     end
 
     def manifest_path
-      default = File.join(Rails.root, 'public', Rails.application.config.assets.prefix, 'manifest.yml')
+      default = File.join(Rails.root, 'public', assets_prefix, 'manifest.yml')
       Rails.application.config.assets.manifest || default
     end
 
@@ -75,6 +75,11 @@ module AssetSync
 
     def yml_path
       File.join(Rails.root, "config/asset_sync.yml")
+    end
+
+    def assets_prefix
+      # Fix for Issue #38 when Rails.config.assets.prefix starts with a slash
+      Rails.application.config.assets.prefix.sub(/^\//, '')
     end
 
     def load_yml!
