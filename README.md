@@ -2,10 +2,10 @@
 
 Synchronises Assets between Rails and S3.
 
-Asset Sync is built to run with the new Rails Asset Pipeline feature of Rails 3.1.  After you run __bundle exec rake assets:precompile__ your assets will be synchronised to your S3 
+Asset Sync is built to run with the new Rails Asset Pipeline feature introduced in **Rails 3.1**.  After you run __bundle exec rake assets:precompile__ your assets will be synchronised to your S3 
 bucket, optionally deleting unused files and only uploading the files it needs to.
 
-This was initially built and is intended to work on [Heroku](http://heroku.com)
+This was initially built and is intended to work on [Heroku](http://heroku.com) but can work on any platform.
 
 ## Upgrading?
 
