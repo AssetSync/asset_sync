@@ -79,7 +79,8 @@ module AssetSync
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
-        :cache_control => "max-age=31557600"
+        :cache_control => "public, max-age=31557600",
+        :expires => CGI.rfc1123_date(Time.now + 1.year)
       }
 
       gzipped = "#{path}/#{f}.gz"
