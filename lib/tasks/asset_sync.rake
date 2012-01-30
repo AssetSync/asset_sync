@@ -1,6 +1,7 @@
 # Rails 3.2 compatibility
 if Rails.application.config.assets.digest
   Rake::Task["assets:precompile:nondigest"].enhance do
+    Rake::Task["assets:environment"].invoke if Rake::Task.task_defined?("assets:environment")
     AssetSync.sync
   end
 # Rails 3.1.x compatibility
