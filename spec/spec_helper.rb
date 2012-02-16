@@ -26,6 +26,7 @@ shared_context "mock Rails" do
     Rails.application.stub :config => mock('config')
     Rails.application.config.stub :assets => ActiveSupport::OrderedOptions.new
     Rails.application.config.assets.prefix = '/assets'
+    AssetSync.stub!(:log)
   end
 end
 
