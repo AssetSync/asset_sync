@@ -11,40 +11,16 @@ This was initially built and is intended to work on [Heroku](http://heroku.com) 
 
 If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All of the references to config variables have changed to reference those used in **Fog**. Ensure to backup your `asset\_sync.rb` or `asset\_sync.yml` files and re-run the generator. You may also then need to update your ENV configuration variables (or you can change the ones that are referenced).
 
-## KNOWN ISSUES (IMPORTANT)
+## Heroku Labs (BETA)
 
-We are currently trying to talk with Heroku to iron these out.
+Previously there were [several issues](http://github.com/rumblelabs/asset_sync/docs/heroku) with using asset_sync on Heroku as described in our [Heroku Dev Centre article](http://devcenter.heroku.com/articles/cdn-asset-host-rails31).
 
-1. Will not work on heroku on an application with a *RAILS_ENV* configured as anything other than production
-2. Will not work on heroku using ENV variables with the configuration as described below, you must hardcode all variables
+To get everything working smoothly with using **ENV** variables to configure `asset_sync` we need to enable the [user\_env\_compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short
 
-### 1. RAILS_ENV
+    heroku plugins:install http://github.com/heroku/heroku-labs.git
+    heroku labs:enable user_env_compile -a myapp
 
-When you see `rake assets:precompile` during deployment. Heroku is actually running something like
-
-    env RAILS_ENV=production DATABASE_URL=scheme://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
-
-This means the *RAILS_ENV* you have set via *heroku:config* is not used.
-
-**Workaround:** you could have just one S3 bucket dedicated to assets and ensure to set keep the existing remote files
-
-    AssetSync.configure do |config|
-      ...
-      config.fog_directory = 'app-assets'
-      config.existing_remote_files = "keep"
-    end
-
-### 2. ENV varables not available
-
-Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available. For now you can just run `heroku run rake assets:precompile` after deploy.
-
-**Workaround:** you could just hardcode your AWS credentials in the initializer or yml
-
-    AssetSync.configure do |config|
-      config.aws_access_key_id = 'xxx'
-      config.aws_secret_access_key = 'xxx'
-      config.fog_directory = 'mybucket'
-    end
+Hopefully this will make it's way into the platform as standard.
 
 ## Installation
 
