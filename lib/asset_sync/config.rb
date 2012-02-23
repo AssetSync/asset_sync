@@ -71,7 +71,7 @@ module AssetSync
     end
 
     def yml
-      y ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
+      @yml ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
     end
 
     def yml_path
