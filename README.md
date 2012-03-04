@@ -116,7 +116,7 @@ heroku config:add FOG_DIRECTORY=xxxx
 heroku config:add FOG_PROVIDER=Rackspace
 ```
 
-The Built-in Initializer also the AssetSync default for **existing_remote_files** to **keep**.
+The Built-in Initializer also sets the AssetSync default for **existing_remote_files** to **keep**.
 
 ### Custom Rails Initializer (config/initializers/asset_sync.rb)
 
@@ -228,6 +228,7 @@ heroku config:add FOG_REGION=eu-west-1
 ```
 
 Or via a custom initializer
+
 ``` ruby
 AssetSync.configure do |config|
   # ...
@@ -236,6 +237,7 @@ end
 ```
 
 Or via YAML
+
 ``` yaml
 production:
   # ...
