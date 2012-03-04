@@ -17,7 +17,7 @@ Previously there were [several issues](http://github.com/rumblelabs/asset_sync/b
 
 Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user\_env\_compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
 
-    heroku plugins:install http://github.com/heroku/heroku-labs.git
+    heroku plugins:install https://github.com/heroku/heroku-labs.git
     heroku labs:enable user_env_compile -a myapp
 
 Hopefully this will make it's way into the platform as standard.
@@ -26,14 +26,16 @@ Hopefully this will make it's way into the platform as standard.
 
 Add the gem to your Gemfile
 
-    gem "asset_sync"
+``` ruby
+gem "asset_sync"
+```
 
 > The following steps are now optional as of version **0.1.7** there is a built-in initializer [lib/engine.rb](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb)
 
 Generate the rake task and config file
 
     rails g asset_sync:install
-    
+
 If you would like to use a YAML file for configuration instead of the default (Rails Initializer) then 
 
     rails g asset_sync:install --use-yml
@@ -48,10 +50,12 @@ The default *provider* is `AWS` but you can pick which one you need.
 Configure __config/environments/production.rb__ to use Amazon
 S3 as the asset host and ensure precompiling is enabled.
 
-    # config/environments/production.rb
-    config.action_controller.asset_host = Proc.new do |source, request|
-      request.ssl? ? "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com" : "http://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
-    end
+``` ruby
+# config/environments/production.rb
+config.action_controller.asset_host = Proc.new do |source, request|
+  request.ssl? ? "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com" : "http://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+end
+```
 
 We support two methods of configuration.
 
@@ -68,57 +72,61 @@ The recommend way to configure **asset_sync** is by using environment variables 
 
 The generator will create a Rails initializer at `config/initializers/asset_sync.rb`.
 
-    AssetSync.configure do |config|
-      config.fog_provider = 'AWS'
-      config.fog_directory = ENV['FOG_DIRECTORY']
-      config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
-      config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+``` ruby
+AssetSync.configure do |config|
+  config.fog_provider = 'AWS'
+  config.fog_directory = ENV['FOG_DIRECTORY']
+  config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
+  config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
 
-      # Don't delete files from the store
-      # config.existing_remote_files = "keep"
-      #
-      # Increase upload performance by configuring your region
-      # config.fog_region = 'eu-west-1'
-      #
-      # Automatically replace files with their equivalent gzip compressed version
-      # config.gzip_compression = true
-      #
-      # Use the Rails generated 'manifest.yml' file to produce the list of files to 
-      # upload instead of searching the assets directory.
-      # config.manifest = true
-      #
-      # Fail silently.  Useful for environments such as Heroku
-      # config.fail_silently = true
-    end
+  # Don't delete files from the store
+  # config.existing_remote_files = "keep"
+  #
+  # Increase upload performance by configuring your region
+  # config.fog_region = 'eu-west-1'
+  #
+  # Automatically replace files with their equivalent gzip compressed version
+  # config.gzip_compression = true
+  #
+  # Use the Rails generated 'manifest.yml' file to produce the list of files to 
+  # upload instead of searching the assets directory.
+  # config.manifest = true
+  #
+  # Fail silently.  Useful for environments such as Heroku
+  # config.fail_silently = true
+end
+```
 
 
 ### YAML (config/asset_sync.yml)
 
 If you used the `--use-yml` flag, the generator will create a YAML file at `config/asset_sync.yml`.
 
-    defaults: &defaults
-      fog_provider: "AWS"
-      fog_directory: "rails-app-assets"
-      aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
-      aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
-      # You may need to specify what region your storage bucket is in
-      # fog_region: "eu-west-1"
-      existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
-      # To delete existing remote files.
-      # existing_remote_files: delete
-      # Automatically replace files with their equivalent gzip compressed version
-      # gzip_compression: true
-      # Fail silently.  Useful for environments such as Heroku
-      # fail_silently = true
+``` yaml
+defaults: &defaults
+  fog_provider: "AWS"
+  fog_directory: "rails-app-assets"
+  aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
+  aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
+  # You may need to specify what region your storage bucket is in
+  # fog_region: "eu-west-1"
+  existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
+  # To delete existing remote files.
+  # existing_remote_files: delete
+  # Automatically replace files with their equivalent gzip compressed version
+  # gzip_compression: true
+  # Fail silently.  Useful for environments such as Heroku
+  # fail_silently = true
 
-    development:
-      <<: *defaults
+development:
+  <<: *defaults
 
-    test:
-      <<: *defaults
+test:
+  <<: *defaults
 
-    production:
-      <<: *defaults
+production:
+  <<: *defaults
+```
 
 ### Environment Variables
 
@@ -130,9 +138,11 @@ Add your Amazon S3 configuration details to **heroku**
 
 Or add to a traditional unix system
 
-    export AWS_ACCESS_KEY_ID=xxxx
-    export AWS_SECRET_ACCESS_KEY=xxxx
-    export FOG_DIRECTORY=xxxx
+``` bash
+export AWS_ACCESS_KEY_ID=xxxx
+export AWS_SECRET_ACCESS_KEY=xxxx
+export FOG_DIRECTORY=xxxx
+```
 
 ### Available Configuration Options
 
@@ -168,16 +178,20 @@ Or add to a traditional unix system
 
 If you are using anything other than the US buckets with S3 then you'll want to set the **region**. For example with an EU bucket you could set the following with YAML.
 
-    production:
-      # ...
-      aws_region: 'eu-west-1'
+``` yaml
+production:
+  # ...
+  aws_region: 'eu-west-1'
+```
 
 Or via the initializer
 
-    AssetSync.configure do |config|
-      # ...
-      config.fog_region = 'eu-west-1'
-    end
+``` ruby
+AssetSync.configure do |config|
+  # ...
+  config.fog_region = 'eu-west-1'
+end
+```
 
 ## Automatic gzip compression
 
@@ -195,10 +209,12 @@ To prevent this part of the deploy from failing (asset_sync raising a config err
 
 A rake task is included in asset\_sync to enhance the rails precompile task by automatically running after it:
 
-    # asset_sync/lib/tasks/asset_sync.rake
-    Rake::Task["assets:precompile"].enhance do
-      AssetSync.sync
-    end
+``` ruby
+# asset_sync/lib/tasks/asset_sync.rake
+Rake::Task["assets:precompile"].enhance do
+  AssetSync.sync
+end
+```
 
 ## Todo
 
