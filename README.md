@@ -97,6 +97,8 @@ heroku config:add AWS_ACCESS_KEY_ID=xxxx
 heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
 heroku config:add FOG_PROVIDER=AWS
+# and optional:
+heroku config:add ASSET_SYNC_GZIP_COMPRESSION=true
 ```
 
 Or add to a traditional unix system
