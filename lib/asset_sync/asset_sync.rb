@@ -29,10 +29,8 @@ module AssetSync
       self.storage.sync if config && config.valid?
     end
 
-  private
-
     def log(msg)
-      STDERR.puts msg
+      STDERR.puts msg if ENV["RAILS_GROUPS"] == "assets"
     end
 
   end
