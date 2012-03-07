@@ -18,6 +18,10 @@ module AssetSync
       @bucket ||= connection.directories.get(self.config.fog_directory, :prefix => self.config.assets_prefix)
     end
 
+    def log(msg)
+      AssetSync.log(msg)
+    end
+
     def keep_existing_remote_files?
       self.config.existing_remote_files?
     end
@@ -34,13 +38,13 @@ module AssetSync
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
           yml = YAML.load(IO.read(self.config.manifest_path))
-          STDERR.puts "Using: Manifest #{self.config.manifest_path}"
+          log "Using: Manifest #{self.config.manifest_path}"
           return yml.values.map { |f| File.join(self.config.assets_prefix, f) }
         else
-          STDERR.puts "Warning: manifest.yml not found at #{self.config.manifest_path}"
+          log "Warning: manifest.yml not found at #{self.config.manifest_path}"
         end
       end
-      STDERR.puts "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
+      log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
       Dir["#{path}/#{self.config.assets_prefix}/**/**"].map { |f| f[path.length+1,f.length-path.length] }
     end
 
@@ -55,18 +59,18 @@ module AssetSync
 
     def delete_file(f, remote_files_to_delete)
       if remote_files_to_delete.include?(f.key)
-        STDERR.puts "Deleting: #{f.key}"
+        log "Deleting: #{f.key}"
         f.destroy
       end
     end
 
     def delete_extra_remote_files
-      STDERR.puts "Fetching files to flag for delete"
+      log "Fetching files to flag for delete"
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       from_remote_files_to_delete = remote_files - local_files
 
-      STDERR.puts "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
+      log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
       bucket.files.each do |f|
         delete_file(f, from_remote_files_to_delete)
@@ -89,7 +93,7 @@ module AssetSync
       if config.gzip? && File.extname(f) == ".gz"
         # Don't bother uploading gzipped assets if we are in gzip_compression mode
         # as we will overwrite file.css with file.css.gz if it exists.
-        STDERR.puts "Ignoring: #{f}"
+        log "Ignoring: #{f}"
         ignore = true
       elsif config.gzip? && File.exists?(gzipped)
         original_size = File.size("#{path}/#{f}")
@@ -105,13 +109,13 @@ module AssetSync
             :content_type     => mime,
             :content_encoding => 'gzip'
           })
-          STDERR.puts "Uploading: #{gzipped} in place of #{f} saving #{percentage}%"
+          log "Uploading: #{gzipped} in place of #{f} saving #{percentage}%"
         else
           percentage = ((original_size.to_f/gzipped_size.to_f)*100).round(2)
-          STDERR.puts "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage}%)"
+          log "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage}%)"
         end
       else
-        STDERR.puts "Uploading: #{f}"
+        log "Uploading: #{f}"
       end
 
       file = bucket.files.create( file ) unless ignore
@@ -132,9 +136,10 @@ module AssetSync
 
     def sync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-       upload_files
-       delete_extra_remote_files unless keep_existing_remote_files?
-       STDERR.puts "Done."
+      log "AssetSync: Syncing."
+      upload_files
+      delete_extra_remote_files unless keep_existing_remote_files?
+      log "AssetSync: Done."
     end
 
   end
