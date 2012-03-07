@@ -22,6 +22,7 @@ class Engine < Rails::Engine
         config.rackspace_username = ENV['RACKSPACE_USERNAME']
         config.rackspace_api_key = ENV['RACKSPACE_API_KEY']
         config.existing_remote_files = "keep"
+        config.gzip_compression = ENV['ASSET_SYNC_GZIP_COMPRESSION'] == 'true'
       end
     end
 
