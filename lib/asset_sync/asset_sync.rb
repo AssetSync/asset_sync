@@ -22,15 +22,19 @@ module AssetSync
 
     def sync
       if config.fail_silently?
-        self.log config.errors.full_messages.join(', ') unless config && config.valid?
+        self.warn config.errors.full_messages.join(', ') unless config && config.valid?
       else
         raise Config::Invalid.new(config.errors.full_messages.join(', ')) unless config && config.valid?
       end
       self.storage.sync if config && config.valid?
     end
 
+    def warn(msg)
+      STDERR.puts msg
+    end
+
     def log(msg)
-      STDERR.puts msg if ENV["RAILS_GROUPS"] == "assets"
+      STDOUT.puts msg if ENV["RAILS_GROUPS"] == "assets"
     end
 
   end
