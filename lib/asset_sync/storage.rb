@@ -84,7 +84,7 @@ module AssetSync
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :cache_control => "public, max-age=31557600",
-        :expires => CGI.rfc1123_date(Time.now + 1.year)
+        :expires => CGI.rfc1123_date(Time.now + 1.year),
       }
 
       gzipped = "#{path}/#{f}.gz"
@@ -115,6 +115,13 @@ module AssetSync
           log "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage}%)"
         end
       else
+        if !config.gzip? && File.extname(f) == ".gz"
+          # set content encoding for gzipped files this allows cloudfront to properly handle requests with Accept-Encoding
+          # http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
+          file.merge!({
+            :content_encoding => 'gzip'
+          })
+        end
         log "Uploading: #{f}"
       end
 
