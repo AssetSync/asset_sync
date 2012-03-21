@@ -21,7 +21,7 @@ module AssetSync
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
 
-    validates :existing_remote_files, :inclusion => { :in => %w(keep delete) }
+    validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
     validates :fog_provider,          :presence => true
     validates :fog_directory,         :presence => true
@@ -51,7 +51,7 @@ module AssetSync
     end
 
     def existing_remote_files?
-      (self.existing_remote_files == "keep")
+      ['keep', 'ignore'].include?(self.existing_remote_files)
     end
 
     def aws?
