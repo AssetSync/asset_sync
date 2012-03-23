@@ -43,7 +43,7 @@ module AssetSync
     def manifest_path
       directory =
         Rails.application.config.assets.manifest || default_manifest_directory
-      "#{directory}/manifest.yml"
+      File.join(directory, "manifest.yml")
     end
 
     def gzip?
@@ -75,7 +75,7 @@ module AssetSync
     end
 
     def yml_path
-      File.join(Rails.root, "config/asset_sync.yml")
+      Rails.root.join("config", "asset_sync.yml").to_s
     end
 
     def assets_prefix
