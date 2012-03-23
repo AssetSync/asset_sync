@@ -27,7 +27,7 @@ module AssetSync
     end
 
     def path
-      "#{Rails.root.to_s}/public"
+      Rails.public_path
     end
 
     def local_files
