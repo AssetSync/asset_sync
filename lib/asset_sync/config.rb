@@ -9,6 +9,7 @@ module AssetSync
     attr_accessor :gzip_compression
     attr_accessor :manifest
     attr_accessor :fail_silently
+    attr_accessor :ignored_files
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -37,6 +38,7 @@ module AssetSync
       self.gzip_compression = false
       self.manifest = false
       self.fail_silently = false
+      self.ignored_files = []
       load_yml! if yml_exists?
     end
 
