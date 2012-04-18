@@ -35,9 +35,10 @@ shared_context "mock Rails without_yml" do
 
   before(:each) do
     set_rails_root('without_yml')
+    Rails.stub(:public_path).and_return(Rails.root.join('public').to_s)
   end
 end
 
 def set_rails_root(path)
-  Rails.stub(:root).and_return(File.join(File.dirname(__FILE__), path))
+  Rails.stub(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__), path)))
 end

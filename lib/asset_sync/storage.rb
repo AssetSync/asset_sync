@@ -27,7 +27,7 @@ module AssetSync
     end
 
     def path
-      "#{Rails.root.to_s}/public"
+      Rails.public_path
     end
 
     def local_files
@@ -45,7 +45,9 @@ module AssetSync
         end
       end
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
-      Dir["#{path}/#{self.config.assets_prefix}/**/**"].map { |f| f[path.length+1,f.length-path.length] }
+      Dir.chdir(path) do
+        Dir["#{self.config.assets_prefix}/**/**"]
+      end
     end
 
     def get_remote_files
