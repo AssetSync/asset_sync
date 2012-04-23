@@ -21,6 +21,9 @@ module AssetSync
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
 
+    # Google Storage
+    attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id
+
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete) }
 
     validates :fog_provider,          :presence => true
