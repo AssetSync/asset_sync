@@ -3,6 +3,10 @@ defaults: &defaults
   fog_provider: 'AWS'
   aws_access_key_id: "<%= aws_access_key_id %>"
   aws_secret_access_key: "<%= aws_secret_access_key %>"
+  <%- elsif google? -%>
+  fog_provider: 'GOOGLE'
+  google_storage_access_key_id: "<%= google_storage_access_key_id %>"
+  google_storage_secret_access_key: "<%= google_storage_secret_access_key %>"
   <%- elsif rackspace? -%>
   fog_provider: 'Rackspace'
   rackspace_username: "<%= rackspace_username %>"
