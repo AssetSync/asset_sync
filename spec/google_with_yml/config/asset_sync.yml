@@ -1,0 +1,19 @@
+defaults: &defaults
+  fog_provider: "Google"
+  google_storage_access_key_id: 'xxxx'
+  google_storage_secret_access_key: 'zzzz'
+
+development:
+  <<: *defaults
+  fog_directory: "rails_app_development"
+  existing_remote_files: keep
+
+test:
+  <<: *defaults
+  fog_directory: "rails_app_test"
+  existing_remote_files: keep
+
+production:
+  <<: *defaults
+  fog_directory: "rails_app_production"
+  existing_remote_files: delete
