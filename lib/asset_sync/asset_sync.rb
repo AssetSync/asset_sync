@@ -37,6 +37,10 @@ module AssetSync
       STDOUT.puts msg if ENV["RAILS_GROUPS"] == "assets"
     end
 
+    def enabled?
+      @config.enabled?
+    end
+
   end
 
 end
