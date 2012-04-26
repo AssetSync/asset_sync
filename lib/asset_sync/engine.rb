@@ -21,6 +21,10 @@ class Engine < Rails::Engine
 
         config.rackspace_username = ENV['RACKSPACE_USERNAME']
         config.rackspace_api_key = ENV['RACKSPACE_API_KEY']
+
+        config.google_storage_access_key_id = ENV['GOOGLE_STORAGE_ACCESS_KEY_ID']
+        config.google_storage_secret_access_key = ENV['GOOGLE_STORAGE_SECRET_ACCESS_KEY']
+
         config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"
         config.gzip_compression = ENV['ASSET_SYNC_GZIP_COMPRESSION'] == 'true'
         config.manifest = ENV['ASSET_SYNC_MANIFEST'] == 'true'
