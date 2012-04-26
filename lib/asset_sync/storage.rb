@@ -30,6 +30,21 @@ module AssetSync
       Rails.public_path
     end
 
+    def ignored_files
+      files = []
+      Array(self.config.ignored_files).each do |ignore|
+        case ignore
+        when Regexp
+          files += self.local_files.select do |file|
+            file =~ ignore
+          end
+        else
+          log "Error: please define ignored_files as regular expressions. #{ignore} (#{ignore.class}) ignored."
+        end
+      end
+      files.uniq
+    end
+
     def local_files
       @local_files ||= get_local_files
     end
@@ -70,7 +85,7 @@ module AssetSync
       log "Fetching files to flag for delete"
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      from_remote_files_to_delete = remote_files - local_files
+      from_remote_files_to_delete = remote_files - local_files - ignored_files
 
       log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
@@ -134,7 +149,7 @@ module AssetSync
       # get a fresh list of remote files
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      local_files_to_upload = local_files - remote_files
+      local_files_to_upload = local_files - ignored_files - remote_files
 
       # Upload new files
       local_files_to_upload.each do |f|
