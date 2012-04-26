@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/levent/asset_sync.png)](http://travis-ci.org/levent/asset_sync)
+[![Build Status](https://secure.travis-ci.org/davidjrice/asset_sync.png)](http://travis-ci.org/davidjrice/asset_sync)
 
 # Asset Sync
 
