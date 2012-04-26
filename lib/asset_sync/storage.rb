@@ -26,10 +26,6 @@ module AssetSync
       self.config.existing_remote_files?
     end
 
-    def ignore_exiting_remote_files?
-      self.config.existing_remote_files == 'ignore'
-    end
-
     def path
       Rails.public_path
     end
@@ -140,7 +136,7 @@ module AssetSync
 
     def upload_files
       # get a fresh list of remote files
-      remote_files = ignore_exiting_remote_files? ? [] : get_remote_files
+      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - remote_files + always_upload_files
 
@@ -159,5 +155,10 @@ module AssetSync
       log "AssetSync: Done."
     end
 
+    private
+
+    def ignore_existing_remote_files?
+      self.config.existing_remote_files == 'ignore'
+    end
   end
 end
