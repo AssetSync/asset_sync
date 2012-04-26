@@ -29,7 +29,7 @@ describe AssetSync do
       AssetSync.config.aws_access_key_id.should == "aaaa"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure aws_secret_access_key" do
       AssetSync.config.aws_secret_access_key.should == "bbbb"
     end
 
@@ -37,11 +37,11 @@ describe AssetSync do
       AssetSync.config.fog_directory.should == "mybucket"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure fog_region" do
       AssetSync.config.fog_region.should == "eu-west-1"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure existing_remote_files" do
       AssetSync.config.existing_remote_files.should == "keep"
     end
 
@@ -68,15 +68,15 @@ describe AssetSync do
       AssetSync.config.aws_secret_access_key.should == "zzzz"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure fog_directory" do
       AssetSync.config.fog_directory.should == "rails_app_test"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure fog_region" do
       AssetSync.config.fog_region.should == "eu-west-1"
     end
 
-    it "should configure aws_access_key" do
+    it "should configure existing_remote_files" do
       AssetSync.config.existing_remote_files.should == "keep"
     end
 

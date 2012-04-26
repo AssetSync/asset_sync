@@ -34,6 +34,10 @@ module AssetSync
       @local_files ||= get_local_files
     end
 
+    def always_upload_files
+      self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
+    end
+
     def get_local_files
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
@@ -132,9 +136,9 @@ module AssetSync
 
     def upload_files
       # get a fresh list of remote files
-      remote_files = get_remote_files
+      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      local_files_to_upload = local_files - remote_files
+      local_files_to_upload = local_files - remote_files + always_upload_files
 
       # Upload new files
       local_files_to_upload.each do |f|
@@ -151,5 +155,10 @@ module AssetSync
       log "AssetSync: Done."
     end
 
+    private
+
+    def ignore_existing_remote_files?
+      self.config.existing_remote_files == 'ignore'
+    end
   end
 end

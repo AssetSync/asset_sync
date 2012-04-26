@@ -9,6 +9,7 @@ module AssetSync
     attr_accessor :gzip_compression
     attr_accessor :manifest
     attr_accessor :fail_silently
+    attr_accessor :always_upload
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -21,7 +22,7 @@ module AssetSync
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
 
-    validates :existing_remote_files, :inclusion => { :in => %w(keep delete) }
+    validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
     validates :fog_provider,          :presence => true
     validates :fog_directory,         :presence => true
@@ -37,6 +38,7 @@ module AssetSync
       self.gzip_compression = false
       self.manifest = false
       self.fail_silently = false
+      self.always_upload = []
       load_yml! if yml_exists?
     end
 
@@ -51,7 +53,7 @@ module AssetSync
     end
 
     def existing_remote_files?
-      (self.existing_remote_files == "keep")
+      ['keep', 'ignore'].include?(self.existing_remote_files)
     end
 
     def aws?
@@ -96,6 +98,7 @@ module AssetSync
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
       self.fail_silently          = yml["fail_silently"] if yml.has_key?("fail_silently")
+      self.always_upload          = yml["always_upload"] if yml.has_key?("always_upload")
 
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
