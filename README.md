@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/davidjrice/asset_sync.png)](http://travis-ci.org/davidjrice/asset_sync)
+[![Build Status](https://secure.travis-ci.org/rumblelabs/asset_sync.png)](http://travis-ci.org/rumblelabs/asset_sync)
 
 # Asset Sync
 
