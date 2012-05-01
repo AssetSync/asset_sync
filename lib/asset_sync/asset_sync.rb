@@ -21,6 +21,8 @@ module AssetSync
     end
 
     def sync
+      return unless AssetSync.enabled?
+
       if config.fail_silently?
         self.warn config.errors.full_messages.join(', ') unless config && config.valid?
       else
