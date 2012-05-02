@@ -101,6 +101,7 @@ module AssetSync
     end
 
     def load_yml!
+      self.enabled               = yml["enabled"] if yml.has_key?('enabled')
       self.fog_provider          = yml["fog_provider"]
       self.fog_directory         = yml["fog_directory"]
       self.fog_region            = yml["fog_region"]

@@ -99,6 +99,22 @@ describe AssetSync do
     end
   end
 
+  describe 'from yml, exporting to a mobile hybrid development directory' do
+    before(:each) do
+      Rails.env.replace('hybrid')
+      set_rails_root('aws_with_yml')
+      AssetSync.config = AssetSync::Config.new
+    end
+
+    it "should be disabled" do
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
+    end
+
+    after(:each) do
+      Rails.env.replace('test')
+    end
+  end
+
   describe 'with no configuration' do
     before(:each) do
       AssetSync.config = AssetSync::Config.new

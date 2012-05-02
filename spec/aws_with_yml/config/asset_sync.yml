@@ -18,3 +18,7 @@ production:
   <<: *defaults
   fog_directory: "rails_app_production"
   existing_remote_files: delete
+
+hybrid:
+  <<: *defaults
+  enabled: false
