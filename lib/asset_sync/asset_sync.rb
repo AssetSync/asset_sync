@@ -40,7 +40,7 @@ module AssetSync
     end
 
     def enabled?
-      @config.enabled?
+      config.enabled?
     end
 
   end
