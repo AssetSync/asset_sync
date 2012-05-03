@@ -36,5 +36,20 @@ describe AssetSync::Storage do
       end
       storage.upload_files
     end
+
+    it 'should allow to ignore files' do
+      @config.ignored_files = ['local_image1.jpg', /local_stylesheet\d\.css/]
+
+      storage = AssetSync::Storage.new(@config)
+      storage.stub(:local_files).and_return(@local_files)
+      storage.stub(:get_remote_files).and_return(@remote_files)
+      File.stub(:file?).and_return(true) # Pretend they all exist
+
+      (@local_files - @remote_files - storage.ignored_files + storage.always_upload_files).each do |file|
+        puts file
+        storage.should_receive(:upload_file).with(file)
+      end
+      storage.upload_files
+    end
   end
 end
