@@ -92,6 +92,7 @@ describe AssetSync do
 
   describe 'with fail_silent configuration' do
     before(:each) do
+      AssetSync.stub(:stderr).and_return(StringIO.new)
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fail_silently = true

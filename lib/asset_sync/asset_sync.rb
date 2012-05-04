@@ -30,13 +30,16 @@ module AssetSync
     end
 
     def warn(msg)
-      STDERR.puts msg
+      stderr.puts msg
     end
 
     def log(msg)
-      STDOUT.puts msg if ENV["RAILS_GROUPS"] == "assets"
+      stdout.puts msg if ENV["RAILS_GROUPS"] == "assets"
     end
 
+    # easier to stub
+    def stderr ; STDERR ; end
+    def stdout ; STDOUT ; end
   end
 
 end
