@@ -140,6 +140,7 @@ describe AssetSync do
 
   describe 'with fail_silent configuration' do
     before(:each) do
+      AssetSync.stub(:stderr).and_return(@stderr = StringIO.new)
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fail_silently = true
@@ -148,6 +149,11 @@ describe AssetSync do
 
     it "should not raise an invalid exception" do
       lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
+    end
+
+    it "should output a warning to stderr" do
+      AssetSync.sync
+      @stderr.string.should =~ /can't be blank/
     end
   end
 
