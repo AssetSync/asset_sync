@@ -16,6 +16,11 @@ describe AssetSync do
       end
     end
 
+    it "should default AssetSync to enabled" do
+      AssetSync.config.enabled?.should be_true
+      AssetSync.enabled?.should be_true
+    end
+
     it "should configure provider as AWS" do
       AssetSync.config.fog_provider.should == 'AWS'
       AssetSync.config.should be_aws
@@ -60,6 +65,11 @@ describe AssetSync do
       AssetSync.config = AssetSync::Config.new
     end
 
+    it "should default AssetSync to enabled" do
+      AssetSync.config.enabled?.should be_true
+      AssetSync.enabled?.should be_true
+    end
+
     it "should configure aws_access_key_id" do
       AssetSync.config.aws_access_key_id.should == "xxxx"
     end
@@ -89,6 +99,22 @@ describe AssetSync do
     end
   end
 
+  describe 'from yml, exporting to a mobile hybrid development directory' do
+    before(:each) do
+      Rails.env.replace('hybrid')
+      set_rails_root('aws_with_yml')
+      AssetSync.config = AssetSync::Config.new
+    end
+
+    it "should be disabled" do
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
+    end
+
+    after(:each) do
+      Rails.env.replace('test')
+    end
+  end
+
   describe 'with no configuration' do
     before(:each) do
       AssetSync.config = AssetSync::Config.new
@@ -96,6 +122,19 @@ describe AssetSync do
 
     it "should be invalid" do
       lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
+    end
+  end
+
+  describe "with no other configuration than enabled = false" do
+    before(:each) do
+      AssetSync.config = AssetSync::Config.new
+      AssetSync.configure do |config|
+        config.enabled = false
+      end
+    end
+
+    it "should do nothing, without complaining" do
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
     end
   end
 
