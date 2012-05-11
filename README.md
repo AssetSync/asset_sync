@@ -62,7 +62,6 @@ S3 as the asset host and ensure precompiling is enabled.
 ``` ruby
   #config/environments/production.rb
   config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
-end
 ```
 
 Also, ensure the following are defined (in production.rb or application.rb)
