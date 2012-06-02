@@ -19,7 +19,6 @@ Previously there were [several issues](http://github.com/rumblelabs/asset_sync/b
 
 Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user\_env\_compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
 
-    heroku plugins:install https://github.com/heroku/heroku-labs.git
     heroku labs:enable user_env_compile -a myapp
 
 Hopefully this will make it's way into the platform as standard.
