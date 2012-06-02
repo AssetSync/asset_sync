@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec"
   s.add_development_dependency "bundler"
   s.add_development_dependency "jeweler"
+  s.add_development_dependency "jruby-openssl" if s.platform.to_s == 'java'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
