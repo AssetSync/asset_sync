@@ -46,7 +46,6 @@ describe AssetSync::Storage do
       File.stub(:file?).and_return(true) # Pretend they all exist
 
       (@local_files - @remote_files - storage.ignored_files + storage.always_upload_files).each do |file|
-        puts file
         storage.should_receive(:upload_file).with(file)
       end
       storage.upload_files
