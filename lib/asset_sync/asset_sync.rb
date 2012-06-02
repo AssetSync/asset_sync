@@ -21,6 +21,8 @@ module AssetSync
     end
 
     def sync
+      return unless AssetSync.enabled?
+
       if config.fail_silently?
         self.warn config.errors.full_messages.join(', ') unless config && config.valid?
       else
@@ -30,12 +32,20 @@ module AssetSync
     end
 
     def warn(msg)
-      STDERR.puts msg
+      stderr.puts msg
     end
 
     def log(msg)
-      STDOUT.puts msg if ENV["RAILS_GROUPS"] == "assets"
+      stdout.puts msg if ENV["RAILS_GROUPS"] == "assets"
     end
+
+    def enabled?
+      config.enabled?
+    end
+
+    # easier to stub
+    def stderr ; STDERR ; end
+    def stdout ; STDOUT ; end
 
   end
 

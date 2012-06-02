@@ -11,6 +11,7 @@ module AssetSync
     attr_accessor :fail_silently
     attr_accessor :always_upload
     attr_accessor :ignored_files
+    attr_accessor :enabled
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -46,6 +47,7 @@ module AssetSync
       self.fail_silently = false
       self.always_upload = []
       self.ignored_files = []
+      self.enabled = true
       load_yml! if yml_exists?
     end
 
@@ -69,6 +71,10 @@ module AssetSync
 
     def fail_silently?
       fail_silently == true
+    end
+
+    def enabled?
+      enabled == true
     end
 
     def rackspace?
@@ -97,6 +103,7 @@ module AssetSync
     end
 
     def load_yml!
+      self.enabled               = yml["enabled"] if yml.has_key?('enabled')
       self.fog_provider          = yml["fog_provider"]
       self.fog_directory         = yml["fog_directory"]
       self.fog_region            = yml["fog_region"]
