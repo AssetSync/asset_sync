@@ -12,6 +12,7 @@ module AssetSync
     attr_accessor :always_upload
     attr_accessor :ignored_files
     attr_accessor :enabled
+    attr_accessor :run_on_precompile
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -48,6 +49,7 @@ module AssetSync
       self.always_upload = []
       self.ignored_files = []
       self.enabled = true
+      self.run_on_precompile = true
       load_yml! if yml_exists?
     end
 
@@ -77,6 +79,10 @@ module AssetSync
       enabled == true
     end
 
+    def run_on_precompile?
+      run_on_precompile == true
+    end
+
     def rackspace?
       fog_provider == 'Rackspace'
     end
@@ -104,6 +110,7 @@ module AssetSync
 
     def load_yml!
       self.enabled               = yml["enabled"] if yml.has_key?('enabled')
+      self.run_on_precompile     = yml["run_on_precompile"] if yml.has_key?('run_on_precompile')
       self.fog_provider          = yml["fog_provider"]
       self.fog_directory         = yml["fog_directory"]
       self.fog_region            = yml["fog_region"]
