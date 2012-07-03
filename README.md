@@ -45,7 +45,7 @@ end
 This is good practice when pre-compiling your assets as it will reduce load time and server memory in production. The only caveat being, you may not be able to use a custom initializer, without perhaps wrapping it with.
 
 ``` ruby
-defined?(AssetSync) do
+if defined?(AssetSync)
 ...
 end
 ```
