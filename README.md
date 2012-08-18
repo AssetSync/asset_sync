@@ -60,7 +60,7 @@ S3 as the asset host and ensure precompiling is enabled.
 
 ``` ruby
   #config/environments/production.rb
-  config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
+  config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}"
 ```
 
 On **HTTPS**: the exclusion of any protocol in the asset host declaration above will allow browsers to choose the transport mechanism on the fly. So if your application is available under both HTTP and HTTPS the assets will be served to match.
