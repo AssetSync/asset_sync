@@ -315,6 +315,8 @@ A rake task is included within the **asset_sync** gem to enhance the rails preco
   end
 ```
 
+To prevent this from happening automatically, set the `run_on_precompile` configuration setting to false.
+
 ## Todo
 
 1. Add some before and after filters for deleting and uploading

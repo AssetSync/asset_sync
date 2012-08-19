@@ -57,6 +57,11 @@ describe AssetSync do
     it "should default manifest to false" do
       AssetSync.config.manifest.should be_false
     end
+
+    it "should configure run_on_precompile to true" do
+      AssetSync.config.run_on_precompile.should be_true
+    end
+
   end
 
   describe 'from yml' do
