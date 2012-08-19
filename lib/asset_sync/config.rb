@@ -11,6 +11,8 @@ module AssetSync
     attr_accessor :fail_silently
     attr_accessor :always_upload
     attr_accessor :ignored_files
+    attr_accessor :prefix
+    attr_accessor :public_path
     attr_accessor :enabled
 
     # FOG configuration
@@ -48,7 +50,7 @@ module AssetSync
       self.always_upload = []
       self.ignored_files = []
       self.enabled = true
-      load_yml! if yml_exists?
+      load_yml! if defined?(Rails) && yml_exists?
     end
 
     def manifest_path
@@ -99,7 +101,7 @@ module AssetSync
 
     def assets_prefix
       # Fix for Issue #38 when Rails.config.assets.prefix starts with a slash
-      Rails.application.config.assets.prefix.sub(/^\//, '')
+      self.prefix || Rails.application.config.assets.prefix.sub(/^\//, '')
     end
 
     def load_yml!
