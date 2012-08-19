@@ -315,6 +315,47 @@ A rake task is included within the **asset_sync** gem to enhance the rails preco
   end
 ```
 
+## Sinatra/Rack Support
+
+You can use the gem with any Rack application, but you must specify two
+additional options; `prefix` and `public_path`.
+
+```ruby
+AssetSync.configure do |config|
+  config.fog_provider = 'AWS'
+  config.fog_directory = ENV['FOG_DIRECTORY']
+  config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
+  config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+  config.prefix = "assets"
+  config.public_path = Pathname("./public")
+end
+```
+
+Then manually call `AssetSync.sync` at the end of your asset precompilation
+task.
+
+```ruby
+namespace :assets do
+  desc "Precompile assets"
+  task :precompile do
+    target = Pathname('./public/assets')
+    manifest = Sprockets::Manifest.new(sprockets, "./public/assets/manifest.json")
+
+    sprockets.each_logical_path do |logical_path|
+      if (!File.extname(logical_path).in?(['.js', '.css']) || logical_path =~ /application\.(css|js)$/) && asset = sprockets.find_asset(logical_path)
+        filename = target.join(logical_path)
+        FileUtils.mkpath(filename.dirname)
+        puts "Write asset: #{filename}"
+        asset.write_to(filename)
+        manifest.compile(logical_path)
+      end
+    end
+
+    AssetSync.sync
+  end
+end
+```
+
 ## Todo
 
 1. Add some before and after filters for deleting and uploading
