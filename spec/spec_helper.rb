@@ -16,6 +16,16 @@ RSpec.configure do |config|
   config.mock_framework = :rspec
 end
 
+shared_context "mock without Rails" do
+  before(:each) do
+    if defined? Rails
+      Object.send(:remove_const, :Rails)
+    end
+    AssetSync.stub!(:log)
+  end
+end
+
+
 shared_context "mock Rails" do
   before(:each) do
     unless defined? Rails
