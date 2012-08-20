@@ -27,7 +27,7 @@ module AssetSync
     end
 
     def path
-      AssetSync.config.public_path || Rails.public_path
+      self.config.public_path
     end
 
     def ignored_files

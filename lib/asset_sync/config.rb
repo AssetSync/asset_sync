@@ -104,6 +104,10 @@ module AssetSync
       self.prefix || Rails.application.config.assets.prefix.sub(/^\//, '')
     end
 
+    def public_path
+      @public_path || Rails.public_path
+    end
+
     def load_yml!
       self.enabled               = yml["enabled"] if yml.has_key?('enabled')
       self.fog_provider          = yml["fog_provider"]
