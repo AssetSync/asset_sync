@@ -61,6 +61,10 @@ describe AssetSync do
     it "should default manifest to false" do
       AssetSync.config.manifest.should be_false
     end
+
+    it "should default log_silently to true" do
+      AssetSync.config.log_silently.should be_true
+    end
   end
 
   describe 'from yml' do
