@@ -13,6 +13,7 @@ module AssetSync
     attr_accessor :ignored_files
     attr_accessor :prefix
     attr_accessor :public_path
+    attr_accessor :environments          # Defaults to ['production', 'staging']
     attr_accessor :enabled
 
     # FOG configuration
@@ -49,7 +50,8 @@ module AssetSync
       self.fail_silently = false
       self.always_upload = []
       self.ignored_files = []
-      self.enabled = true
+      self.environments = %w(production staging)
+      self.enabled = defined?(Rails) ? Rails.env.in?(environments) : true
       load_yml! if defined?(Rails) && yml_exists?
     end
 
@@ -76,7 +78,11 @@ module AssetSync
     end
 
     def enabled?
-      enabled == true
+      if defined?(Rails)
+        Rails.env.in?(environments)
+      else
+        enabled == true
+      end
     end
 
     def rackspace?
@@ -110,6 +116,13 @@ module AssetSync
 
     def load_yml!
       self.enabled               = yml["enabled"] if yml.has_key?('enabled')
+      if yml.has_key?('enabled')
+        if string_to_bool(yml["enabled"])
+          self.environments      = (environments << Rails.env).uniq
+        else
+          self.environments     -= [Rails.env]
+        end
+      end
       self.fog_provider          = yml["fog_provider"]
       self.fog_directory         = yml["fog_directory"]
       self.fog_region            = yml["fog_region"]
@@ -139,7 +152,6 @@ module AssetSync
       self.fog_directory          = yml["bucket"] if yml.has_key?("bucket")
       self.fog_region             = yml["region"] if yml.has_key?("region")
     end
-
 
     def fog_options
       options = { :provider => fog_provider }
@@ -171,6 +183,12 @@ module AssetSync
 
     def default_manifest_directory
       File.join(Rails.public_path, assets_prefix)
+    end
+
+    def string_to_bool(string)
+      return true if string == true || string =~ (/(true|yes|1)$/i)
+      return false if string == false || string.blank? || string =~ (/(false|no|0)$/i)
+      raise ArgumentError, "invalid value for string_to_bool: \"#{string}\""
     end
   end
 end

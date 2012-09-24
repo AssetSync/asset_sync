@@ -85,8 +85,9 @@ describe AssetSync do
       AssetSync.config = AssetSync::Config.new
     end
 
-    it "should be invalid" do
-      lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
+    it "should default to disabled" do
+      AssetSync.should_not be_enabled
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
     end
   end
 

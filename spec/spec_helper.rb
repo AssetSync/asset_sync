@@ -25,7 +25,6 @@ shared_context "mock without Rails" do
   end
 end
 
-
 shared_context "mock Rails" do
   before(:each) do
     unless defined? Rails
