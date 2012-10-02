@@ -60,9 +60,11 @@ module AssetSync
     def get_local_files
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
-          yml = YAML.load(IO.read(self.config.manifest_path))
+          yml = YAML.load_file(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
-          return yml.values.map { |f| File.join(self.config.assets_prefix, f) }
+          # Support for new manifest format used by turbo-sprockets-rails3
+          files = yml[:digest_files] ? yml[:digest_files] : yml
+          return files.values.map { |f| File.join(self.config.assets_prefix, f) }
         else
           log "Warning: manifest.yml not found at #{self.config.manifest_path}"
         end
