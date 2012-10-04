@@ -104,11 +104,14 @@ module AssetSync
 
     def upload_file(f)
       # TODO output files in debug logs as asset filename only.
+      ext = File.extname( f )[1..-1]
+      mime = Mime::Type.lookup_by_extension( ext )
       one_year = 31557600
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
+        :content_type => mime,
         :cache_control => "public, max-age=#{one_year}",
         :expires => CGI.rfc1123_date(Time.now + one_year)
       }
