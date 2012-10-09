@@ -12,4 +12,7 @@ rvm:
  - ree
 matrix:
   allow_failures:
-    - rvm: ruby-head
+    - rvm:
+      - ruby-head
+      - jruby-head
+
