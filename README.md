@@ -76,6 +76,10 @@ Also, ensure the following are defined (in production.rb or application.rb)
 * **config.assets.digest** is set to **true**.
 * **config.assets.enabled** is set to **true**.
 
+Additionally, if you depend on any configuration that is setup in your `initializers` you will need to ensure that
+
+* **config.assets.initialize\_on\_precompile** is set to **true**
+
 ### AssetSync
 
 **AssetSync** supports the following methods of configuration.
