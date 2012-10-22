@@ -105,12 +105,15 @@ module AssetSync
     def upload_file(f)
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
+      ext = File.extname( f )[1..-1]
+      mime = Mime::Type.lookup_by_extension( ext )
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :cache_control => "public, max-age=#{one_year}",
-        :expires => CGI.rfc1123_date(Time.now + one_year)
+        :expires => CGI.rfc1123_date(Time.now + one_year),
+        :content_type => mime
       }
 
       gzipped = "#{path}/#{f}.gz"
@@ -127,12 +130,9 @@ module AssetSync
 
         if gzipped_size < original_size
           percentage = ((gzipped_size.to_f/original_size.to_f)*100).round(2)
-          ext = File.extname( f )[1..-1]
-          mime = Mime::Type.lookup_by_extension( ext )
           file.merge!({
             :key => f,
             :body => File.open(gzipped),
-            :content_type     => mime,
             :content_encoding => 'gzip'
           })
           log "Uploading: #{gzipped} in place of #{f} saving #{percentage}%"
