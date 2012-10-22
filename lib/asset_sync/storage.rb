@@ -105,8 +105,8 @@ module AssetSync
     def upload_file(f)
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
-      ext = File.extname( f )[1..-1]
-      mime = Mime::Type.lookup_by_extension( ext )
+      ext = File.extname(f)[1..-1]
+      mime = Mime::Type.lookup_by_extension(ext)
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
