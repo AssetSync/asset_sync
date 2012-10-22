@@ -17,9 +17,9 @@ If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All 
 
 Previously there were [several issues](http://github.com/rumblelabs/asset_sync/blob/master/docs/heroku.md) with using asset_sync on Heroku as described in our [Heroku dev centre article](http://devcenter.heroku.com/articles/cdn-asset-host-rails31).
 
-Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user\_env\_compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
+Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user-env-compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
 
-    heroku labs:enable user_env_compile -a myapp
+    heroku labs:enable user-env-compile -a myapp
 
 Hopefully this will make it's way into the platform as standard.
 
