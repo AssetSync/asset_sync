@@ -23,8 +23,11 @@ Gem::Specification.new do |s|
   s.add_development_dependency "bundler"
   s.add_development_dependency "jeweler"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  # s.files         = `git ls-files`.split("\n")
+  # s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  # s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files = %w(.gitignore .travis.yml CHANGELOG.md Gemfile README.md Rakefile asset_sync.gemspec docs/heroku.md lib/asset_sync.rb lib/asset_sync/asset_sync.rb lib/asset_sync/config.rb lib/asset_sync/engine.rb lib/asset_sync/railtie.rb lib/asset_sync/storage.rb lib/asset_sync/version.rb lib/generators/asset_sync/install_generator.rb lib/generators/asset_sync/templates/asset_sync.rb lib/generators/asset_sync/templates/asset_sync.yml lib/tasks/asset_sync.rake spec/asset_sync_spec.rb spec/aws_with_yml/config/asset_sync.yml spec/google_spec.rb spec/google_with_yml/config/asset_sync.yml spec/rackspace_spec.rb spec/rackspace_with_yml/config/asset_sync.yml spec/railsless_spec.rb spec/spec_helper.rb spec/storage_spec.rb)
+  s.test_files = %w(spec/asset_sync_spec.rb spec/aws_with_yml/config/asset_sync.yml spec/google_spec.rb spec/google_with_yml/config/asset_sync.yml spec/rackspace_spec.rb spec/rackspace_with_yml/config/asset_sync.yml spec/railsless_spec.rb spec/spec_helper.rb spec/storage_spec.rb)
+  s.executables = []
   s.require_paths = ["lib"]
 end
