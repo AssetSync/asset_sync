@@ -363,11 +363,11 @@ If `AssetSync.config.run_on_precompile` is `true` (default), then assets will be
 ``` ruby
   if Rake::Task.task_defined?("assets:precompile:nondigest")
     Rake::Task["assets:precompile:nondigest"].enhance do
-      Rake::Task["assets:sync"].invoke if AssetSync.config.run_on_precompile
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
     end
   else
     Rake::Task["assets:precompile"].enhance do
-      Rake::Task["assets:sync"].invoke if AssetSync.config.run_on_precompile
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
     end
   end
 ```
