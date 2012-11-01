@@ -13,12 +13,26 @@ describe AssetSync do
         config.fog_directory = 'mybucket'
         config.fog_region = 'eu-west-1'
         config.existing_remote_files = "keep"
+        config.environments = %w(test production staging)
       end
     end
 
-    it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+    it "should set AssetSync to disabled if not configured environment" do
+      ['development', nil].each do |environment|
+        Rails.stub(:env).and_return(environment)
+
+        AssetSync.config.enabled?.should be_false
+        AssetSync.enabled?.should be_false
+      end
+    end
+
+    it "should set AssetSync to enabled if configured environment" do
+      %w(test production staging).each do |environment|
+        Rails.stub(:env).and_return(environment)
+
+        AssetSync.config.enabled?.should be_true
+        AssetSync.enabled?.should be_true
+      end
     end
 
     it "should configure provider as AWS" do
@@ -120,8 +134,9 @@ describe AssetSync do
       AssetSync.config = AssetSync::Config.new
     end
 
-    it "should be invalid" do
-      lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
+    it "should default to disabled" do
+      AssetSync.should_not be_enabled
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
     end
   end
 
@@ -144,6 +159,7 @@ describe AssetSync do
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fail_silently = true
+        config.environments = %(test)
       end
     end
 

@@ -16,7 +16,10 @@ AssetSync.configure do |config|
   # config.rackspace_auth_url = "lon.auth.api.rackspacecloud.com"
   <%- end -%>
   config.fog_directory = ENV['FOG_DIRECTORY']
-  
+
+  # Environments which will have AssetSync enabled
+  config.environments = %w(production staging)
+
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
@@ -26,7 +29,7 @@ AssetSync.configure do |config|
   # Automatically replace files with their equivalent gzip compressed version
   # config.gzip_compression = true
   #
-  # Use the Rails generated 'manifest.yml' file to produce the list of files to 
+  # Use the Rails generated 'manifest.yml' file to produce the list of files to
   # upload instead of searching the assets directory.
   # config.manifest = true
   #

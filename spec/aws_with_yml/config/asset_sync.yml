@@ -13,6 +13,7 @@ test:
   <<: *defaults
   fog_directory: "rails_app_test"
   existing_remote_files: keep
+  enabled: true
 
 production:
   <<: *defaults
