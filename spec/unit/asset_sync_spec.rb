@@ -16,6 +16,10 @@ describe AssetSync do
       end
     end
 
+    it "should default to running on precompile" do
+      AssetSync.config.run_on_precompile.should be_true
+    end
+
     it "should default AssetSync to enabled" do
       AssetSync.config.enabled?.should be_true
       AssetSync.enabled?.should be_true
@@ -68,6 +72,10 @@ describe AssetSync do
     it "should default AssetSync to enabled" do
       AssetSync.config.enabled?.should be_true
       AssetSync.enabled?.should be_true
+    end
+
+    it "should configure run_on_precompile" do
+      AssetSync.config.run_on_precompile.should be_false
     end
 
     it "should configure aws_access_key_id" do

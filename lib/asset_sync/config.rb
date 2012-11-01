@@ -15,6 +15,7 @@ module AssetSync
     attr_accessor :public_path
     attr_accessor :enabled
     attr_accessor :custom_headers
+    attr_accessor :run_on_precompile
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -52,6 +53,7 @@ module AssetSync
       self.ignored_files = []
       self.custom_headers = {}
       self.enabled = true
+      self.run_on_precompile = true
       load_yml! if defined?(Rails) && yml_exists?
     end
 
@@ -138,6 +140,7 @@ module AssetSync
       self.always_upload          = yml["always_upload"] if yml.has_key?("always_upload")
       self.ignored_files          = yml["ignored_files"] if yml.has_key?("ignored_files")
       self.custom_headers          = yml["custom_headers"] if yml.has_key?("custom_headers")
+      self.run_on_precompile      = yml["run_on_precompile"] if yml.has_key?("run_on_precompile")
 
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
