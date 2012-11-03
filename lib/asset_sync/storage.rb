@@ -93,7 +93,7 @@ module AssetSync
       log "Fetching files to flag for delete"
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      from_remote_files_to_delete = remote_files - local_files - ignored_files
+      from_remote_files_to_delete = remote_files - (local_files - ignored_files)
 
       log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
       # Delete unneeded remote files
@@ -104,6 +104,8 @@ module AssetSync
 
     def upload_file(f)
       # TODO output files in debug logs as asset filename only.
+      ext = File.extname( f )[1..-1]
+      mime = Mime::Type.lookup_by_extension( ext )
       one_year = 31557600
       ext = File.extname(f)[1..-1]
       mime = Mime::Type.lookup_by_extension(ext)
@@ -111,6 +113,7 @@ module AssetSync
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
+        :content_type => mime,
         :cache_control => "public, max-age=#{one_year}",
         :expires => CGI.rfc1123_date(Time.now + one_year),
         :content_type => mime
@@ -156,7 +159,7 @@ module AssetSync
 
     def upload_files
       # get a fresh list of remote files
-      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
+      remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
 
