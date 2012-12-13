@@ -22,10 +22,6 @@ module AssetSync
       AssetSync.log(msg)
     end
 
-    def keep_existing_remote_files?
-      self.config.existing_remote_files?
-    end
-
     def path
       self.config.public_path
     end
@@ -188,6 +184,7 @@ module AssetSync
       remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
+      local_files_to_upload = add_non_fingerprinted(local_files_to_upload)
 
       # Upload new files
       local_files_to_upload.each do |f|
@@ -206,8 +203,31 @@ module AssetSync
 
     private
 
+    def keep_existing_remote_files?
+      self.config.existing_remote_files?
+    end
+
     def ignore_existing_remote_files?
       self.config.existing_remote_files == 'ignore'
+    end
+
+    def add_non_fingerprinted(files)
+      fingerprinted = select_fingerprinted(files)
+      non_fingerprinted = fingerprinted.map do |file|
+        # Check for files matching .../filename-fingerprint.ext
+        regexp = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
+        match_data = file.match(regexp)
+        "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
+      end
+      files + non_fingerprinted
+    end
+
+    def select_fingerprinted(files)
+      files.select do |file|
+        # Check for files matching .../filename-fingerprint.ext
+        regexp = /\/[^-]+-[^\.]+\.[^\.]+$/
+        file.match(regexp)
+      end
     end
   end
 end
