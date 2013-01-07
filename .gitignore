@@ -4,3 +4,7 @@
 Gemfile.lock
 pkg/*
 *.swp
+
+.env
+spec/dummy_app/public/assets/*
+spec/dummy_app/log/*
