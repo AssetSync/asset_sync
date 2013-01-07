@@ -1,0 +1,29 @@
+require 'rubygems'
+# require "rake"
+ENV['RAILS_ROOT'] = File.dirname(__FILE__)
+# Set up gems listed in the Gemfile.
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
+# require 'rails/all'
+require "action_controller/railtie"
+require "sprockets/railtie"
+if defined?(Bundler)
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
+end
+module AssetSyncTest
+  class Application < Rails::Application
+    config.encoding = "utf-8"
+    config.filter_parameters += [:password]
+    config.assets.enabled = true
+    config.assets.version = '1.0'
+    config.secret_token = 'bf196b4383deefa4e0120a6ef1d9af1cc45f5c4ebd04405'
+    config.session_store :cookie_store, :key => '_asset_sync_test_session', :secret => 'xxxx'
+    config.active_support.deprecation = :log
+    config.assets.compress = true
+    config.assets.digest = true
+    config.assets.prefix = ENV['ASSET_SYNC_PREFIX']
+  end
+end
+AssetSyncTest::Application.initialize!
+AssetSyncTest::Application.load_tasks
+# Rake::Task['assets:precompile:all'].invoke

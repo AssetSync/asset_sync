@@ -1,5 +1,4 @@
-
-require File.dirname(__FILE__) + '/spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe AssetSync::Storage do
   include_context "mock Rails without_yml"
