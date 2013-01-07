@@ -10,6 +10,10 @@ namespace :spec do
     spec.pattern = 'spec/integration/*_spec.rb'
     spec.rspec_opts = ['--backtrace']
   end
+  task :all do
+     Rake::Task['spec:unit'].execute
+     Rake::Task['spec:integration'].execute
+  end
 end
 
-task :default => 'spec:unit'
+task :default => 'spec:all'
