@@ -16,8 +16,10 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "asset_sync"
 
+  s.add_dependency('mime-types')
   s.add_dependency('fog')
   s.add_dependency('activemodel')
+
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "bundler"
