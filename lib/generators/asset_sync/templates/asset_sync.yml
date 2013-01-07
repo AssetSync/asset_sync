@@ -27,12 +27,15 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  enabled: false
 
 test:
   <<: *defaults
+  enabled: false
 
 staging:
   <<: *defaults
+  fog_directory: "<%= app_name %>-staging-assets"
 
 production:
   <<: *defaults
