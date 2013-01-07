@@ -11,10 +11,7 @@ rvm:
  - jruby-head
  - ree
 env:
- - secure: "dy8Fqlg3b1ZMK1BY5z6NMQLbzAVd7GWVYY0MeCQALz76zRac0z8MyU8hkv6h\nozFry7DSdbGehGT9foOnkWTwzGzf1rzdd5cmWrUPk1wDTRgMM9SrwodPj1TU\nzsq2EFx0a79vADQN8JXkpLC1YD6kEb9aWkTxrIT9KBgw+J5H32o="
- - secure: "Hmx7D7/p2LlA2ya/xBIz21s/8MLIQCjvfYB7RWBNlWk1PfqRLAz8wX6TUVWy\nfAFktMjLnpRLRYO7AgQS4jcfQ/k0HYK9IXzqXzeI00TNm0Vwp0TCXhawiOFT\nSvUMhs2/1vRfjN0HOJ75XlWRhJzV/G5rOMiafAZLsVzN/0iiB8g="
- - FOG_DIRECTORY=asset-sync-travis
- - FOG_PROVIDER=AWS
+ - ["FOG_DIRECTORY=asset-sync-travis","FOG_PROVIDER=AWS", {secure: "dy8Fqlg3b1ZMK1BY5z6NMQLbzAVd7GWVYY0MeCQALz76zRac0z8MyU8hkv6h\nozFry7DSdbGehGT9foOnkWTwzGzf1rzdd5cmWrUPk1wDTRgMM9SrwodPj1TU\nzsq2EFx0a79vADQN8JXkpLC1YD6kEb9aWkTxrIT9KBgw+J5H32o="}, {secure: "Hmx7D7/p2LlA2ya/xBIz21s/8MLIQCjvfYB7RWBNlWk1PfqRLAz8wX6TUVWy\nfAFktMjLnpRLRYO7AgQS4jcfQ/k0HYK9IXzqXzeI00TNm0Vwp0TCXhawiOFT\nSvUMhs2/1vRfjN0HOJ75XlWRhJzV/G5rOMiafAZLsVzN/0iiB8g="}]
 matrix:
   allow_failures:
     - rvm: ruby-head
