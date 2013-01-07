@@ -28,6 +28,9 @@ class Engine < Rails::Engine
         if ENV.has_key? 'ASSET_SYNC_ENABLED'
           config.enabled = ENV['ASSET_SYNC_ENABLED'] == 'true'
         end
+        if ENV.has_key? 'ASSET_SYNC_PREFIX'
+          config.prefix = ENV['ASSET_SYNC_PREFIX']
+        end
         config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"
         config.gzip_compression = ENV['ASSET_SYNC_GZIP_COMPRESSION'] == 'true'
         config.manifest = ENV['ASSET_SYNC_MANIFEST'] == 'true'

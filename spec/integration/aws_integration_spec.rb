@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-def bucket
+def bucket(name)
   options = {
     :provider => 'AWS',
     :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],
@@ -8,7 +8,7 @@ def bucket
   }
 
   connection = Fog::Storage.new(options)
-  connection.directories.get(ENV['FOG_DIRECTORY'], :prefix => 'assets')
+  connection.directories.get(ENV['FOG_DIRECTORY'], :prefix => name)
 end
 
 def execute(command)
@@ -20,24 +20,29 @@ end
 describe "AssetSync" do
 
   before(:each) do
-    bucket.files.each do |f|
+    @prefix = SecureRandom.hex(6)
+  end
+
+  after(:each) do
+    @directory = bucket(@prefix)
+    @directory.files.each do |f|
       f.destroy
     end
   end
 
   it "sync" do
-    execute 'rake assets:precompile'
-    bucket.files.size.should == 5
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} assets:precompile"
+    bucket(@prefix).files.size.should == 5
   end
 
   it "sync with enabled=false" do
-    execute 'rake ASSET_SYNC_ENABLED=false assets:precompile'
-    bucket.files.size.should == 0
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_ENABLED=false assets:precompile"
+    bucket(@prefix).files.size.should == 0
   end
 
   it "sync with gzip_compression=true" do
-    execute 'rake ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile'
-    bucket.files.size.should == 3
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile"
+    bucket(@prefix).files.size.should == 3
   end
 
 end

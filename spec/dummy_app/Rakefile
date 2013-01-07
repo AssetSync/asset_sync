@@ -21,6 +21,7 @@ module AssetSyncTest
     config.active_support.deprecation = :log
     config.assets.compress = true
     config.assets.digest = true
+    config.assets.prefix = ENV['ASSET_SYNC_PREFIX']
   end
 end
 AssetSyncTest::Application.initialize!
