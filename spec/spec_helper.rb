@@ -50,5 +50,5 @@ shared_context "mock Rails without_yml" do
 end
 
 def set_rails_root(path)
-  Rails.stub(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__), path)))
+  Rails.stub(:root).and_return(Pathname.new(File.join(File.dirname(__FILE__), 'fixtures', path)))
 end
