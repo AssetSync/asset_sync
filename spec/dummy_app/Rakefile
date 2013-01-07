@@ -17,7 +17,7 @@ module AssetSyncTest
     config.assets.enabled = true
     config.assets.version = '1.0'
     config.secret_token = 'bf196b4383deefa4e0120a6ef1d9af1cc45f5c4ebd04405'
-    config.session_store :cookie_store, key: '_asset_sync_test_session', secret: 'xxxx'
+    config.session_store :cookie_store, :key => '_asset_sync_test_session', :secret => 'xxxx'
     config.active_support.deprecation = :log
     config.assets.compress = true
     config.assets.digest = true
