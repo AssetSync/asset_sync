@@ -38,7 +38,8 @@ describe "AssetSync" do
     app_js.content_type.should == "text/javascript"
 
     app_js_gz = bucket(@prefix).files.get("#{@prefix}/application.js.gz")
-    app_js_gz.content_type.should == "application/x-gzip"
+    app_js_gz.content_type.should == "text/javascript"
+    app_js_gz.content_encoding.should == "gzip"
   end
 
   it "sync with enabled=false" do
