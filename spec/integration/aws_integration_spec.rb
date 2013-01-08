@@ -33,6 +33,13 @@ describe "AssetSync" do
   it "sync" do
     execute "rake ASSET_SYNC_PREFIX=#{@prefix} assets:precompile"
     bucket(@prefix).files.size.should == 5
+
+    app_js = bucket(@prefix).files.get("#{@prefix}/application.js")
+    app_js.content_type.should == "text/javascript"
+
+    app_js_gz = bucket(@prefix).files.get("#{@prefix}/application.js.gz")
+    app_js_gz.content_type.should == "text/javascript"
+    app_js_gz.content_encoding.should == "gzip"
   end
 
   it "sync with enabled=false" do
@@ -43,6 +50,9 @@ describe "AssetSync" do
   it "sync with gzip_compression=true" do
     execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile"
     bucket(@prefix).files.size.should == 3
+
+    app_js = bucket(@prefix).files.get("#{@prefix}/application.js")
+    app_js.content_type.should == "text/javascript"
   end
 
 end

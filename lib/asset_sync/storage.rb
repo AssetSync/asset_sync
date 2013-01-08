@@ -144,7 +144,11 @@ module AssetSync
         if !config.gzip? && File.extname(f) == ".gz"
           # set content encoding for gzipped files this allows cloudfront to properly handle requests with Accept-Encoding
           # http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
+          uncompressed_filename = f[0..-4]
+          ext = File.extname(uncompressed_filename)[1..-1]
+          mime = Mime::Type.lookup_by_extension( ext )
           file.merge!({
+            :content_type     => mime,
             :content_encoding => 'gzip'
           })
         end
