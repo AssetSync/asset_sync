@@ -218,7 +218,7 @@ defaults: &defaults
   # Automatically replace files with their equivalent gzip compressed version
   # gzip_compression: true
   # Fail silently.  Useful for environments such as Heroku
-  # fail_silently = true
+  # fail_silently: true
   # Always upload. Useful if you want to overwrite specific remote assets regardless of their existence
   #  eg: Static files in public often reference non-fingerprinted application.css
   #  note: You will still need to expire them from the CDN's edge cache locations
