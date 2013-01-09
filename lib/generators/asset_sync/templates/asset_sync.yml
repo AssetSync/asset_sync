@@ -21,9 +21,9 @@ defaults: &defaults
   # To delete existing remote files.
   # existing_remote_files: delete 
   # Automatically replace files with their equivalent gzip compressed version
-  # gzip_compression = true
+  # gzip_compression: true
   # Fail silently.  Useful for environments such as Heroku
-  # fail_silently = true
+  # fail_silently: true
 
 development:
   <<: *defaults
