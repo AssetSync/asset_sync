@@ -401,4 +401,4 @@ Inspired by:
 
 ## License
 
-MIT License. Copyright 2011 Rumble Labs Ltd. [rumblelabs.com](http://rumblelabs.com)
+MIT License. Copyright 2011-2013 Rumble Labs Ltd. [rumblelabs.com](http://rumblelabs.com)
