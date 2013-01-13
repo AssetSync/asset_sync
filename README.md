@@ -1,4 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/rumblelabs/asset_sync.png)](http://travis-ci.org/rumblelabs/asset_sync)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/rumblelabs/asset_sync)
 
 # Asset Sync
 
