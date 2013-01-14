@@ -11,8 +11,17 @@ namespace :spec do
     spec.rspec_opts = ['--backtrace']
   end
   task :all do
-     Rake::Task['spec:unit'].execute
-     Rake::Task['spec:integration'].execute
+    Rake::Task['spec:unit'].execute
+
+    # Travis CI does not expose encrypted ENV variables for pull requests, so
+    # do not run integration specs
+    # http://about.travis-ci.org/docs/user/build-configuration/#Set-environment-variables
+    #
+    pull_request = ENV['TRAVIS_PULL_REQUEST'] == 'true'
+    ci_build = ENV['TRAVIS'] == 'true'
+    if !ci_build || (ci_build && pull_request)
+      Rake::Task['spec:integration'].execute
+    end
   end
 end
 
