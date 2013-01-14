@@ -5,6 +5,11 @@ namespace :spec do
   RSpec::Core::RakeTask.new(:unit) do |spec|
     spec.pattern = 'spec/unit/*_spec.rb'
     spec.rspec_opts = ['--backtrace']
+
+    if RUBY_VERSION == '1.8.7'
+      spec.rcov = true
+      spec.rcov_opts = %w{--exclude gems\/,spec\/}
+    end
   end
   RSpec::Core::RakeTask.new(:integration) do |spec|
     spec.pattern = 'spec/integration/*_spec.rb'

@@ -1,7 +1,12 @@
 require 'rubygems'
 require 'bundler'
-require 'simplecov'
 
+if RUBY_VERSION != '1.8.7'
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter 'spec'
+  end
+end
 
 begin
   Bundler.setup(:default, :development)
@@ -11,14 +16,11 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 
-SimpleCov.start do
-  add_filter 'spec'
-end
-
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'asset_sync'
 
+require 'rspec'
 RSpec.configure do |config|
   config.mock_framework = :rspec
 end
