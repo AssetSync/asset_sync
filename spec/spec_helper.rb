@@ -1,11 +1,18 @@
 require 'rubygems'
 require 'bundler'
+require 'simplecov'
+
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
   $stderr.puts e.message
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
+end
+
+SimpleCov.start do
+  add_filter 'spec'
 end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
