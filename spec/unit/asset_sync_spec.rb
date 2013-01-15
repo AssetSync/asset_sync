@@ -192,4 +192,5 @@ describe AssetSync do
       AssetSync.config.manifest_path.should =~ /public\/custom_assets\/manifest.yml/
     end
   end
+
 end
