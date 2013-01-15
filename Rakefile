@@ -6,7 +6,9 @@ namespace :spec do
     spec.pattern = 'spec/unit/*_spec.rb'
     spec.rspec_opts = ['--backtrace']
 
-    if RUBY_VERSION == '1.8.7'
+    rbx = defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
+    jruby = defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby'
+    if RUBY_VERSION == '1.8.7' && !(rbx || jruby)
       spec.rcov = true
       spec.rcov_opts = %w{--exclude gems\/,spec\/}
     end
