@@ -20,7 +20,6 @@ describe AssetSync::MultiMime do
   describe 'Rack::Mime' do
 
     it 'should detect mime type' do
-      Object.send(:remove_const, :Rack) if defined?(Rack)
       require 'rack/mime'
       AssetSync::MultiMime.lookup('css').should == "text/css"
     end
