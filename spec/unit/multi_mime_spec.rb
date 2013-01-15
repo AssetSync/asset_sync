@@ -5,13 +5,14 @@ describe AssetSync::MultiMime do
   describe 'Mime::Type' do
 
     it 'should detect mime type' do
-      Object.send(:remove_const, :Rails)
+      Object.send(:remove_const, :Rails) if defined?(Rails)
       require 'rails'
       AssetSync::MultiMime.lookup('css').should == "text/css"
     end
 
     after(:each) do
-      Object.send(:remove_const, :Mime)
+      Object.send(:remove_const, :Rails) if defined?(Rails)
+      Object.send(:remove_const, :Mime) if defined?(Mime)
     end
 
   end
@@ -19,13 +20,13 @@ describe AssetSync::MultiMime do
   describe 'Rack::Mime' do
 
     it 'should detect mime type' do
-      Object.send(:remove_const, :Rack)
+      Object.send(:remove_const, :Rack) if defined?(Rack)
       require 'rack/mime'
       AssetSync::MultiMime.lookup('css').should == "text/css"
     end
 
     after(:each) do
-      Object.send(:remove_const, :Rack)
+      Object.send(:remove_const, :Rack) if defined?(Rack)
     end
 
   end
@@ -39,7 +40,7 @@ describe AssetSync::MultiMime do
     end
 
     after(:each) do
-      Object.send(:remove_const, :MIME)
+      Object.send(:remove_const, :MIME) if defined?(MIME)
     end
 
   end
