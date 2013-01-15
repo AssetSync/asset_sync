@@ -106,7 +106,7 @@ module AssetSync
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
       ext = File.extname(f)[1..-1]
-      mime = Mime::Type.lookup_by_extension(ext)
+      mime = MultiMime.lookup(ext)
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
@@ -146,7 +146,7 @@ module AssetSync
           # http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
           uncompressed_filename = f[0..-4]
           ext = File.extname(uncompressed_filename)[1..-1]
-          mime = Mime::Type.lookup_by_extension( ext )
+          mime = MultiMime.lookup(ext)
           file.merge!({
             :content_type     => mime,
             :content_encoding => 'gzip'
