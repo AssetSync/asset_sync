@@ -6,7 +6,7 @@ require "asset_sync/version"
 Gem::Specification.new do |s|
   s.name        = "asset_sync"
   s.version     = AssetSync::VERSION
-  s.date        = "2013-01-08"
+  s.date        = "2013-01-16"
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Simon Hamilton", "David Rice", "Phil McClure"]
   s.email       = ["shamilton@rumblelabs.com", "me@davidjrice.co.uk", "pmcclure@rumblelabs.com"]
