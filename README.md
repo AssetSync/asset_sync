@@ -50,6 +50,16 @@ if defined?(AssetSync)
 ...
 end
 ```
+### Extended Installation (Faster sync with turbosprockets)
+
+It's possible to improve **asset:precompile** time if you are using Rails 3.2.x
+the main source of which being compilation of **non-digest** assets.
+
+[turbo-sprockets-rails3](https://github.com/ndbroadbent/turbo-sprockets-rails3)
+solves this by only compiling **digest** assets. Thus cutting compile time in half.
+
+> NOTE: It will be **deprecated in Rails 4** as sprockets-rails has been extracted
+out of Rails and will only compile **digest** assets by default.
 
 ## Configuration
 
