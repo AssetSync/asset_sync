@@ -193,4 +193,22 @@ describe AssetSync do
     end
   end
 
+  describe 'with invalid yml' do
+
+    before(:each) do
+      set_rails_root('with_invalid_yml')
+      AssetSync.config = AssetSync::Config.new
+    end
+
+    it "config should be invalid" do
+      AssetSync.config.valid?.should be_false
+    end
+
+    it "should raise a config invalid error" do
+      lambda{ AssetSync.sync }.should raise_error(AssetSync::Config::Invalid)
+    end
+
+
+  end
+
 end

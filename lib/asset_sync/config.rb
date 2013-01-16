@@ -92,7 +92,11 @@ module AssetSync
     end
 
     def yml
-      @yml ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
+      begin
+        @yml ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] rescue nil || {}
+      rescue Psych::SyntaxError
+        @yml = {}
+      end
     end
 
     def yml_path
