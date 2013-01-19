@@ -2,9 +2,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 def bucket(name)
   options = {
-    :provider => 'AWS',
-    :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-    :aws_secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    :provider => 'rackspace',
+    :rackspace_username => ENV['RACKSPACE_USERNAME'],
+    :rackspace_api_key => ENV['RACKSPACE_API_KEY']
   }
 
   connection = Fog::Storage.new(options)
@@ -31,24 +31,28 @@ describe "AssetSync" do
   end
 
   it "sync" do
-    execute "rake FOG_PROVIDER=AWS ASSET_SYNC_PREFIX=#{@prefix} assets:precompile"
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} assets:precompile"
     bucket(@prefix).files.size.should == 5
 
     app_js = bucket(@prefix).files.get("#{@prefix}/application.js")
     app_js.content_type.should == "text/javascript"
+    app_js.origin.should == 'mysite.com'
+    app_js.access_control_allow_origin.should == ''
 
     app_js_gz = bucket(@prefix).files.get("#{@prefix}/application.js.gz")
     app_js_gz.content_type.should == "text/javascript"
     app_js_gz.content_encoding.should == "gzip"
+
+    app_js_gz.content_encoding.should == "gzip"
   end
 
   it "sync with enabled=false" do
-    execute "rake FOG_PROVIDER=AWS ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_ENABLED=false assets:precompile"
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_ENABLED=false assets:precompile"
     bucket(@prefix).files.size.should == 0
   end
 
   it "sync with gzip_compression=true" do
-    execute "rake FOG_PROVIDER=AWS ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile"
+    execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile"
     bucket(@prefix).files.size.should == 3
 
     app_js = bucket(@prefix).files.get("#{@prefix}/application.js")

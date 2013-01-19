@@ -14,6 +14,8 @@ describe AssetSync do
         config.rackspace_username    = 'aaaa'
         config.rackspace_api_key     = 'bbbb'
         config.existing_remote_files = 'keep'
+        config.rackspace_origin      = 'mysite.com'
+        config.rackspace_allow_origin      = '*'
       end
     end
 
@@ -54,6 +56,14 @@ describe AssetSync do
       AssetSync.config.rackspace_auth_url.should be_false
     end
 
+    it "should set origin rackspace_origin" do
+      AssetSync.config.rackspace_origin.should == "mysite.com"
+    end
+
+    it "should set allow origin rackspace_allow_origin" do
+      AssetSync.config.rackspace_allow_origin.should == "*"
+    end
+
   end
 
   describe 'using Rackspace from yml' do
@@ -86,5 +96,14 @@ describe AssetSync do
     it "should configure existing_remote_files" do
       AssetSync.config.existing_remote_files.should == "keep"
     end
+
+    it "should set origin rackspace_origin" do
+      AssetSync.config.rackspace_origin.should == "mysite.com"
+    end
+
+    it "should set allow origin rackspace_allow_origin" do
+      AssetSync.config.rackspace_allow_origin.should == "*"
+    end
+
   end
 end

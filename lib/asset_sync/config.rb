@@ -51,8 +51,8 @@ module AssetSync
       self.always_upload = []
       self.ignored_files = []
       self.enabled = true
-      self.allow_origin = ""
-      self.origin = ""
+      self.rackspace_allow_origin = ""
+      self.rackspace_origin = ""
       load_yml! if defined?(Rails) && yml_exists?
     end
 
@@ -125,8 +125,8 @@ module AssetSync
       self.rackspace_username    = yml["rackspace_username"]
       self.rackspace_auth_url    = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
       self.rackspace_api_key     = yml["rackspace_api_key"]
-      self.rackspace_allow_origin           = yml["allow_origin"] if yml.has_key?("allow_origin")
-      self.rackspace_origin                 = yml["origin"] if yml.has_key?("origin")
+      self.rackspace_allow_origin           = yml["rackspace_allow_origin"] if yml.has_key?("rackspace_allow_origin")
+      self.rackspace_origin                 = yml["rackspace_origin"] if yml.has_key?("rackspace_origin")
       self.google_storage_secret_access_key = yml["google_storage_secret_access_key"]
       self.google_storage_access_key_id     = yml["google_storage_access_key_id"]
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")

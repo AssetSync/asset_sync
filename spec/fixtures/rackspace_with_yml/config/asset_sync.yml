@@ -2,6 +2,8 @@ defaults: &defaults
   fog_provider: "Rackspace"
   rackspace_username: "xxxx"
   rackspace_api_key: "zzzz"
+  rackspace_origin: "mysite.com"
+  rackspace_allow_origin: "*"
   region: "eu-west-1"
 
 development:
