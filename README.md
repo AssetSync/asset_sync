@@ -294,8 +294,8 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 #### Rackspace (Optional)
 
 * **rackspace\_auth\_url**: Rackspace auth URL, for Rackspace London use: lon.auth.api.rackspacecloud.com
-* **rackspace_allow_origin: "*" optional - enables rackspace CORS requests to your assets by setting Allow-Access-Control-Origin - to the value provided.
-* **rackspace_origin: "mysite.com" optional - for sets the origin header for assets.
+* **rackspace_allow_origin**: "*" optional - enables rackspace CORS requests to your assets by setting Allow-Access-Control-Origin - to the value provided.
+* **rackspace_origin**: "mysite.com" optional - for sets the origin header for assets.
 
 
 ## Amazon S3 Multiple Region Support
