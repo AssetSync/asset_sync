@@ -317,7 +317,7 @@ Or via YAML
 ``` yaml
 production:
   # ...
-  aws_region: 'eu-west-1'
+  fog_region: 'eu-west-1'
 ```
 
 
