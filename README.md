@@ -88,12 +88,12 @@ On **HTTPS**: the exclusion of any protocol in the asset host declaration above 
 > The only caveat with this is that your S3 bucket name **must not contain any periods** so, mydomain.com.s3.amazonaws.com for example would not work under HTTPS as SSL certificates from Amazon would interpret our bucket name as **not** a subdomain of s3.amazonaws.com, but a multi level subdomain. To avoid this don't use a period in your subdomain or switch to the other style of S3 URL.
 
 ``` ruby
-  config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}" 
+  config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}"
 ```
 Or
 
 ``` ruby
-  config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}" 
+  config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}"
 ```
 
 Also, ensure the following are defined (in production.rb or application.rb)
@@ -160,8 +160,8 @@ heroku config:add FOG_PROVIDER=Rackspace
 Google Storage Cloud configuration is supported as well
 ``` bash
 heroku config:add FOG_PROVIDER=Google
-heroku config:add GOOGLE_STORAGE_ACCESS_KEY_ID=xxxx 
-heroku config:add GOOGLE_STORAGE_SECRET_ACCESS_KEY=xxxx 
+heroku config:add GOOGLE_STORAGE_ACCESS_KEY_ID=xxxx
+heroku config:add GOOGLE_STORAGE_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
 ```
 
