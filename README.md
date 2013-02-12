@@ -29,7 +29,7 @@ Hopefully this will make it's way into the platform as standard.
 Add the gem to your Gemfile
 
 ``` ruby
-gem "asset_sync"
+gem 'asset_sync'
 ```
 
 If you want, you can put it within your **:assets** group in your Gemfile.
@@ -39,7 +39,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem "asset_sync"
+  gem 'asset_sync'
 end
 ```
 
@@ -186,7 +186,7 @@ AssetSync.configure do |config|
   config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
 
   # Don't delete files from the store
-  # config.existing_remote_files = "keep"
+  # config.existing_remote_files = 'keep'
   #
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
@@ -365,8 +365,8 @@ AssetSync.configure do |config|
   config.fog_directory = ENV['FOG_DIRECTORY']
   config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
   config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
-  config.prefix = "assets"
-  config.public_path = Pathname("./public")
+  config.prefix = 'assets'
+  config.public_path = Pathname('./public')
 end
 ```
 
@@ -375,10 +375,10 @@ task.
 
 ```ruby
 namespace :assets do
-  desc "Precompile assets"
+  desc 'Precompile assets'
   task :precompile do
     target = Pathname('./public/assets')
-    manifest = Sprockets::Manifest.new(sprockets, "./public/assets/manifest.json")
+    manifest = Sprockets::Manifest.new(sprockets, './public/assets/manifest.json')
 
     sprockets.each_logical_path do |logical_path|
       if (!File.extname(logical_path).in?(['.js', '.css']) || logical_path =~ /application\.(css|js)$/) && asset = sprockets.find_asset(logical_path)
