@@ -19,6 +19,7 @@ module AssetSync
 
           config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
           config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+          config.aws_reduced_redundancy = ENV['AWS_REDUCED_REDUNDANCY'] == true
 
           config.rackspace_username = ENV['RACKSPACE_USERNAME']
           config.rackspace_api_key = ENV['RACKSPACE_API_KEY']
