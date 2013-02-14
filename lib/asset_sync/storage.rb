@@ -165,7 +165,7 @@ module AssetSync
 
       if config.aws? && config.aws_rrs?
         file.merge!({
-          :'x-amz-storage-class' => 'REDUCED_REDUNDANCY'
+          :storage_class => 'REDUCED_REDUNDANCY'
         })
       end
 
