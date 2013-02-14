@@ -163,6 +163,12 @@ module AssetSync
         log "Uploading: #{f}"
       end
 
+      if config.aws? && config.aws_rrs?
+        file.merge!({
+          :'x-amz-storage-class' => 'REDUCED_REDUNDANCY'
+        })
+      end
+
       file = bucket.files.create( file ) unless ignore
     end
 
