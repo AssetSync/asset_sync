@@ -7,7 +7,7 @@ module AssetSync
       #  ext_with_dot = ".#{ext}"
       #  Rack::Mime.mime_type(ext_with_dot)
       #else
-      MIME::Types.type_for(ext).first
+      "#{MIME::Types.type_for(ext).first}"
       #end
 
     end
