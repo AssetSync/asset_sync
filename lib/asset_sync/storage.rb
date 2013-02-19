@@ -167,7 +167,8 @@ module AssetSync
         log "Uploading: #{f}"
       end
 
-      file = bucket.files.create( file ) unless ignore
+      bucket.files.create( file ) unless ignore
+      file
     end
 
     def upload_files
