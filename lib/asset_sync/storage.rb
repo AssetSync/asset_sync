@@ -172,9 +172,9 @@ module AssetSync
 
     def upload_files
       # get a fresh list of remote files
-      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
+      #remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
+      local_files_to_upload = local_files - ignored_files
 
       # Upload new files
       local_files_to_upload.each do |f|
