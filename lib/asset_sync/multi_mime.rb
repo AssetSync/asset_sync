@@ -2,7 +2,7 @@ module AssetSync
   class MultiMime
 
     types={
-      "ttf"=> "font/truetype"
+      "ttf"=> "application/x-font-woff"
     }
 
     def self.lookup(ext)
@@ -11,7 +11,7 @@ module AssetSync
       #  ext_with_dot = ".#{ext}"
       #  Rack::Mime.mime_type(ext_with_dot)
       #else
-      types[ext] || "#{MIME::Types.type_for(ext).first}"
+      "#{MIME::Types.type_for(ext).first}"
       #end
 
     end
