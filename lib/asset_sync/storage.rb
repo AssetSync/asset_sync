@@ -180,7 +180,11 @@ module AssetSync
       # Upload new files
       local_files_to_upload.each do |f|
         next unless File.file? "#{path}/#{f}" # Only files.
-        upload_file f
+        begin
+          upload_file f
+        rescue
+          log "error -  #{$!} - file: #{f}"
+        end
       end
     end
 
