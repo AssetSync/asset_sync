@@ -95,6 +95,14 @@ Or
 ``` ruby
   config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}"
 ```
+On **non default S3 bucket region**: If your bucket is set to a region that is not the default US Standard (us-east-1) you must use the first style of url ``//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com`` or amazon will return a 301 permanently moved when assets are requested. Note the caveat above about bucket names and periods. 
+
+If you wish to have your assets sync to a sub-folder of your bucket instead of into the root add the following to your ``production.rb`` file
+
+```ruby
+  # store assets in a 'folder' instead of bucket root
+  config.assets.prefix = "/production/assets"
+````
 
 Also, ensure the following are defined (in production.rb or application.rb)
 
