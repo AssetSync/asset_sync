@@ -50,7 +50,7 @@ module AssetSync
     end
 
     def local_files
-      @local_files ||= get_local_files
+      @local_files ||= get_local_files.uniq
     end
 
     def always_upload_files
