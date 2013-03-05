@@ -92,7 +92,7 @@ module AssetSync
     end
 
     def yml_exists?
-      File.exists?(self.yml_path)
+      defined?(Rails.root) ? File.exists?(self.yml_path) : false
     end
 
     def yml
