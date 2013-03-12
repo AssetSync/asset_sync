@@ -57,6 +57,10 @@ module AssetSync
       self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
     end
 
+    def files_with_custom_headers
+      self.config.custom_headers.inject({}) { |h,(k, v)| h[File.join(self.config.assets_prefix, k)] = v; h; }
+    end
+
     def get_local_files
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
@@ -123,6 +127,11 @@ module AssetSync
         :expires => CGI.rfc1123_date(Time.now + one_year),
         :content_type => mime
       }
+      # overwrite headers if applicable, you probably shouldn't specific key/body, but cache-control headers etc.
+      if files_with_custom_headers.has_key? f
+        file.merge! files_with_custom_headers[f]
+        log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
+      end
 
       gzipped = "#{path}/#{f}.gz"
       ignore = false
