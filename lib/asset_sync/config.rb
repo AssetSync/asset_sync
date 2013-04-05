@@ -60,7 +60,7 @@ module AssetSync
     def manifest_path
       directory =
         Rails.application.config.assets.manifest || default_manifest_directory
-      File.join(directory, "manifest.yml")
+      Dir.glob("manifest*.json").max{|f| File.ctime(f)}
     end
 
     def gzip?
