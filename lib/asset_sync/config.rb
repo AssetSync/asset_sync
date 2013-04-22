@@ -72,7 +72,7 @@ module AssetSync
     end
 
     def fail_silently?
-      fail_silently == true
+      fail_silently || !enabled?
     end
 
     def enabled?
