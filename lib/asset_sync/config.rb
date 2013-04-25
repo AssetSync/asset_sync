@@ -36,13 +36,6 @@ module AssetSync
     validates :fog_provider,          :presence => true
     validates :fog_directory,         :presence => true
 
-    validates :aws_access_key_id,     :presence => true, :if => :aws?
-    validates :aws_secret_access_key, :presence => true, :if => :aws?
-    validates :rackspace_username,    :presence => true, :if => :rackspace?
-    validates :rackspace_api_key,     :presence => true, :if => :rackspace?
-    validates :google_storage_secret_access_key,  :presence => true, :if => :google?
-    validates :google_storage_access_key_id,      :presence => true, :if => :google?
-
     def initialize
       self.fog_region = nil
       self.existing_remote_files = 'keep'
@@ -155,34 +148,30 @@ module AssetSync
       self.fog_region             = yml["region"] if yml.has_key?("region")
     end
 
-
     def fog_options
-      options = { :provider => fog_provider }
-      if aws?
-        options.merge!({
-          :aws_access_key_id => aws_access_key_id,
-          :aws_secret_access_key => aws_secret_access_key
-        })
-      elsif rackspace?
-        options.merge!({
-          :rackspace_username => rackspace_username,
-          :rackspace_api_key => rackspace_api_key
-        })
-        options.merge!({ :rackspace_auth_url => rackspace_auth_url }) if rackspace_auth_url
-      elsif google?
-        options.merge!({
-          :google_storage_secret_access_key => google_storage_secret_access_key,
-          :google_storage_access_key_id => google_storage_access_key_id
-        })
-      else
-        raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
-      end
+      { :provider => fog_provider }.tap { |options|
+        fog_option_keys.each do |key|
+          val = send(key)
+          options[key] = val unless val.blank?
+        end
 
-      options.merge!({:region => fog_region}) if fog_region
-      return options
+        options[:region] = fog_region if fog_region
+      }
     end
 
   private
+
+    def fog_option_keys
+      if aws?
+        [:aws_access_key_id, :aws_secret_access_key]
+      elsif rackspace?
+        [:rackspace_username, :rackspace_api_key, :rackspace_auth_url]
+      elsif google?
+        [:google_storage_secret_access_key, :google_storage_access_key_id]
+      else
+        raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
+      end
+    end
 
     def default_manifest_directory
       File.join(Rails.public_path, assets_prefix)
