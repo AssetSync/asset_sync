@@ -2,18 +2,28 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe AssetSync::MultiMime do
 
+  before(:each) do
+    Object.send(:remove_const, :Rails) if defined?(Rails)
+    Object.send(:remove_const, :Mime) if defined?(Mime)
+    Object.send(:remove_const, :Rack) if defined?(Rack)
+  end
+
+  after(:each) do
+    Object.send(:remove_const, :Rails) if defined?(Rails)
+    Object.send(:remove_const, :Mime) if defined?(Mime)
+    Object.send(:remove_const, :Rack) if defined?(Rack)
+  end
+
+  after(:all) do
+    require 'mime/types'
+  end
+
   describe 'Mime::Type' do
 
     it 'should detect mime type' do
       pending "Fails on Travis CI only as of https://travis-ci.org/rumblelabs/asset_sync/builds/4188196"
-      Object.send(:remove_const, :Rails) if defined?(Rails)
       require 'rails'
       AssetSync::MultiMime.lookup('css').should == "text/css"
-    end
-
-    after(:each) do
-      Object.send(:remove_const, :Rails) if defined?(Rails)
-      Object.send(:remove_const, :Mime) if defined?(Mime)
     end
 
   end
@@ -25,22 +35,13 @@ describe AssetSync::MultiMime do
       AssetSync::MultiMime.lookup('css').should == "text/css"
     end
 
-    after(:each) do
-      Object.send(:remove_const, :Rack) if defined?(Rack)
-    end
-
   end
 
   describe 'MIME::Types' do
 
     it 'should detect mime type' do
-      Object.send(:remove_const, :MIME) if defined?(MIME)
       require 'mime/types'
       AssetSync::MultiMime.lookup('css').should == "text/css"
-    end
-
-    after(:each) do
-      Object.send(:remove_const, :MIME) if defined?(MIME)
     end
 
   end
