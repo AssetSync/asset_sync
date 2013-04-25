@@ -117,7 +117,7 @@ Additionally, if you depend on any configuration that is setup in your `initiali
 
 **AssetSync** supports the following methods of configuration.
 
-* [Built-in Initializer](/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
+* [Built-in Initializer](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
 * Rails Initializer
 * A YAML config file
 
