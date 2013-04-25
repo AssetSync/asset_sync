@@ -50,6 +50,7 @@ module AssetSync
       self.fail_silently = false
       self.always_upload = []
       self.ignored_files = []
+      self.custom_headers = {}
       self.enabled = true
       load_yml! if defined?(Rails) && yml_exists?
     end
