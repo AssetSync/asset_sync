@@ -53,11 +53,16 @@ describe AssetSync::Storage do
 
   describe '#upload_file' do
     before(:each) do
+      # Object#remove_const does not remove the loaded
+      # file from the $" variable
+      Object.send(:remove_const, :MIME) if defined?(MIME)
+      mime_types = $".grep(/mime\/types/).first
+      $".delete(mime_types)
+      require 'mime/types'
       @config = AssetSync::Config.new
     end
 
     it 'accepts custom headers per file' do
-      require 'mime/types'
       @config.custom_headers = {
         "local_image2.jpg" => {
           :cache_control => 'max-age=0'
@@ -76,6 +81,10 @@ describe AssetSync::Storage do
         argument[:cache_control].should == 'max-age=0'
       end
       storage.upload_file('assets/local_image2.jpg')
+    end
+
+    after(:each) do
+      Object.send(:remove_const, :MIME) if defined?(MIME)
     end
   end
 end
