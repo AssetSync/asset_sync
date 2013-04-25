@@ -21,7 +21,7 @@ module AssetSync
     attr_accessor :fog_region            # e.g. 'eu-west-1'
 
     # Amazon AWS
-    attr_accessor :aws_access_key_id, :aws_secret_access_key
+    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
 
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
@@ -71,6 +71,10 @@ module AssetSync
       fog_provider == 'AWS'
     end
 
+    def aws_rrs?
+      aws_reduced_redundancy == true
+    end
+
     def fail_silently?
       fail_silently == true
     end
@@ -113,15 +117,16 @@ module AssetSync
     end
 
     def load_yml!
-      self.enabled               = yml["enabled"] if yml.has_key?('enabled')
-      self.fog_provider          = yml["fog_provider"]
-      self.fog_directory         = yml["fog_directory"]
-      self.fog_region            = yml["fog_region"]
-      self.aws_access_key_id     = yml["aws_access_key_id"]
-      self.aws_secret_access_key = yml["aws_secret_access_key"]
-      self.rackspace_username    = yml["rackspace_username"]
-      self.rackspace_auth_url    = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
-      self.rackspace_api_key     = yml["rackspace_api_key"]
+      self.enabled                = yml["enabled"] if yml.has_key?('enabled')
+      self.fog_provider           = yml["fog_provider"]
+      self.fog_directory          = yml["fog_directory"]
+      self.fog_region             = yml["fog_region"]
+      self.aws_access_key_id      = yml["aws_access_key_id"]
+      self.aws_secret_access_key  = yml["aws_secret_access_key"]
+      self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
+      self.rackspace_username     = yml["rackspace_username"]
+      self.rackspace_auth_url     = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
+      self.rackspace_api_key      = yml["rackspace_api_key"]
       self.google_storage_secret_access_key = yml["google_storage_secret_access_key"]
       self.google_storage_access_key_id     = yml["google_storage_access_key_id"]
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
