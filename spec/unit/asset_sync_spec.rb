@@ -157,6 +157,20 @@ describe AssetSync do
     end
   end
 
+  describe 'with disabled config' do
+    before(:each) do
+      AssetSync.stub(:stderr).and_return(@stderr = StringIO.new)
+      AssetSync.config = AssetSync::Config.new
+      AssetSync.configure do |config|
+        config.enabled = false
+      end
+    end
+
+    it "should not raise an invalid exception" do
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
+    end
+  end
+
   describe 'with gzip_compression enabled' do
     before(:each) do
       AssetSync.config = AssetSync::Config.new
