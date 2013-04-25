@@ -15,7 +15,7 @@ When you see `rake assets:precompile` during deployment. Heroku is actually runn
 
 This means the *RAILS_ENV* you have set via *heroku:config* is not used.
 
-**Workaround:** you could have just one S3 bucket dedicated to assets and ensure to set keep the existing remote files
+**Workaround:** you could have just one S3 bucket dedicated to assets and configure `AssetSync` to not delete existing files:
 
     AssetSync.configure do |config|
       ...
