@@ -60,13 +60,6 @@ describe AssetSync::Storage do
       File.stub(:file?).and_return(true)
       File.stub(:open).and_return(nil)
 
-      module Mime
-        module Type
-          def self.lookup_by_extension(extension)
-          end
-        end
-      end
-
       def check_file(file)
         case file[:key]
         when 'file1.jpg'
