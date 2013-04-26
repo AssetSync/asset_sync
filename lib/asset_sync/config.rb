@@ -9,6 +9,7 @@ module AssetSync
     attr_accessor :gzip_compression
     attr_accessor :manifest
     attr_accessor :fail_silently
+    attr_accessor :log_silently
     attr_accessor :always_upload
     attr_accessor :ignored_files
     attr_accessor :prefix
@@ -49,6 +50,7 @@ module AssetSync
       self.gzip_compression = false
       self.manifest = false
       self.fail_silently = false
+      self.log_silently = true
       self.always_upload = []
       self.ignored_files = []
       self.custom_headers = {}
@@ -81,6 +83,10 @@ module AssetSync
 
     def fail_silently?
       fail_silently || !enabled?
+    end
+
+    def log_silently?
+      ENV['RAILS_GROUPS'] == 'assets' || self.log_silently == false
     end
 
     def enabled?
