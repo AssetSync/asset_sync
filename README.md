@@ -16,7 +16,7 @@ If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All 
 
 ## Heroku Labs (BETA)
 
-Previously there were [several issues](http://github.com/rumblelabs/asset_sync/blob/master/docs/heroku.md) with using asset_sync on Heroku as described in our [Heroku dev centre article](http://devcenter.heroku.com/articles/cdn-asset-host-rails31).
+Previously there were [several issues](http://github.com/rumblelabs/asset_sync/blob/master/docs/heroku.md) with using asset_sync on Heroku as described in our [Heroku dev center article](http://devcenter.heroku.com/articles/cdn-asset-host-rails31).
 
 Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user-env-compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
 
@@ -29,7 +29,7 @@ Hopefully this will make it's way into the platform as standard.
 Add the gem to your Gemfile
 
 ``` ruby
-gem "asset_sync"
+gem 'asset_sync'
 ```
 
 If you want, you can put it within your **:assets** group in your Gemfile.
@@ -39,7 +39,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem "asset_sync"
+  gem 'asset_sync'
 end
 ```
 
@@ -88,13 +88,21 @@ On **HTTPS**: the exclusion of any protocol in the asset host declaration above 
 > The only caveat with this is that your S3 bucket name **must not contain any periods** so, mydomain.com.s3.amazonaws.com for example would not work under HTTPS as SSL certificates from Amazon would interpret our bucket name as **not** a subdomain of s3.amazonaws.com, but a multi level subdomain. To avoid this don't use a period in your subdomain or switch to the other style of S3 URL.
 
 ``` ruby
-  config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}" 
+  config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}"
 ```
 Or
 
 ``` ruby
-  config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}" 
+  config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}"
 ```
+On **non default S3 bucket region**: If your bucket is set to a region that is not the default US Standard (us-east-1) you must use the first style of url ``//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com`` or amazon will return a 301 permanently moved when assets are requested. Note the caveat above about bucket names and periods. 
+
+If you wish to have your assets sync to a sub-folder of your bucket instead of into the root add the following to your ``production.rb`` file
+
+```ruby
+  # store assets in a 'folder' instead of bucket root
+  config.assets.prefix = "/production/assets"
+````
 
 Also, ensure the following are defined (in production.rb or application.rb)
 
@@ -109,7 +117,7 @@ Additionally, if you depend on any configuration that is setup in your `initiali
 
 **AssetSync** supports the following methods of configuration.
 
-* [Built-in Initializer](/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
+* [Built-in Initializer](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
 * Rails Initializer
 * A YAML config file
 
@@ -160,8 +168,8 @@ heroku config:add FOG_PROVIDER=Rackspace
 Google Storage Cloud configuration is supported as well
 ``` bash
 heroku config:add FOG_PROVIDER=Google
-heroku config:add GOOGLE_STORAGE_ACCESS_KEY_ID=xxxx 
-heroku config:add GOOGLE_STORAGE_SECRET_ACCESS_KEY=xxxx 
+heroku config:add GOOGLE_STORAGE_ACCESS_KEY_ID=xxxx
+heroku config:add GOOGLE_STORAGE_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
 ```
 
@@ -186,7 +194,7 @@ AssetSync.configure do |config|
   config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
 
   # Don't delete files from the store
-  # config.existing_remote_files = "keep"
+  # config.existing_remote_files = 'keep'
   #
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
@@ -320,7 +328,7 @@ Or via YAML
 ``` yaml
 production:
   # ...
-  aws_region: 'eu-west-1'
+  fog_region: 'eu-west-1'
 ```
 
 
@@ -342,20 +350,32 @@ With the new **user_env_compile** feature of Heroku (see above), this is no long
 
 ## Rake Task
 
-A rake task is included within the **asset_sync** gem to enhance the rails precompile task by automatically running after it.
+A rake task is included within the **asset_sync** gem to perform the sync:
 
 ``` ruby
-  # asset_sync/lib/tasks/asset_sync.rake
-  if Rake::Task.task_defined?("assets:precompile:nondigest")
-    Rake::Task["assets:precompile:nondigest"].enhance do
-      AssetSync.sync
-    end
-  else
-    Rake::Task["assets:precompile"].enhance do
+  namespace :assets do
+    desc "Synchronize assets to S3"
+    task :sync => :environment do
       AssetSync.sync
     end
   end
 ```
+
+If `AssetSync.config.run_on_precompile` is `true` (default), then assets will be uploaded to S3 automatically after the `assets:precompile` rake task is invoked:
+
+``` ruby
+  if Rake::Task.task_defined?("assets:precompile:nondigest")
+    Rake::Task["assets:precompile:nondigest"].enhance do
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
+    end
+  else
+    Rake::Task["assets:precompile"].enhance do
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
+    end
+  end
+```
+
+You can disable this behavior by setting `AssetSync.config.run_on_precompile = false`.
 
 ## Sinatra/Rack Support
 
@@ -368,8 +388,8 @@ AssetSync.configure do |config|
   config.fog_directory = ENV['FOG_DIRECTORY']
   config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
   config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
-  config.prefix = "assets"
-  config.public_path = Pathname("./public")
+  config.prefix = 'assets'
+  config.public_path = Pathname('./public')
 end
 ```
 
@@ -378,10 +398,10 @@ task.
 
 ```ruby
 namespace :assets do
-  desc "Precompile assets"
+  desc 'Precompile assets'
   task :precompile do
     target = Pathname('./public/assets')
-    manifest = Sprockets::Manifest.new(sprockets, "./public/assets/manifest.json")
+    manifest = Sprockets::Manifest.new(sprockets, './public/assets/manifest.json')
 
     sprockets.each_logical_path do |logical_path|
       if (!File.extname(logical_path).in?(['.js', '.css']) || logical_path =~ /application\.(css|js)$/) && asset = sprockets.find_asset(logical_path)

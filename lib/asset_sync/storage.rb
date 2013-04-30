@@ -57,6 +57,10 @@ module AssetSync
       self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
     end
 
+    def files_with_custom_headers
+      self.config.custom_headers.inject({}) { |h,(k, v)| h[File.join(self.config.assets_prefix, k)] = v; h; }
+    end
+
     def get_local_files
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
@@ -111,10 +115,21 @@ module AssetSync
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
-        :cache_control => "public, max-age=#{one_year}",
-        :expires => CGI.rfc1123_date(Time.now + one_year),
         :content_type => mime
       }
+
+      if /-[0-9a-fA-F]{32}$/.match(File.basename(f,File.extname(f)))
+        file.merge!({
+          :cache_control => "public, max-age=#{one_year}",
+          :expires => CGI.rfc1123_date(Time.now + one_year)
+        })
+      end
+
+      # overwrite headers if applicable, you probably shouldn't specific key/body, but cache-control headers etc.
+      if files_with_custom_headers.has_key? f
+        file.merge! files_with_custom_headers[f]
+        log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
+      end
 
       gzipped = "#{path}/#{f}.gz"
       ignore = false
@@ -167,23 +182,31 @@ module AssetSync
         log "Uploading: #{f}"
       end
 
-      bucket.files.create( file ) unless ignore
-      file
+      if config.aws? && config.aws_rrs?
+        file.merge!({
+          :storage_class => 'REDUCED_REDUNDANCY'
+        })
+      end
+
+      file = bucket.files.create( file ) unless ignore
     end
 
     def upload_files
-      # get a fresh list of remote files
-      #remote_files = ignore_existing_remote_files? ? [] : get_remote_files
-      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files
+      unless config.always_upload_all
+        # get a fresh list of remote files
+        remote_files = ignore_existing_remote_files? ? [] : get_remote_files
+        local_files_to_upload = local_files_to_upload - remote_files + always_upload_files
+      end
 
       # Upload new files
       local_files_to_upload.each do |f|
         next unless File.file? "#{path}/#{f}" # Only files.
         begin
           upload_file f
-        rescue
+        rescue Exception => ex
           log "error -  #{$!} - file: #{f}"
+          railse ex unless config.warn_on_failure
         end
       end
     end
