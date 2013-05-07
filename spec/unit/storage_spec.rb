@@ -50,6 +50,38 @@ describe AssetSync::Storage do
       storage.upload_files
     end
 
+    it 'should upload updated non-fingerprinted files' do
+      @local_files = [
+        'public/image.png',
+        'public/image-82389298328.png',
+        'public/image-a8389f9h324.png',
+        'public/application.js',
+        'public/application-b3389d983k1.js',
+        'public/application-ac387d53f31.js',
+        'public',
+      ]
+      @remote_files = [
+        'public/image.png',
+        'public/image-a8389f9h324.png',
+        'public/application.js',
+        'public/application-b3389d983k1.js',
+      ]
+
+      storage = AssetSync::Storage.new(@config)
+      storage.stub(:local_files).and_return(@local_files)
+      storage.stub(:get_remote_files).and_return(@remote_files)
+      File.stub(:file?).and_return(true) # Pretend they all exist
+
+      updated_nonfingerprinted_files = [
+        'public/image.png',
+        'public/application.js',
+      ]
+      (@local_files - @remote_files + updated_nonfingerprinted_files).each do |file|
+        storage.should_receive(:upload_file).with(file)
+      end
+      storage.upload_files
+    end
+
     it 'should correctly set expire date' do
       local_files = ['file1.jpg', 'file1-1234567890abcdef1234567890abcdef.jpg']
       local_files += ['dir1/dir2/file2.jpg', 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg']
