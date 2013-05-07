@@ -1,7 +1,9 @@
 module AssetSync
   class Storage
+    REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
 
-    class BucketNotFound < StandardError; end
+    class BucketNotFound < StandardError;
+    end
 
     attr_accessor :config
 
@@ -22,6 +24,10 @@ module AssetSync
       AssetSync.log(msg)
     end
 
+    def keep_existing_remote_files?
+      self.config.existing_remote_files?
+    end
+
     def path
       self.config.public_path
     end
@@ -30,16 +36,16 @@ module AssetSync
       files = []
       Array(self.config.ignored_files).each do |ignore|
         case ignore
-        when Regexp
-          files += self.local_files.select do |file|
-            file =~ ignore
-          end
-        when String
-          files += self.local_files.select do |file|
-            file.split('/').last == ignore
-          end
-        else
-          log "Error: please define ignored_files as string or regular expression. #{ignore} (#{ignore.class}) ignored."
+          when Regexp
+            files += self.local_files.select do |file|
+              file =~ ignore
+            end
+          when String
+            files += self.local_files.select do |file|
+              file.split('/').last == ignore
+            end
+          else
+            log "Error: please define ignored_files as string or regular expression. #{ignore} (#{ignore.class}) ignored."
         end
       end
       files.uniq
@@ -141,15 +147,15 @@ module AssetSync
         ignore = true
       elsif config.gzip? && File.exists?(gzipped)
         original_size = File.size("#{path}/#{f}")
-        gzipped_size  = File.size(gzipped)
+        gzipped_size = File.size(gzipped)
 
         if gzipped_size < original_size
           percentage = ((gzipped_size.to_f/original_size.to_f)*100).round(2)
           file.merge!({
-            :key => f,
-            :body => File.open(gzipped),
-            :content_encoding => 'gzip'
-          })
+                        :key => f,
+                        :body => File.open(gzipped),
+                        :content_encoding => 'gzip'
+                      })
           log "Uploading: #{gzipped} in place of #{f} saving #{percentage}%"
         else
           percentage = ((original_size.to_f/gzipped_size.to_f)*100).round(2)
@@ -184,7 +190,7 @@ module AssetSync
       remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
-      local_files_to_upload = add_non_fingerprinted(local_files_to_upload)
+      local_files_to_upload = (local_files_to_upload + get_non_fingerprinted(local_files_to_upload)).uniq
 
       # Upload new files
       local_files_to_upload.each do |f|
@@ -203,31 +209,16 @@ module AssetSync
 
     private
 
-    def keep_existing_remote_files?
-      self.config.existing_remote_files?
-    end
-
     def ignore_existing_remote_files?
       self.config.existing_remote_files == 'ignore'
     end
 
-    def add_non_fingerprinted(files)
-      fingerprinted = select_fingerprinted(files)
-      non_fingerprinted = fingerprinted.map do |file|
-        # Check for files matching .../filename-fingerprint.ext
-        regexp = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
-        match_data = file.match(regexp)
-        "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
-      end
-      files + non_fingerprinted
+    def get_non_fingerprinted(files)
+      files.map do |file|
+        match_data = file.match(REGEXP_FINGERPRINTED_FILES)
+        match_data && "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
+      end.compact
     end
 
-    def select_fingerprinted(files)
-      files.select do |file|
-        # Check for files matching .../filename-fingerprint.ext
-        regexp = /\/[^-]+-[^\.]+\.[^\.]+$/
-        file.match(regexp)
-      end
-    end
   end
 end
