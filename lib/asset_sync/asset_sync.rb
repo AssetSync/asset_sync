@@ -21,6 +21,18 @@ module AssetSync
     end
 
     def sync
+      with_config do
+        self.storage.sync
+      end
+    end
+
+    def clean
+      with_config do
+        self.storage.delete_extra_remote_files
+      end
+    end
+
+    def with_config(&block)
       return unless AssetSync.enabled?
 
       errors = config.valid? ? "" : config.errors.full_messages.join(', ')
@@ -32,7 +44,7 @@ module AssetSync
           raise Config::Invalid.new(errors)
         end
       else
-        self.storage.sync
+        block.call
       end
     end
 
