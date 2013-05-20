@@ -10,12 +10,15 @@ module AssetSync
     attr_accessor :manifest
     attr_accessor :fail_silently
     attr_accessor :always_upload
+    attr_accessor :always_upload_all
+    attr_accessor :warn_on_failure
     attr_accessor :ignored_files
     attr_accessor :prefix
     attr_accessor :public_path
     attr_accessor :enabled
     attr_accessor :custom_headers
     attr_accessor :run_on_precompile
+
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -26,7 +29,7 @@ module AssetSync
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
 
     # Rackspace
-    attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
+    attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url, :rackspace_origin, :rackspace_allow_origin
 
     # Google Storage
     attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id
@@ -50,9 +53,13 @@ module AssetSync
       self.manifest = false
       self.fail_silently = false
       self.always_upload = []
+      self.always_upload_all = false
       self.ignored_files = []
       self.custom_headers = {}
       self.enabled = true
+      self.warn_on_failure=false
+      self.rackspace_allow_origin = ""
+      self.rackspace_origin = ""
       self.run_on_precompile = true
       load_yml! if defined?(Rails) && yml_exists?
     end
@@ -121,16 +128,18 @@ module AssetSync
     end
 
     def load_yml!
-      self.enabled                = yml["enabled"] if yml.has_key?('enabled')
-      self.fog_provider           = yml["fog_provider"]
-      self.fog_directory          = yml["fog_directory"]
-      self.fog_region             = yml["fog_region"]
-      self.aws_access_key_id      = yml["aws_access_key_id"]
-      self.aws_secret_access_key  = yml["aws_secret_access_key"]
-      self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
-      self.rackspace_username     = yml["rackspace_username"]
-      self.rackspace_auth_url     = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
-      self.rackspace_api_key      = yml["rackspace_api_key"]
+      self.enabled               = yml["enabled"] if yml.has_key?('enabled')
+      self.fog_provider          = yml["fog_provider"]
+      self.fog_directory         = yml["fog_directory"]
+      self.fog_region            = yml["fog_region"]
+      self.aws_access_key_id     = yml["aws_access_key_id"]
+      self.aws_secret_access_key = yml["aws_secret_access_key"]
+      self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]      
+      self.rackspace_username    = yml["rackspace_username"]
+      self.rackspace_auth_url    = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
+      self.rackspace_api_key     = yml["rackspace_api_key"]
+      self.rackspace_allow_origin           = yml["rackspace_allow_origin"] if yml.has_key?("rackspace_allow_origin")
+      self.rackspace_origin                 = yml["rackspace_origin"] if yml.has_key?("rackspace_origin")
       self.google_storage_secret_access_key = yml["google_storage_secret_access_key"]
       self.google_storage_access_key_id     = yml["google_storage_access_key_id"]
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
@@ -138,6 +147,8 @@ module AssetSync
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
       self.fail_silently          = yml["fail_silently"] if yml.has_key?("fail_silently")
       self.always_upload          = yml["always_upload"] if yml.has_key?("always_upload")
+      self.always_upload_all      = yml["always_upload_all"] if yml.has_key?("always_upload")
+      self.warn_on_failure        = yml["warn_on_failure"] if yml.has_key?("warn_on_failure")
       self.ignored_files          = yml["ignored_files"] if yml.has_key?("ignored_files")
       self.custom_headers          = yml["custom_headers"] if yml.has_key?("custom_headers")
       self.run_on_precompile      = yml["run_on_precompile"] if yml.has_key?("run_on_precompile")

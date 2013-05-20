@@ -134,6 +134,18 @@ module AssetSync
       gzipped = "#{path}/#{f}.gz"
       ignore = false
 
+      if config.rackspace_allow_origin.present?
+        file.merge!({
+                    :access_control_allow_origin => config.rackspace_allow_origin
+                  })
+      end
+
+      if config.rackspace_origin.present?
+        file.merge!({
+                    :origin => config.rackspace_origin
+                  })
+      end
+
       if config.gzip? && File.extname(f) == ".gz"
         # Don't bother uploading gzipped assets if we are in gzip_compression mode
         # as we will overwrite file.css with file.css.gz if it exists.
@@ -180,15 +192,22 @@ module AssetSync
     end
 
     def upload_files
-      # get a fresh list of remote files
-      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
-      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
+      local_files_to_upload = local_files - ignored_files
+      unless config.always_upload_all
+        # get a fresh list of remote files
+        remote_files = ignore_existing_remote_files? ? [] : get_remote_files
+        local_files_to_upload = local_files_to_upload - remote_files + always_upload_files
+      end
 
       # Upload new files
       local_files_to_upload.each do |f|
         next unless File.file? "#{path}/#{f}" # Only files.
-        upload_file f
+        begin
+          upload_file f
+        rescue Exception => ex
+          log "error -  #{$!} - file: #{f}"
+          raise ex unless config.warn_on_failure
+        end
       end
     end
 
