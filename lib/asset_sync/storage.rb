@@ -206,7 +206,7 @@ module AssetSync
           upload_file f
         rescue Exception => ex
           log "error -  #{$!} - file: #{f}"
-          railse ex unless config.warn_on_failure
+          raise ex unless config.warn_on_failure
         end
       end
     end
