@@ -61,6 +61,10 @@ module AssetSync
       self.config.custom_headers.inject({}) { |h,(k, v)| h[File.join(self.config.assets_prefix, k)] = v; h; }
     end
 
+    def files_to_invalidate
+      self.config.invalidate.inject([]) { |filename| File.join(self.config.assets_prefix, filename) }
+    end
+
     def get_local_files
       if self.config.manifest
         if File.exists?(self.config.manifest_path)
@@ -183,6 +187,13 @@ module AssetSync
       local_files_to_upload.each do |f|
         next unless File.file? "#{path}/#{f}" # Only files.
         upload_file f
+      end
+
+      if self.config.cdn_distribution_id? && files_to_invalidate.any?
+        log "Invalidating Files"
+        cdn ||= Fog::CDN.new(self.config.fog_options)
+        data = cdn.post_invalidation(self.config.cdn_distribution_id, files_to_invalidate)
+        log "Invalidation id: #{data.body["Id"]}"
       end
     end
 

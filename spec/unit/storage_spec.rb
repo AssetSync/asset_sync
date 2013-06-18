@@ -49,6 +49,19 @@ describe AssetSync::Storage do
       end
       storage.upload_files
     end
+
+    it "shoud invalidate files" do
+      @config.cdn_distribution_id = "1234"
+      @config.invalidate = ['local_image1.jpg']
+
+      storage = AssetSync::Storage.new(@config)
+      storage.stub(:local_files).and_return(@local_files)
+      storage.stub(:get_remote_files).and_return(@remote_files)
+      storage.stub(:upload_file).and_return(true)
+
+      Fog::CDN.any_instance.should_receive(:post_invalidation).with("1234", ["assets/local_image1.jpg"])
+      storage.upload_files
+    end
   end
 
   describe '#upload_file' do
