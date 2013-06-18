@@ -347,20 +347,32 @@ With the new **user_env_compile** feature of Heroku (see above), this is no long
 
 ## Rake Task
 
-A rake task is included within the **asset_sync** gem to enhance the rails precompile task by automatically running after it.
+A rake task is included within the **asset_sync** gem to perform the sync:
 
 ``` ruby
-  # asset_sync/lib/tasks/asset_sync.rake
-  if Rake::Task.task_defined?("assets:precompile:nondigest")
-    Rake::Task["assets:precompile:nondigest"].enhance do
-      AssetSync.sync
-    end
-  else
-    Rake::Task["assets:precompile"].enhance do
+  namespace :assets do
+    desc "Synchronize assets to S3"
+    task :sync => :environment do
       AssetSync.sync
     end
   end
 ```
+
+If `AssetSync.config.run_on_precompile` is `true` (default), then assets will be uploaded to S3 automatically after the `assets:precompile` rake task is invoked:
+
+``` ruby
+  if Rake::Task.task_defined?("assets:precompile:nondigest")
+    Rake::Task["assets:precompile:nondigest"].enhance do
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
+    end
+  else
+    Rake::Task["assets:precompile"].enhance do
+      Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
+    end
+  end
+```
+
+You can disable this behavior by setting `AssetSync.config.run_on_precompile = false`.
 
 ## Sinatra/Rack Support
 

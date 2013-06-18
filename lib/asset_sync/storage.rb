@@ -119,10 +119,16 @@ module AssetSync
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
-        :cache_control => "public, max-age=#{one_year}",
-        :expires => CGI.rfc1123_date(Time.now + one_year),
         :content_type => mime
       }
+
+      if /-[0-9a-fA-F]{32}$/.match(File.basename(f,File.extname(f)))
+        file.merge!({
+          :cache_control => "public, max-age=#{one_year}",
+          :expires => CGI.rfc1123_date(Time.now + one_year)
+        })
+      end
+
       # overwrite headers if applicable, you probably shouldn't specific key/body, but cache-control headers etc.
       if files_with_custom_headers.has_key? f
         file.merge! files_with_custom_headers[f]
