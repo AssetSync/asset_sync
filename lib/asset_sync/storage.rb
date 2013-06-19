@@ -197,7 +197,7 @@ module AssetSync
 
       if self.config.cdn_distribution_id && files_to_invalidate.any?
         log "Invalidating Files"
-        cdn ||= Fog::CDN.new(self.config.fog_options)
+        cdn ||= Fog::CDN.new(self.config.fog_options.except(:region))
         data = cdn.post_invalidation(self.config.cdn_distribution_id, files_to_invalidate)
         log "Invalidation id: #{data.body["Id"]}"
       end
