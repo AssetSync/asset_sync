@@ -62,7 +62,7 @@ module AssetSync
     end
 
     def files_to_invalidate
-      self.config.invalidate.inject([]) { |arr, filename| arr << File.join(self.config.assets_prefix, filename) }
+      self.config.invalidate.inject([]) { |arr, filename| arr << File.join("/", self.config.assets_prefix, filename) }
     end
 
     def get_local_files

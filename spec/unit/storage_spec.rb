@@ -93,7 +93,7 @@ describe AssetSync::Storage do
 
       mock_cdn = mock
       Fog::CDN.should_receive(:new).and_return(mock_cdn)
-      mock_cdn.should_receive(:post_invalidation).with("1234", ["assets/local_image1.jpg"]).and_return(stub({:body => {:id => '1234'}}))
+      mock_cdn.should_receive(:post_invalidation).with("1234", ["/assets/local_image1.jpg"]).and_return(stub({:body => {:id => '1234'}}))
 
       storage.upload_files
     end
