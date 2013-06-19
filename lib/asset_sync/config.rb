@@ -56,6 +56,8 @@ module AssetSync
       self.custom_headers = {}
       self.enabled = true
       self.run_on_precompile = true
+      self.cdn_distribution_id = nil
+      self.invalidate = []
       load_yml! if defined?(Rails) && yml_exists?
     end
 

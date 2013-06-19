@@ -62,7 +62,7 @@ module AssetSync
     end
 
     def files_to_invalidate
-      self.config.invalidate.inject([]) { |filename| File.join(self.config.assets_prefix, filename) }
+      self.config.invalidate.inject([]) { |arr, filename| arr << File.join(self.config.assets_prefix, filename) }
     end
 
     def get_local_files
@@ -195,7 +195,7 @@ module AssetSync
         upload_file f
       end
 
-      if self.config.cdn_distribution_id? && files_to_invalidate.any?
+      if self.config.cdn_distribution_id && files_to_invalidate.any?
         log "Invalidating Files"
         cdn ||= Fog::CDN.new(self.config.fog_options)
         data = cdn.post_invalidation(self.config.cdn_distribution_id, files_to_invalidate)
