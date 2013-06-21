@@ -129,7 +129,11 @@ module AssetSync
       if files_with_custom_headers.has_key? f
         file.merge! files_with_custom_headers[f]
         log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
+      elsif key = files_with_custom_headers.keys.detect {|k| f.match(Regexp.new(k))}
+        file.merge! files_with_custom_headers[key]
+        log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
       end
+
 
       gzipped = "#{path}/#{f}.gz"
       ignore = false

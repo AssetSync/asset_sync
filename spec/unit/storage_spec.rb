@@ -114,6 +114,27 @@ describe AssetSync::Storage do
       storage.upload_file('assets/local_image2.jpg')
     end
 
+    it 'accepts custom headers with a regular expression' do
+      @config.custom_headers = {
+        ".*\.jpg" => {
+          :cache_control => 'max-age=0'
+        }
+      }
+      storage = AssetSync::Storage.new(@config)
+      storage.stub(:local_files).and_return(@local_files)
+      storage.stub(:get_remote_files).and_return(@remote_files)
+      File.stub(:open).and_return('file') # Pretend they all exist
+      bucket = mock
+      files = mock
+      storage.stub(:bucket).and_return(bucket)
+      bucket.stub(:files).and_return(files)
+
+      files.should_receive(:create) do |argument|
+        argument[:cache_control].should == 'max-age=0'
+      end
+      storage.upload_file('assets/some_longer_path/local_image2.jpg')
+    end
+
     after(:each) do
       Object.send(:remove_const, :MIME) if defined?(MIME)
     end
