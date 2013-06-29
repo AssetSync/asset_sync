@@ -126,7 +126,7 @@ Using the **Built-in Initializer** is the default method and is supposed to be u
 
 If you need more control over configuration you will want to use a **custom rails initializer**.
 
-Configuration using a **YAML** file (a common strategy for Capistrano deployments) is also suppored.
+Configuration using a **YAML** file (a common strategy for Capistrano deployments) is also supported.
 
 The recommend way to configure **asset_sync** is by using **environment variables** however it's up to you, it will work fine if you hard code them too. The main reason is that then your access keys are not checked into version control.
 
