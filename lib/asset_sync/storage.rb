@@ -63,12 +63,16 @@ module AssetSync
 
     def get_local_files
       if self.config.manifest
-        if File.exists?(self.config.manifest_path)
-          json = JSON.parse(IO.read(self.config.manifest_path))
+        if ActionView::Base.respond_to?(:assets_manifest)
+          log "Using: Rails 4.0 manifest access"
+          manifest = ActionView::Base.assets_manifest
+          return manifest["assets"].values.map { |f| File.join(self.config.assets_prefix, f) }
+        elsif File.exists?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
-          return json["assets"].values.map { |f| File.join(self.config.assets_prefix, f) }
+          yml = YAML.load(IO.read(self.config.manifest_path))
+          return yml.values.map { |f| File.join(self.config.assets_prefix, f) }
         else
-          log "Warning: manifest.json not found at #{self.config.manifest_path}"
+          log "Warning: Manifest could not be found"
         end
       end
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
