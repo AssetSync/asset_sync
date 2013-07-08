@@ -12,7 +12,7 @@ module AssetSync
     end
 
     def reset_config!
-      remove_instance_variable :@config
+      remove_instance_variable :@config if defined?(@config)
     end
 
     def configure(&proc)
