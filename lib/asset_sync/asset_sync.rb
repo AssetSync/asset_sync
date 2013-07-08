@@ -11,6 +11,10 @@ module AssetSync
       @config
     end
 
+    def reset_config!
+      remove_instance_variable :@config
+    end
+
     def configure(&proc)
       @config ||= Config.new
       yield @config
