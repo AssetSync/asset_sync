@@ -14,6 +14,7 @@ module AssetSyncTest
   class Application < Rails::Application
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
+    config.eager_load = false
     config.assets.enabled = true
     config.assets.version = '1.0'
     config.secret_token = 'bf196b4383deefa4e0120a6ef1d9af1cc45f5c4ebd04405'
