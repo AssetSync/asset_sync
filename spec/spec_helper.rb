@@ -1,11 +1,13 @@
 require 'rubygems'
 require 'bundler'
 
-if RUBY_VERSION != '1.8.7'
+begin
   require 'simplecov'
   SimpleCov.start do
     add_filter 'spec'
   end
+rescue LoadError
+  # SimpleCov ain't available - continue
 end
 
 begin
