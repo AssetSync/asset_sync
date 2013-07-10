@@ -66,7 +66,7 @@ module AssetSync
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
           manifest = ActionView::Base.assets_manifest
-          return manifest["assets"].values.map { |f| File.join(self.config.assets_prefix, f) }
+          return manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
         elsif File.exists?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
