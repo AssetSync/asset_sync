@@ -103,8 +103,8 @@ describe AssetSync::Storage do
       storage.stub(:local_files).and_return(@local_files)
       storage.stub(:get_remote_files).and_return(@remote_files)
       File.stub(:open).and_return('file') # Pretend they all exist
-      bucket = mock
-      files = mock
+      bucket = double
+      files = double
       storage.stub(:bucket).and_return(bucket)
       bucket.stub(:files).and_return(files)
 
