@@ -1,11 +1,13 @@
 require 'rubygems'
 require 'bundler'
 
-if RUBY_VERSION != '1.8.7'
+begin
   require 'simplecov'
   SimpleCov.start do
     add_filter 'spec'
   end
+rescue LoadError
+  # SimpleCov ain't available - continue
 end
 
 begin
@@ -30,7 +32,7 @@ shared_context "mock without Rails" do
     if defined? Rails
       Object.send(:remove_const, :Rails)
     end
-    AssetSync.stub!(:log)
+    AssetSync.stub(:log)
   end
 end
 
@@ -38,14 +40,14 @@ end
 shared_context "mock Rails" do
   before(:each) do
     unless defined? Rails
-      Rails = mock 'Rails'
+      Rails = double 'Rails'
     end
     Rails.stub(:env).and_return('test')
-    Rails.stub :application => mock('application')
-    Rails.application.stub :config => mock('config')
+    Rails.stub :application => double('application')
+    Rails.application.stub :config => double('config')
     Rails.application.config.stub :assets => ActiveSupport::OrderedOptions.new
     Rails.application.config.assets.prefix = '/assets'
-    AssetSync.stub!(:log)
+    AssetSync.stub(:log)
   end
 end
 
