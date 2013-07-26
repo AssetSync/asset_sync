@@ -61,6 +61,14 @@ describe AssetSync do
     it "should default manifest to false" do
       AssetSync.config.manifest.should be_false
     end
+
+    it "should default cdn_distribution_id to nil" do
+      AssetSync.config.cdn_distribution_id.should be_nil
+    end
+
+    it "should default invalidate to empty array" do
+      AssetSync.config.invalidate.should == []
+    end
   end
 
   describe 'from yml' do

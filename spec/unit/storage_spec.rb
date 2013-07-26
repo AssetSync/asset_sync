@@ -80,6 +80,23 @@ describe AssetSync::Storage do
       storage.stub_chain(:bucket, :files).and_return(files)
       storage.upload_files
     end
+
+    it "shoud invalidate files" do
+      @config.cdn_distribution_id = "1234"
+      @config.invalidate = ['local_image1.jpg']
+      @config.fog_provider = 'AWS'
+
+      storage = AssetSync::Storage.new(@config)
+      storage.stub(:local_files).and_return(@local_files)
+      storage.stub(:get_remote_files).and_return(@remote_files)
+      storage.stub(:upload_file).and_return(true)
+
+      mock_cdn = mock
+      Fog::CDN.should_receive(:new).and_return(mock_cdn)
+      mock_cdn.should_receive(:post_invalidation).with("1234", ["/assets/local_image1.jpg"]).and_return(stub({:body => {:id => '1234'}}))
+
+      storage.upload_files
+    end
   end
 
   describe '#upload_file' do
