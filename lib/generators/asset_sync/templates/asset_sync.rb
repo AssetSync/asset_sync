@@ -19,6 +19,10 @@ AssetSync.configure do |config|
   <%- end -%>
   config.fog_directory = ENV['FOG_DIRECTORY']
 
+  # Invalidate a file on a cdn after uploading files
+  # config.cdn_distribution_id = "12345"
+  # config.invalidate = ['file1.js']
+
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
