@@ -301,7 +301,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 
 #### Rackspace (Optional)
 
-* **rackspace\_auth\_url**: Rackspace auth URL, for Rackspace London use: lon.auth.api.rackspacecloud.com
+* **rackspace\_auth\_url**: Rackspace auth URL, for Rackspace London use: `https://lon.identity.api.rackspacecloud.com/v2.0`
 
 ## Amazon S3 Multiple Region Support
 

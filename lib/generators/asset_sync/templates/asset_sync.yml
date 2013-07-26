@@ -14,7 +14,7 @@ defaults: &defaults
   rackspace_username: "<%= rackspace_username %>"
   rackspace_api_key: "<%= rackspace_api_key %>"
   # if you need to change rackspace_auth_url (e.g. if you need to use Rackspace London)
-  # rackspace_auth_url: "lon.auth.api.rackspacecloud.com"
+  # rackspace_auth_url: "https://lon.identity.api.rackspacecloud.com/v2.0"
   <%- end -%>
   fog_directory: "<%= app_name %>-assets"
   # You may need to specify what region your storage bucket is in
