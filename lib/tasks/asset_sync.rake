@@ -1,4 +1,5 @@
 namespace :assets do
+
   desc 'Synchronize assets to remote (assumes assets are already compiled)'
   task :sync => :environment do
     AssetSync.sync
@@ -9,6 +10,7 @@ namespace :assets do
       AssetSync.clean
     end
   end
+
 end
 
 if Rake::Task.task_defined?("assets:precompile:nondigest")

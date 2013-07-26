@@ -82,6 +82,7 @@ describe AssetSync::Storage do
       storage.upload_files
     end
 
+
     it 'should correctly set expire date' do
       local_files = ['file1.jpg', 'file1-1234567890abcdef1234567890abcdef.jpg']
       local_files += ['dir1/dir2/file2.jpg', 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg']
@@ -135,8 +136,10 @@ describe AssetSync::Storage do
       storage.stub(:local_files).and_return(@local_files)
       storage.stub(:get_remote_files).and_return(@remote_files)
       File.stub(:open).and_return('file') # Pretend they all exist
+
       bucket = double
       files = double
+
       storage.stub(:bucket).and_return(bucket)
       bucket.stub(:files).and_return(files)
 

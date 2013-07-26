@@ -72,7 +72,15 @@ module AssetSync
         elsif File.exists?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
-          return yml.values.map { |f| File.join(self.config.assets_prefix, f) }
+   
+          return yml.map do |original, compiled|
+            # Upload font originals and compiled
+            if original =~ /^.+(eot|svg|ttf|woff)$/
+              [original, compiled]
+            else
+              compiled
+            end
+          end.flatten.map { |f| File.join(self.config.assets_prefix, f) }.uniq!
         else
           log "Warning: Manifest could not be found"
         end

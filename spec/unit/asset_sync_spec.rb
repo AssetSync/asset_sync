@@ -179,7 +179,7 @@ describe AssetSync do
     end
 
     it "should not raise an invalid exception" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      lambda{ AssetSync.sync }.should_not raise_error(AssetSync::Config::Invalid)
     end
   end
 
