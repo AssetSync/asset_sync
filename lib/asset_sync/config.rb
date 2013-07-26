@@ -153,6 +153,8 @@ module AssetSync
       self.aws_secret_access_key  = yml["secret_access_key"] if yml.has_key?("secret_access_key")
       self.fog_directory          = yml["bucket"] if yml.has_key?("bucket")
       self.fog_region             = yml["region"] if yml.has_key?("region")
+
+      self.public_path            = yml["public_path"] if yml.has_key?("public_path")
     end
 
 
