@@ -24,6 +24,9 @@ module AssetSync
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
+    attr_accessor :fog_connection_options
+    attr_accessor :fog_scheme
+    attr_accessor :fog_port
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
@@ -172,6 +175,10 @@ module AssetSync
 
     def fog_options
       options = { :provider => fog_provider }
+      options.merge!({ scheme: fog_scheme }) if fog_scheme.present?
+      options.merge!({ port: fog_port }) if fog_port.present?
+      options.merge!({ connection_options: fog_connection_options }) if fog_connection_options.present?
+
       if aws?
         options.merge!({
           :aws_access_key_id => aws_access_key_id,
