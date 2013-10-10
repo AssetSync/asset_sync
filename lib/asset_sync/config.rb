@@ -27,7 +27,7 @@ module AssetSync
     attr_accessor :fog_connection_options
     attr_accessor :fog_scheme
     attr_accessor :fog_port
-    attr_accessor :fog_enpoint
+    attr_accessor :fog_endpoint
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
