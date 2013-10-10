@@ -178,7 +178,7 @@ module AssetSync
       options = { :provider => fog_provider }
       options.merge!({ scheme: fog_scheme }) if fog_scheme.present?
       options.merge!({ port: fog_port }) if fog_port.present?
-      options.merge!({ endpoint: endpoint }) if endpoint.present?
+      options.merge!({ endpoint: fog_endpoint }) if fog_endpoint.present?
       options.merge!({ connection_options: fog_connection_options }) if fog_connection_options.present?
 
       if aws?
