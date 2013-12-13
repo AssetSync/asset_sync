@@ -114,7 +114,7 @@ module AssetSync
     end
 
     def path_style?
-      fog_directory.include?('.')
+      fog_directory && fog_directory.include?('.')
     end
 
     def yml
