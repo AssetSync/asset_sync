@@ -11,41 +11,6 @@ This was initially built and is intended to work on [Heroku](http://heroku.com)
 
 If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All of the references to config variables have changed to reference those used in **Fog**. Ensure to backup your `asset\_sync.rb` or `asset\_sync.yml` files and re-run the generator. You may also then need to update your ENV configuration variables (or you can change the ones that are referenced).
 
-## KNOWN ISSUES (IMPORTANT)
-
-We are currently trying to talk with Heroku to iron these out.
-
-1. Will not work on heroku on an application with a *RAILS_ENV* configured as anything other than production
-2. Will not work on heroku using ENV variables with the configuration as described below, you must hardcode all variables
-
-### 1. RAILS_ENV
-
-When you see `rake assets:precompile` during deployment. Heroku is actually running something like
-
-    env RAILS_ENV=production DATABASE_URL=scheme://user:pass@127.0.0.1/dbname bundle exec rake assets:precompile 2>&1
-
-This means the *RAILS_ENV* you have set via *heroku:config* is not used.
-
-**Workaround:** you could have just one S3 bucket dedicated to assets and ensure to set keep the existing remote files
-
-    AssetSync.configure do |config|
-      ...
-      config.fog_directory = 'app-assets'
-      config.existing_remote_files = "keep"
-    end
-
-### 2. ENV varables not available
-
-Currently when heroku runs `rake assets:precompile` during deployment. It does not load your Rails application's environment config. This means using any **ENV** variables you could normally depend on are not available. For now you can just run `heroku run rake assets:precompile` after deploy.
-
-**Workaround:** you could just hardcode your AWS credentials in the initializer or yml
-
-    AssetSync.configure do |config|
-      config.aws_access_key_id = 'xxx'
-      config.aws_secret_access_key = 'xxx'
-      config.fog_directory = 'mybucket'
-    end
-
 ## Installation
 
 Add the gem to your Gemfile
@@ -146,13 +111,7 @@ If you used the `--use-yml` flag, the generator will create a YAML file at `conf
 
 ### Environment Variables
 
-Add your Amazon S3 configuration details to **heroku**
-
-    heroku config:add AWS_ACCESS_KEY_ID=xxxx
-    heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
-    heroku config:add FOG_DIRECTORY=xxxx
-
-Or add to a traditional unix system
+Add to a traditional unix system
 
     export AWS_ACCESS_KEY_ID=xxxx
     export AWS_SECRET_ACCESS_KEY=xxxx
@@ -204,12 +163,6 @@ Or via the initializer
 With the `gzip_compression` option enabled, when uploading your assets. If a file has a gzip compressed equivalent we will replace that asset with the compressed version and sets the correct headers for S3 to serve it. For example, if you have a file **master.css** and it was compressed to **master.css.gz** we will upload the **.gz** file to S3 in place of the uncompressed file.
 
 If the compressed file is actually larger than the uncompressed file we will ignore this rule and upload the standard uncompressed version.
-
-## Heroku
-
-With Rails 3.1 on the Heroku cedar stack, the deployment process automatically runs `rake assets:precompile`.  Due to the methods with which Heroku compile slugs, there will be an error raised by asset_sync as the environment is not available.
-
-To prevent this part of the deploy from failing, but carry on as normal set `fail_silently` to true in your configuration.
 
 ## Rake Task
 
