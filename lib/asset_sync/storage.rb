@@ -76,7 +76,7 @@ module AssetSync
         elsif File.exists?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
-   
+
           return yml.map do |original, compiled|
             # Upload font originals and compiled
             if original =~ /^.+(eot|svg|ttf|woff)$/
@@ -130,7 +130,7 @@ module AssetSync
       ext = File.extname(f)[1..-1]
       mime = MultiMime.lookup(ext)
       file = {
-        :key => f,
+        :key => "#{self.config.fog_key_prefix}#{f}",
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :content_type => mime
@@ -173,7 +173,7 @@ module AssetSync
         if gzipped_size < original_size
           percentage = ((gzipped_size.to_f/original_size.to_f)*100).round(2)
           file.merge!({
-                        :key => f,
+                        :key => "#{self.config.fog_key_prefix}#{f}",
                         :body => File.open(gzipped),
                         :content_encoding => 'gzip'
                       })

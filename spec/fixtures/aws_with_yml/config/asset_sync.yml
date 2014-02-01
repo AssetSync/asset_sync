@@ -1,5 +1,6 @@
 defaults: &defaults
   fog_provider: "AWS"
+  fog_key_prefix: "testing/"
   aws_access_key_id: "xxxx"
   aws_secret_access_key: "zzzz"
   region: "eu-west-1"

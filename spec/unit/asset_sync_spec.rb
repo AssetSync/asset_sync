@@ -12,6 +12,7 @@ describe AssetSync do
         config.aws_secret_access_key = 'bbbb'
         config.fog_directory = 'mybucket'
         config.fog_region = 'eu-west-1'
+        config.fog_key_prefix = "testing/"
         config.existing_remote_files = "keep"
       end
     end
@@ -73,6 +74,10 @@ describe AssetSync do
     it "should default invalidate to empty array" do
       expect(AssetSync.config.invalidate).to eq([])
     end
+
+    it "should configure fog_key_prefix" do
+      AssetSync.config.fog_key_prefix.should == "testing/"
+    end
   end
 
   describe 'from yml' do
@@ -116,6 +121,10 @@ describe AssetSync do
 
     it "should default manifest to false" do
       expect(AssetSync.config.manifest).to be_falsey
+    end
+
+    it "should configure fog_key_prefix" do
+      AssetSync.config.fog_key_prefix.should == "testing/"
     end
   end
 

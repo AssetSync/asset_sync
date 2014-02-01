@@ -24,6 +24,7 @@ module AssetSync
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
+    attr_accessor :fog_key_prefix        # e.g. "#{`git rev-parse HEAD`}/" #=> 'a07c48f14aa4f9abad3f21d9aa63b2d58a1584bf/'
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles
@@ -139,6 +140,7 @@ module AssetSync
       self.fog_provider           = yml["fog_provider"]
       self.fog_directory          = yml["fog_directory"]
       self.fog_region             = yml["fog_region"]
+      self.fog_key_prefix         = yml['fog_key_prefix'] if yml.has_key?("fog_key_prefix")
       self.aws_access_key_id      = yml["aws_access_key_id"]
       self.aws_secret_access_key  = yml["aws_secret_access_key"]
       self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
