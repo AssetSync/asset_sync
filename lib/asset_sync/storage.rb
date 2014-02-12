@@ -203,7 +203,7 @@ module AssetSync
         })
       end
 
-      if ENV['AWS_SERVER_SIDE_ENCRYPTION']
+      if ENV['AWS_SERVER_SIDE_ENCRYPTION'] or ENV['PROD_S3_SERVER_SIDE_ENCRYPTION']
         file[:encryption] = 'AES256'
       end
 
