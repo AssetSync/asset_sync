@@ -199,6 +199,9 @@ AssetSync.configure do |config|
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
+  # Set fog_public to false if you prefer to use bucket policies instead of ACLs
+  # config.fog_public = true
+  #
   # Automatically replace files with their equivalent gzip compressed version
   # config.gzip_compression = true
   #
@@ -228,6 +231,8 @@ defaults: &defaults
   aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
+  # Set fog_public to false if you prefer to use bucket policies instead of ACLs
+  # fog_public: true
   existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
   # To delete existing remote files.
   # existing_remote_files: delete
@@ -284,6 +289,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 #### Fog (Optional)
 
 * **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+* **fog\_public**: (`true, false`) when true, sets the public ACL on files during upload. **default:** `'true'`
 
 #### AWS
 

@@ -26,6 +26,9 @@ AssetSync.configure do |config|
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
+  # Set fog_public to false if you prefer to use bucket policies instead of ACLs
+  # config.fog_public = true
+  #
   # Don't delete files from the store
   # config.existing_remote_files = "keep"
   #
