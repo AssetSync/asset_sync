@@ -26,7 +26,7 @@ module AssetSync
     attr_accessor :fog_region            # e.g. 'eu-west-1'
 
     # Amazon AWS
-    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_role
+    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles
 
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
@@ -86,7 +86,7 @@ module AssetSync
     end
 
     def aws_iam?
-      aws_iam_role == true
+      aws_iam_roles == true
     end
 
     def fail_silently?
@@ -142,7 +142,7 @@ module AssetSync
       self.aws_access_key_id      = yml["aws_access_key_id"]
       self.aws_secret_access_key  = yml["aws_secret_access_key"]
       self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
-      self.aws_iam_role           = yml["aws_iam_role"]
+      self.aws_iam_roles          = yml["aws_iam_roles"]
       self.rackspace_username     = yml["rackspace_username"]
       self.rackspace_auth_url     = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
       self.rackspace_api_key      = yml["rackspace_api_key"]
