@@ -31,25 +31,6 @@ Add the gem to your Gemfile
 ``` ruby
 gem 'asset_sync'
 ```
-
-If you want, you can put it within your **:assets** group in your Gemfile.
-
-``` ruby
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'asset_sync'
-end
-```
-
-This is good practice when pre-compiling your assets as it will reduce load time and server memory in production. The only caveat being, you may not be able to use a custom initializer, without perhaps wrapping it with.
-
-``` ruby
-if defined?(AssetSync)
-...
-end
-```
 ### Extended Installation (Faster sync with turbosprockets)
 
 It's possible to improve **asset:precompile** time if you are using Rails 3.2.x
