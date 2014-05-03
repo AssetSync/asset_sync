@@ -24,6 +24,7 @@ module AssetSync
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
+    attr_accessor :fog_additional_options
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
@@ -196,6 +197,7 @@ module AssetSync
       end
 
       options.merge!({:region => fog_region}) if fog_region && !rackspace?
+      options.merge! fog_additional_options || {}
       return options
     end
 
