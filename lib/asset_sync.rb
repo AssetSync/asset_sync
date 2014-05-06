@@ -1,4 +1,4 @@
-require 'fog'
+require 'fog' unless defined?(::Fog)
 require 'active_model'
 require 'erb'
 require "asset_sync/asset_sync"
