@@ -4,6 +4,7 @@ defaults: &defaults
   aws_secret_access_key: "zzzz"
   region: "eu-west-1"
   run_on_precompile: false
+  fog_path_style: true
 
 development:
   <<: *defaults
