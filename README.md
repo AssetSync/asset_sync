@@ -59,14 +59,8 @@ you need to load those parts of Fog yourself *before* loading AssetSync:
 
 In your Gemfile:
 ```ruby
-gem "asset_sync", require: false
-gem "fog", "~> 1.20", require: false
-```
-
-And in an initializer:
-```ruby
-require 'fog/aws/storage'
-require 'asset_sync'
+gem "fog", "~>1.20", require "fog/aws/storage"
+gem "asset_sync"
 ```
 
 ### Extended Installation (Faster sync with turbosprockets)
