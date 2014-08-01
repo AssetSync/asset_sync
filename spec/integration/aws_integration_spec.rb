@@ -43,7 +43,6 @@ describe "AssetSync" do
 
   it "sync" do
     execute "rake ASSET_SYNC_PREFIX=#{@prefix} assets:precompile"
-    # bucket(@prefix).files.size.should == 5
 
     files = bucket(@prefix).files
 
