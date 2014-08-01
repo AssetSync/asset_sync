@@ -17,12 +17,12 @@ describe AssetSync do
     end
 
     it "should default to running on precompile" do
-      AssetSync.config.run_on_precompile.should be_true
+      AssetSync.config.run_on_precompile.should be_truthy
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+      AssetSync.config.enabled?.should be_truthy
+      AssetSync.enabled?.should be_truthy
     end
 
     it "should configure provider as AWS" do
@@ -55,15 +55,15 @@ describe AssetSync do
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      AssetSync.config.gzip_compression.should be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      AssetSync.config.manifest.should be_falsey
     end
 
     it "should default log_silently to true" do
-      AssetSync.config.log_silently.should be_true
+      AssetSync.config.log_silently.should be_truthy
     end
 
     it "should default cdn_distribution_id to nil" do
@@ -82,12 +82,12 @@ describe AssetSync do
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+      AssetSync.config.enabled?.should be_truthy
+      AssetSync.enabled?.should be_truthy
     end
 
     it "should configure run_on_precompile" do
-      AssetSync.config.run_on_precompile.should be_false
+      AssetSync.config.run_on_precompile.should be_falsey
     end
 
     it "should configure aws_access_key_id" do
@@ -111,11 +111,11 @@ describe AssetSync do
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      AssetSync.config.gzip_compression.should be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      AssetSync.config.manifest.should be_falsey
     end
   end
 
@@ -198,7 +198,7 @@ describe AssetSync do
     end
 
     it "config.gzip? should be true" do
-      AssetSync.config.gzip?.should be_true
+      AssetSync.config.gzip?.should be_truthy
     end
   end
 
@@ -209,7 +209,7 @@ describe AssetSync do
     end
 
     it "config.manifest should be true" do
-      AssetSync.config.manifest.should be_true
+      AssetSync.config.manifest.should be_truthy
     end
 
     it "config.manifest_path should default to public/assets.." do
@@ -235,7 +235,7 @@ describe AssetSync do
     end
 
     it "config should be invalid" do
-      AssetSync.config.valid?.should be_false
+      AssetSync.config.valid?.should be_falsey
     end
 
     it "should raise a config invalid error" do

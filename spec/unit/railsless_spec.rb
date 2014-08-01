@@ -27,8 +27,8 @@ describe AssetSync do
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+      AssetSync.config.enabled?.should be_truthy
+      AssetSync.enabled?.should be_truthy
     end
 
     it "should configure provider as AWS" do
@@ -61,11 +61,11 @@ describe AssetSync do
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      AssetSync.config.gzip_compression.should be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      AssetSync.config.manifest.should be_falsey
     end
 
   end

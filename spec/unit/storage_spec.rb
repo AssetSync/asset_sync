@@ -124,9 +124,11 @@ describe AssetSync::Storage do
       storage.stub(:get_remote_files).and_return(@remote_files)
       storage.stub(:upload_file).and_return(true)
 
-      mock_cdn = mock
+      mock_cdn = double
+      body = double(body: {id: '1234'})
       Fog::CDN.should_receive(:new).and_return(mock_cdn)
-      mock_cdn.should_receive(:post_invalidation).with("1234", ["/assets/local_image1.jpg"]).and_return(stub({:body => {:id => '1234'}}))
+      puts 
+      mock_cdn.should_receive(:post_invalidation).with("1234", ["/assets/local_image1.jpg"]).and_return(body)
 
       storage.upload_files
     end
@@ -136,7 +138,7 @@ describe AssetSync::Storage do
     before(:each) do
       # Object#remove_const does not remove the loaded
       # file from the $" variable
-      Object.send(:remove_const, :MIME) if defined?(MIME)
+      #Object.send(:remove_const, :MIME) if defined?(MIME)
       mime_types = $".grep(/mime\/types/).first
       $".delete(mime_types)
       require 'mime/types'
@@ -176,8 +178,8 @@ describe AssetSync::Storage do
       storage.stub(:local_files).and_return(@local_files)
       storage.stub(:get_remote_files).and_return(@remote_files)
       File.stub(:open).and_return('file') # Pretend they all exist
-      bucket = mock
-      files = mock
+      bucket = double
+      files = double
       storage.stub(:bucket).and_return(bucket)
       bucket.stub(:files).and_return(files)
 
@@ -188,7 +190,7 @@ describe AssetSync::Storage do
     end
 
     after(:each) do
-      Object.send(:remove_const, :MIME) if defined?(MIME)
+      #Object.send(:remove_const, :MIME) if defined?(MIME)
     end
   end
 end

@@ -51,7 +51,7 @@ describe AssetSync do
     end
 
     it "should default rackspace_auth_url to false" do
-      AssetSync.config.rackspace_auth_url.should be_false
+      AssetSync.config.rackspace_auth_url.should be_falsey
     end
 
   end

@@ -41,11 +41,11 @@ describe AssetSync do
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      AssetSync.config.gzip_compression.should be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      AssetSync.config.manifest.should be_falsey
     end
   end
 
@@ -72,11 +72,11 @@ describe AssetSync do
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      AssetSync.config.gzip_compression.should be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      AssetSync.config.manifest.should be_falsey
     end
   end
 
@@ -111,7 +111,7 @@ describe AssetSync do
     end
 
     it "config.gzip? should be true" do
-      AssetSync.config.gzip?.should be_true
+      AssetSync.config.gzip?.should be_truthy
     end
   end
 
@@ -122,7 +122,7 @@ describe AssetSync do
     end
 
     it "config.manifest should be true" do
-      AssetSync.config.manifest.should be_true
+      AssetSync.config.manifest.should be_truthy
     end
 
     it "config.manifest_path should default to public/assets.." do
