@@ -39,6 +39,7 @@ end
 
 shared_context "mock Rails" do
   before(:each) do
+    Object.send(:remove_const, :Rails) if defined? Rails
     Rails = double 'Rails'
     Rails.stub(:env).and_return('test')
     Rails.stub :application => double('application')
