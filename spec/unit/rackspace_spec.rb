@@ -18,40 +18,40 @@ describe AssetSync do
     end
 
     it "should configure provider as Rackspace" do
-      AssetSync.config.fog_provider.should == 'Rackspace'
-      AssetSync.config.should be_rackspace
+      expect(AssetSync.config.fog_provider).to eq('Rackspace')
+      expect(AssetSync.config).to be_rackspace
     end
 
     it "should keep existing remote files" do
-      AssetSync.config.existing_remote_files?.should == true
+      expect(AssetSync.config.existing_remote_files?).to eq(true)
     end
 
     it "should configure rackspace_username" do
-      AssetSync.config.rackspace_username.should == "aaaa"
+      expect(AssetSync.config.rackspace_username).to eq("aaaa")
     end
 
     it "should configure rackspace_api_key" do
-      AssetSync.config.rackspace_api_key.should == "bbbb"
+      expect(AssetSync.config.rackspace_api_key).to eq("bbbb")
     end
 
     it "should configure fog_directory" do
-      AssetSync.config.fog_directory.should == "mybucket"
+      expect(AssetSync.config.fog_directory).to eq("mybucket")
     end
 
     it "should configure fog_region" do
-      AssetSync.config.fog_region.should == "dunno"
+      expect(AssetSync.config.fog_region).to eq("dunno")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default rackspace_auth_url to false" do
-      AssetSync.config.rackspace_auth_url.should be_false
+      expect(AssetSync.config.rackspace_auth_url).to be_falsey
     end
 
   end
@@ -64,27 +64,27 @@ describe AssetSync do
     end
 
     it "should keep existing remote files" do
-      AssetSync.config.existing_remote_files?.should == true
+      expect(AssetSync.config.existing_remote_files?).to eq(true)
     end
 
     it "should configure rackspace_username" do
-      AssetSync.config.rackspace_username.should == "xxxx"
+      expect(AssetSync.config.rackspace_username).to eq("xxxx")
     end
 
     it "should configure rackspace_api_key" do
-      AssetSync.config.rackspace_api_key.should == "zzzz"
+      expect(AssetSync.config.rackspace_api_key).to eq("zzzz")
     end
 
     it "should configure fog_directory" do
-      AssetSync.config.fog_directory.should == "rails_app_test"
+      expect(AssetSync.config.fog_directory).to eq("rails_app_test")
     end
 
     it "should configure fog_region" do
-      AssetSync.config.fog_region.should == "eu-west-1"
+      expect(AssetSync.config.fog_region).to eq("eu-west-1")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
   end
 end

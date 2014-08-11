@@ -3,7 +3,7 @@ rvm:
   - 1.9.2
   - 1.9.3
   - jruby-19mode
-  - rbx
+  - rbx-2
   - ruby-head
   - jruby-head
 gemfile:
@@ -23,14 +23,19 @@ matrix:
       gemfile: gemfiles/rails_4.0.gemfile
     - rvm: jruby-19mode
       gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: rbx
+    - rvm: rbx-2
       gemfile: gemfiles/rails_4.0.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_3.2.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_4.0.gemfile
+    - rvm: 2.1.2
+      gemfile: gemfiles/rails_4.1.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_4.1.gemfile
+    - rvm: 2.1.2
+      gemfile: gemfiles/rails_4.1.gemfile
   allow_failures:
+    - rvm: rbx-2
     - rvm: ruby-head
     - rvm: jruby-head

@@ -17,61 +17,61 @@ describe AssetSync do
     end
 
     it "should default to running on precompile" do
-      AssetSync.config.run_on_precompile.should be_true
+      expect(AssetSync.config.run_on_precompile).to be_truthy
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+      expect(AssetSync.config.enabled?).to be_truthy
+      expect(AssetSync.enabled?).to be_truthy
     end
 
     it "should configure provider as AWS" do
-      AssetSync.config.fog_provider.should == 'AWS'
-      AssetSync.config.should be_aws
+      expect(AssetSync.config.fog_provider).to eq('AWS')
+      expect(AssetSync.config).to be_aws
     end
 
     it "should should keep existing remote files" do
-      AssetSync.config.existing_remote_files?.should == true
+      expect(AssetSync.config.existing_remote_files?).to eq(true)
     end
 
     it "should configure aws_access_key" do
-      AssetSync.config.aws_access_key_id.should == "aaaa"
+      expect(AssetSync.config.aws_access_key_id).to eq("aaaa")
     end
 
     it "should configure aws_secret_access_key" do
-      AssetSync.config.aws_secret_access_key.should == "bbbb"
+      expect(AssetSync.config.aws_secret_access_key).to eq("bbbb")
     end
 
     it "should configure aws_access_key" do
-      AssetSync.config.fog_directory.should == "mybucket"
+      expect(AssetSync.config.fog_directory).to eq("mybucket")
     end
 
     it "should configure fog_region" do
-      AssetSync.config.fog_region.should == "eu-west-1"
+      expect(AssetSync.config.fog_region).to eq("eu-west-1")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      expect(AssetSync.config.gzip_compression).to be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      expect(AssetSync.config.manifest).to be_falsey
     end
 
     it "should default log_silently to true" do
-      AssetSync.config.log_silently.should be_true
+      expect(AssetSync.config.log_silently).to be_truthy
     end
 
     it "should default cdn_distribution_id to nil" do
-      AssetSync.config.cdn_distribution_id.should be_nil
+      expect(AssetSync.config.cdn_distribution_id).to be_nil
     end
 
     it "should default invalidate to empty array" do
-      AssetSync.config.invalidate.should == []
+      expect(AssetSync.config.invalidate).to eq([])
     end
   end
 
@@ -82,40 +82,40 @@ describe AssetSync do
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_true
-      AssetSync.enabled?.should be_true
+      expect(AssetSync.config.enabled?).to be_truthy
+      expect(AssetSync.enabled?).to be_truthy
     end
 
     it "should configure run_on_precompile" do
-      AssetSync.config.run_on_precompile.should be_false
+      expect(AssetSync.config.run_on_precompile).to be_falsey
     end
 
     it "should configure aws_access_key_id" do
-      AssetSync.config.aws_access_key_id.should == "xxxx"
+      expect(AssetSync.config.aws_access_key_id).to eq("xxxx")
     end
 
     it "should configure aws_secret_access_key" do
-      AssetSync.config.aws_secret_access_key.should == "zzzz"
+      expect(AssetSync.config.aws_secret_access_key).to eq("zzzz")
     end
 
     it "should configure fog_directory" do
-      AssetSync.config.fog_directory.should == "rails_app_test"
+      expect(AssetSync.config.fog_directory).to eq("rails_app_test")
     end
 
     it "should configure fog_region" do
-      AssetSync.config.fog_region.should == "eu-west-1"
+      expect(AssetSync.config.fog_region).to eq("eu-west-1")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_false
+      expect(AssetSync.config.gzip_compression).to be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_false
+      expect(AssetSync.config.manifest).to be_falsey
     end
   end
 
@@ -160,7 +160,7 @@ describe AssetSync do
 
   describe 'with fail_silent configuration' do
     before(:each) do
-      AssetSync.stub(:stderr).and_return(@stderr = StringIO.new)
+      allow(AssetSync).to receive(:stderr).and_return(@stderr = StringIO.new)
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fail_silently = true
@@ -173,13 +173,13 @@ describe AssetSync do
 
     it "should output a warning to stderr" do
       AssetSync.sync
-      @stderr.string.should =~ /can't be blank/
+      expect(@stderr.string).to match(/can't be blank/)
     end
   end
 
   describe 'with disabled config' do
     before(:each) do
-      AssetSync.stub(:stderr).and_return(@stderr = StringIO.new)
+      allow(AssetSync).to receive(:stderr).and_return(@stderr = StringIO.new)
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.enabled = false
@@ -187,7 +187,7 @@ describe AssetSync do
     end
 
     it "should not raise an invalid exception" do
-      lambda{ AssetSync.sync }.should_not raise_error()
+      expect{ AssetSync.sync }.not_to raise_error()
     end
   end
 
@@ -198,7 +198,7 @@ describe AssetSync do
     end
 
     it "config.gzip? should be true" do
-      AssetSync.config.gzip?.should be_true
+      expect(AssetSync.config.gzip?).to be_truthy
     end
   end
 
@@ -209,21 +209,21 @@ describe AssetSync do
     end
 
     it "config.manifest should be true" do
-      AssetSync.config.manifest.should be_true
+      expect(AssetSync.config.manifest).to be_truthy
     end
 
     it "config.manifest_path should default to public/assets.." do
-      AssetSync.config.manifest_path.should =~ /public\/assets\/manifest.yml/
+      expect(AssetSync.config.manifest_path).to match(/public\/assets\/manifest.yml/)
     end
 
     it "config.manifest_path should default to public/assets.." do
       Rails.application.config.assets.manifest = "/var/assets"
-      AssetSync.config.manifest_path.should == "/var/assets/manifest.yml"
+      expect(AssetSync.config.manifest_path).to eq("/var/assets/manifest.yml")
     end
 
     it "config.manifest_path should default to public/custom_assets.." do
       Rails.application.config.assets.prefix = 'custom_assets'
-      AssetSync.config.manifest_path.should =~ /public\/custom_assets\/manifest.yml/
+      expect(AssetSync.config.manifest_path).to match(/public\/custom_assets\/manifest.yml/)
     end
   end
 
@@ -235,7 +235,7 @@ describe AssetSync do
     end
 
     it "config should be invalid" do
-      AssetSync.config.valid?.should be_false
+      expect(AssetSync.config.valid?).to be_falsey
     end
 
     it "should raise a config invalid error" do

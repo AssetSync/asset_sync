@@ -51,16 +51,16 @@ describe "AssetSync" do
     app_js_gz_path = files.select{ |f| f.key =~ app_js_gz_regex }.first
 
     app_js = files.get( app_js_path.key )
-    app_js.content_type.should == "text/javascript"
+    expect(app_js.content_type).to eq("text/javascript")
 
     app_js_gz = files.get( app_js_gz_path.key )
-    app_js_gz.content_type.should == "text/javascript"
-    app_js_gz.content_encoding.should == "gzip"
+    expect(app_js_gz.content_type).to eq("text/javascript")
+    expect(app_js_gz.content_encoding).to eq("gzip")
   end
 
   it "sync with enabled=false" do
     execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_ENABLED=false assets:precompile"
-    bucket(@prefix).files.size.should == 0
+    expect(bucket(@prefix).files.size).to eq(0)
   end
 
   it "sync with gzip_compression=true" do
@@ -69,7 +69,7 @@ describe "AssetSync" do
 
     app_js_path = files.select{ |f| f.key =~ app_js_regex }.first
     app_js = files.get( app_js_path.key )
-    app_js.content_type.should == "text/javascript"
+    expect(app_js.content_type).to eq("text/javascript")
   end
 
 end
