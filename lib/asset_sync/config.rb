@@ -26,7 +26,7 @@ module AssetSync
     attr_accessor :fog_region            # e.g. 'eu-west-1'
 
     # Amazon AWS
-    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy
+    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles
 
     # Rackspace
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
@@ -39,8 +39,8 @@ module AssetSync
     validates :fog_provider,          :presence => true
     validates :fog_directory,         :presence => true
 
-    validates :aws_access_key_id,     :presence => true, :if => :aws?
-    validates :aws_secret_access_key, :presence => true, :if => :aws?
+    validates :aws_access_key_id,     :presence => true, :if => proc {aws? && !aws_iam?}
+    validates :aws_secret_access_key, :presence => true, :if => proc {aws? && !aws_iam?}
     validates :rackspace_username,    :presence => true, :if => :rackspace?
     validates :rackspace_api_key,     :presence => true, :if => :rackspace?
     validates :google_storage_secret_access_key,  :presence => true, :if => :google?
@@ -83,6 +83,10 @@ module AssetSync
 
     def aws_rrs?
       aws_reduced_redundancy == true
+    end
+
+    def aws_iam?
+      aws_iam_roles == true
     end
 
     def fail_silently?
@@ -138,6 +142,7 @@ module AssetSync
       self.aws_access_key_id      = yml["aws_access_key_id"]
       self.aws_secret_access_key  = yml["aws_secret_access_key"]
       self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
+      self.aws_iam_roles          = yml["aws_iam_roles"]
       self.rackspace_username     = yml["rackspace_username"]
       self.rackspace_auth_url     = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
       self.rackspace_api_key      = yml["rackspace_api_key"]
@@ -173,10 +178,16 @@ module AssetSync
     def fog_options
       options = { :provider => fog_provider }
       if aws?
-        options.merge!({
-          :aws_access_key_id => aws_access_key_id,
-          :aws_secret_access_key => aws_secret_access_key
-        })
+        if aws_iam?
+          options.merge!({
+            :use_iam_profile => true
+          })
+        else
+          options.merge!({
+            :aws_access_key_id => aws_access_key_id,
+            :aws_secret_access_key => aws_secret_access_key
+          })
+        end
       elsif rackspace?
         options.merge!({
           :rackspace_username => rackspace_username,
