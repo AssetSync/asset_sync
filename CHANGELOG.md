@@ -1,5 +1,15 @@
 # RELEASE HISTORY
 
+## v0.5.6 / 2014-08-12
+
+Version 0.5.6 (Toby Osbourn <tosbourn@rumblelabs.com>)
+
+Changes:
+
+* 1 Change
+
+    * Merged in support for optimized fog loading
+
 ## v0.5.5 / 2014-08-12
 
 Version 0.5.5 (Toby Osbourn <tosbourn@rumblelabs.com>)
