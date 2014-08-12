@@ -1,5 +1,16 @@
 # RELEASE HISTORY
 
+## v0.5.5 / 2014-08-12
+
+Version 0.5.5 (Toby Osbourn <tosbourn@rumblelabs.com>)
+
+Changes:
+
+* 2 Nominal Changes
+
+    * Merged some spec changes to get Travis to pass the build correctly
+    * Support using AWS IAM Roles
+
 ## v0.5.1 / 2012-10-22
 
 Version 0.5.1 (David Rice <me@davidjrice.co.uk>)
