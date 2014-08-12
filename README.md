@@ -50,6 +50,19 @@ if defined?(AssetSync)
 ...
 end
 ```
+
+### Optimized Fog loading
+
+Since AssetSync doesn't know which parts of Fog you intend to use, it will just load the entire library.
+If you prefer to load fewer classes into your application, which will reduce load time and memory use,
+you need to load those parts of Fog yourself *before* loading AssetSync:
+
+In your Gemfile:
+```ruby
+gem "fog", "~>1.20", require "fog/aws/storage"
+gem "asset_sync"
+```
+
 ### Extended Installation (Faster sync with turbosprockets)
 
 It's possible to improve **asset:precompile** time if you are using Rails 3.2.x
@@ -95,7 +108,7 @@ Or
 ``` ruby
   config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}"
 ```
-On **non default S3 bucket region**: If your bucket is set to a region that is not the default US Standard (us-east-1) you must use the first style of url ``//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com`` or amazon will return a 301 permanently moved when assets are requested. Note the caveat above about bucket names and periods. 
+On **non default S3 bucket region**: If your bucket is set to a region that is not the default US Standard (us-east-1) you must use the first style of url ``//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com`` or amazon will return a 301 permanently moved when assets are requested. Note the caveat above about bucket names and periods.
 
 If you wish to have your assets sync to a sub-folder of your bucket instead of into the root add the following to your ``production.rb`` file
 
