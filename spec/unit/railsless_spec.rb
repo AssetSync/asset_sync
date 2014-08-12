@@ -19,53 +19,53 @@ describe AssetSync do
     end
 
     it "should have prefix of assets" do
-      AssetSync.config.prefix.should == "assets"
+      expect(AssetSync.config.prefix).to eq("assets")
     end
 
     it "should have prefix of assets" do
-      AssetSync.config.public_path.to_s.should == "./public"
+      expect(AssetSync.config.public_path.to_s).to eq("./public")
     end
 
     it "should default AssetSync to enabled" do
-      AssetSync.config.enabled?.should be_truthy
-      AssetSync.enabled?.should be_truthy
+      expect(AssetSync.config.enabled?).to be_truthy
+      expect(AssetSync.enabled?).to be_truthy
     end
 
     it "should configure provider as AWS" do
-      AssetSync.config.fog_provider.should == 'AWS'
-      AssetSync.config.should be_aws
+      expect(AssetSync.config.fog_provider).to eq('AWS')
+      expect(AssetSync.config).to be_aws
     end
 
     it "should should keep existing remote files" do
-      AssetSync.config.existing_remote_files?.should == true
+      expect(AssetSync.config.existing_remote_files?).to eq(true)
     end
 
     it "should configure aws_access_key" do
-      AssetSync.config.aws_access_key_id.should == "aaaa"
+      expect(AssetSync.config.aws_access_key_id).to eq("aaaa")
     end
 
     it "should configure aws_secret_access_key" do
-      AssetSync.config.aws_secret_access_key.should == "bbbb"
+      expect(AssetSync.config.aws_secret_access_key).to eq("bbbb")
     end
 
     it "should configure aws_access_key" do
-      AssetSync.config.fog_directory.should == "mybucket"
+      expect(AssetSync.config.fog_directory).to eq("mybucket")
     end
 
     it "should configure fog_region" do
-      AssetSync.config.fog_region.should == "eu-west-1"
+      expect(AssetSync.config.fog_region).to eq("eu-west-1")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_falsey
+      expect(AssetSync.config.gzip_compression).to be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_falsey
+      expect(AssetSync.config.manifest).to be_falsey
     end
 
   end

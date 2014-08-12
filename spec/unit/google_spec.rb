@@ -16,36 +16,36 @@ describe AssetSync do
     end
 
     it "should configure provider as Google" do
-      AssetSync.config.fog_provider.should == 'Google'
-      AssetSync.config.should be_google
+      expect(AssetSync.config.fog_provider).to eq('Google')
+      expect(AssetSync.config).to be_google
     end
 
     it "should should keep existing remote files" do
-      AssetSync.config.existing_remote_files?.should == true
+      expect(AssetSync.config.existing_remote_files?).to eq(true)
     end
 
     it "should configure google_storage_access_key_id" do
-      AssetSync.config.google_storage_access_key_id.should == "aaaa"
+      expect(AssetSync.config.google_storage_access_key_id).to eq("aaaa")
     end
 
     it "should configure google_storage_secret_access_key" do
-      AssetSync.config.google_storage_secret_access_key.should == "bbbb"
+      expect(AssetSync.config.google_storage_secret_access_key).to eq("bbbb")
     end
 
     it "should configure fog_directory" do
-      AssetSync.config.fog_directory.should == "mybucket"
+      expect(AssetSync.config.fog_directory).to eq("mybucket")
     end
 
     it "should configure existing_remote_files" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_falsey
+      expect(AssetSync.config.gzip_compression).to be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_falsey
+      expect(AssetSync.config.manifest).to be_falsey
     end
   end
 
@@ -56,27 +56,27 @@ describe AssetSync do
     end
 
     it "should configure google_storage_access_key_id" do
-      AssetSync.config.google_storage_access_key_id.should == "xxxx"
+      expect(AssetSync.config.google_storage_access_key_id).to eq("xxxx")
     end
 
     it "should configure google_storage_secret_access_key" do
-      AssetSync.config.google_storage_secret_access_key.should == "zzzz"
+      expect(AssetSync.config.google_storage_secret_access_key).to eq("zzzz")
     end
 
     it "should configure google_storage_access_key" do
-      AssetSync.config.fog_directory.should == "rails_app_test"
+      expect(AssetSync.config.fog_directory).to eq("rails_app_test")
     end
 
     it "should configure google_storage_access_key" do
-      AssetSync.config.existing_remote_files.should == "keep"
+      expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
     it "should default gzip_compression to false" do
-      AssetSync.config.gzip_compression.should be_falsey
+      expect(AssetSync.config.gzip_compression).to be_falsey
     end
 
     it "should default manifest to false" do
-      AssetSync.config.manifest.should be_falsey
+      expect(AssetSync.config.manifest).to be_falsey
     end
   end
 
@@ -92,7 +92,7 @@ describe AssetSync do
 
   describe 'with fail_silent configuration' do
     before(:each) do
-      AssetSync.stub(:stderr).and_return(StringIO.new)
+      allow(AssetSync).to receive(:stderr).and_return(StringIO.new)
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fail_silently = true
@@ -111,7 +111,7 @@ describe AssetSync do
     end
 
     it "config.gzip? should be true" do
-      AssetSync.config.gzip?.should be_truthy
+      expect(AssetSync.config.gzip?).to be_truthy
     end
   end
 
@@ -122,21 +122,21 @@ describe AssetSync do
     end
 
     it "config.manifest should be true" do
-      AssetSync.config.manifest.should be_truthy
+      expect(AssetSync.config.manifest).to be_truthy
     end
 
     it "config.manifest_path should default to public/assets.." do
-      AssetSync.config.manifest_path.should =~ /public\/assets\/manifest.yml/
+      expect(AssetSync.config.manifest_path).to match(/public\/assets\/manifest.yml/)
     end
 
     it "config.manifest_path should default to public/assets.." do
       Rails.application.config.assets.manifest = "/var/assets"
-      AssetSync.config.manifest_path.should == "/var/assets/manifest.yml"
+      expect(AssetSync.config.manifest_path).to eq("/var/assets/manifest.yml")
     end
 
     it "config.manifest_path should default to public/custom_assets.." do
       Rails.application.config.assets.prefix = 'custom_assets'
-      AssetSync.config.manifest_path.should =~ /public\/custom_assets\/manifest.yml/
+      expect(AssetSync.config.manifest_path).to match(/public\/custom_assets\/manifest.yml/)
     end
   end
 end
