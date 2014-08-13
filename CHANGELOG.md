@@ -1,5 +1,15 @@
 # RELEASE HISTORY
 
+## v1.1.0 / 2014-08-13
+
+Version 1.1.0 (Toby Osbourn <tosbourn@rumblelabs.com>)
+
+Changes:
+
+* 1 Change
+
+    * Bumping master to 1.1.0 - preparing to update RubyGems
+
 ## v0.5.6 / 2014-08-12
 
 Version 0.5.6 (Toby Osbourn <tosbourn@rumblelabs.com>)
