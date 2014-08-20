@@ -428,6 +428,18 @@ namespace :assets do
 end
 ```
 
+## Running the specs
+
+Make sure you have a .env file with these details:-
+
+    AWS_ACCESS_KEY_ID=<yourkeyid>
+    AWS_SECRET_ACCESS_KEY=<yoursecretkey>
+    FOG_DIRECTORY=<yourbucket>
+
+Make sure the bucket has read/write permissions.  Then to run the tests:-
+
+    foreman run rake
+
 ## Todo
 
 1. Add some before and after filters for deleting and uploading
