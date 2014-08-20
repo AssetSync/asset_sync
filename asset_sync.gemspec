@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.summary     = %q{Synchronises Assets in a Rails 3 application and Amazon S3/Cloudfront and Rackspace Cloudfiles}
   s.description = %q{After you run assets:precompile your compiled assets will be synchronised with your S3 bucket.}
 
+  s.license = 'MIT'
+
   s.rubyforge_project = "asset_sync"
 
   s.add_dependency('fog', ">= 1.8.0")
