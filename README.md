@@ -14,16 +14,6 @@ This was initially built and is intended to work on [Heroku](http://heroku.com) 
 
 If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All of the references to config variables have changed to reference those used in **Fog**. Ensure to backup your `asset_sync.rb` or `asset_sync.yml` files and re-run the generator. You may also then need to update your ENV configuration variables (or you can change the ones that are referenced).
 
-## Heroku Labs (BETA)
-
-Previously there were [several issues](http://github.com/rumblelabs/asset_sync/blob/master/docs/heroku.md) with using asset_sync on Heroku as described in our [Heroku dev center article](http://devcenter.heroku.com/articles/cdn-asset-host-rails31).
-
-Now to get everything working smoothly with using **ENV** variables to configure `asset_sync` we just need to enable the [user-env-compile](http://devcenter.heroku.com/articles/labs-user-env-compile) functionality. In short:
-
-    heroku labs:enable user-env-compile -a myapp
-
-Hopefully this will make it's way into the platform as standard.
-
 ## Installation
 
 Add the gem to your Gemfile
