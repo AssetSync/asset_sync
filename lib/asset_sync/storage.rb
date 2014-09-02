@@ -150,8 +150,8 @@ module AssetSync
         log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
       elsif key = self.config.custom_headers.keys.detect {|k| f.match(Regexp.new(k))}
         headers = {}
-        self.config.custom_headers[key].each do |key, value|
-          headers[key.to_sym] = value
+        self.config.custom_headers[key].each do |k, value|
+          headers[k.to_sym] = value
         end
         file.merge! headers
         log "Overwriting matching file #{f} with custom headers #{headers.to_s}"
