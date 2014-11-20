@@ -59,7 +59,7 @@ you need to load those parts of Fog yourself *before* loading AssetSync:
 
 In your Gemfile:
 ```ruby
-gem "fog", "~>1.20", require "fog/aws/storage"
+gem "fog", "~>1.20", require: "fog/aws/storage"
 gem "asset_sync"
 ```
 
