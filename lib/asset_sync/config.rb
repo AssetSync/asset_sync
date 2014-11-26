@@ -19,6 +19,7 @@ module AssetSync
     attr_accessor :run_on_precompile
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
+    attr_accessor :concurrent_uploads
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -45,6 +46,7 @@ module AssetSync
     validates :rackspace_api_key,     :presence => true, :if => :rackspace?
     validates :google_storage_secret_access_key,  :presence => true, :if => :google?
     validates :google_storage_access_key_id,      :presence => true, :if => :google?
+    validates :concurrent_uploads,    :inclusion => { :in => [true, false] }
 
     def initialize
       self.fog_region = nil
@@ -59,6 +61,7 @@ module AssetSync
       self.enabled = true
       self.run_on_precompile = true
       self.cdn_distribution_id = nil
+      self.concurrent_uploads = true
       self.invalidate = []
       load_yml! if defined?(Rails) && yml_exists?
     end
