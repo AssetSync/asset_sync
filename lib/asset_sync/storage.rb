@@ -91,7 +91,8 @@ module AssetSync
       end
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
       Dir.chdir(path) do
-        Dir["#{self.config.assets_prefix}/**/**"]
+        to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
+        Dir[to_load]
       end
     end
 
