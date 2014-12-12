@@ -7,10 +7,10 @@ module AssetSync
       app_initializer = Rails.root.join('config', 'initializers', 'asset_sync.rb').to_s
       app_yaml = Rails.root.join('config', 'asset_sync.yml').to_s
 
-      if File.exists?( app_initializer )
+      if File.exist?( app_initializer )
         AssetSync.log "AssetSync: using #{app_initializer}"
         load app_initializer
-      elsif !File.exists?( app_initializer ) && !File.exists?( app_yaml )
+      elsif !File.exist?( app_initializer ) && !File.exist?( app_yaml )
         AssetSync.log "AssetSync: using default configuration from built-in initializer"
         AssetSync.configure do |config|
           config.fog_provider = ENV['FOG_PROVIDER'] if ENV.has_key?('FOG_PROVIDER')
@@ -44,7 +44,7 @@ module AssetSync
 
       end
 
-      if File.exists?( app_yaml )
+      if File.exist?( app_yaml )
         AssetSync.log "AssetSync: YAML file found #{app_yaml} settings will be merged into the configuration"
       end
     end

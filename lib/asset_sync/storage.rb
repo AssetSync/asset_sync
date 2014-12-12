@@ -73,7 +73,7 @@ module AssetSync
           log "Using: Rails 4.0 manifest access"
           manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
           return manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
-        elsif File.exists?(self.config.manifest_path)
+        elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
    
@@ -150,8 +150,8 @@ module AssetSync
         log "Overwriting #{f} with custom headers #{files_with_custom_headers[f].to_s}"
       elsif key = self.config.custom_headers.keys.detect {|k| f.match(Regexp.new(k))}
         headers = {}
-        self.config.custom_headers[key].each do |key, value|
-          headers[key.to_sym] = value
+        self.config.custom_headers[key].each do |k, value|
+          headers[k.to_sym] = value
         end
         file.merge! headers
         log "Overwriting matching file #{f} with custom headers #{headers.to_s}"
@@ -166,7 +166,7 @@ module AssetSync
         # as we will overwrite file.css with file.css.gz if it exists.
         log "Ignoring: #{f}"
         ignore = true
-      elsif config.gzip? && File.exists?(gzipped)
+      elsif config.gzip? && File.exist?(gzipped)
         original_size = File.size("#{path}/#{f}")
         gzipped_size = File.size(gzipped)
 
