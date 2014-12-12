@@ -114,35 +114,6 @@ Configuration using a **YAML** file (a common strategy for Capistrano deployment
 
 The recommend way to configure **asset_sync** is by using **environment variables** however it's up to you, it will work fine if you hard code them too. The main reason why using environment variables is recommended is so your access keys are not checked into version control.
 
-### Amazon (AWS) IAM Users
-
-Amazon has switched to the more secure IAM User security policy model. When generating a user & policy for asset_sync you will need to ensure the policy has the following permissions.
-You __must__ give the user permission to **s3:ListAllMyBuckets** as well as give permission to both the bucket, as well as the bucket's contents (/*). If not given all these permissions you'll see the error ```Expected(200) <=> Actual(403 Forbidden) ```
-
-IAM User Policy Example (replace "bucket_name" with your bucket):
-``` json
-{
-  "Statement": [
-    {
-      "Action": [
-        "s3:ListAllMyBuckets"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::*"
-    },
-    {
-      "Action": "s3:*",
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::bucket_name"
-    },
-    {
-      "Action": "s3:*",
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::bucket_name/*"
-    }
-  ]
-}
-```
 
 ### Built-in Initializer (Environment Variables)
 
@@ -342,6 +313,35 @@ production:
   fog_region: 'eu-west-1'
 ```
 
+### Amazon (AWS) IAM Users
+
+Amazon has switched to the more secure IAM User security policy model. When generating a user & policy for asset_sync you will need to ensure the policy has the following permissions.
+You __must__ give the user permission to **s3:ListAllMyBuckets** as well as give permission to both the bucket, as well as the bucket's contents (/*). If not given all these permissions you'll see the error ```Expected(200) <=> Actual(403 Forbidden) ```
+
+IAM User Policy Example (replace "bucket_name" with your bucket):
+``` json
+{
+  "Statement": [
+    {
+      "Action": [
+        "s3:ListAllMyBuckets"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::*"
+    },
+    {
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::bucket_name"
+    },
+    {
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::bucket_name/*"
+    }
+  ]
+}
+```
 
 ## Automatic gzip compression
 
