@@ -29,12 +29,18 @@ matrix:
       gemfile: gemfiles/rails_3.2.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: 2.1.2
-      gemfile: gemfiles/rails_4.1.gemfile
     - rvm: 2.0.0
       gemfile: gemfiles/rails_4.1.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/rails_4.2.gemfile
+    - rvm: 2.1.2
+      gemfile: gemfiles/rails_3.2.gemfile
+    - rvm: 2.1.2
+      gemfile: gemfiles/rails_4.0.gemfile
     - rvm: 2.1.2
       gemfile: gemfiles/rails_4.1.gemfile
+    - rvm: 2.1.2
+      gemfile: gemfiles/rails_4.2.gemfile
   allow_failures:
     - rvm: 1.9.2
     - rvm: rbx-2
