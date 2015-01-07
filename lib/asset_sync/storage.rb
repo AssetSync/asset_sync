@@ -1,6 +1,6 @@
 module AssetSync
   class Storage
-    REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
+    REGEXP_FINGERPRINTED_FILES = /^([^-]+)-[^\.]+\.([^\.]+)$/
 
     class BucketNotFound < StandardError;
     end
@@ -247,7 +247,7 @@ module AssetSync
     def get_non_fingerprinted(files)
       files.map do |file|
         match_data = file.match(REGEXP_FINGERPRINTED_FILES)
-        match_data && "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
+        match_data && "#{match_data[1]}.#{match_data[2]}"
       end.compact
     end
 
