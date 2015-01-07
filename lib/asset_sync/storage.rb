@@ -126,6 +126,8 @@ module AssetSync
     end
 
     def upload_file(f)
+      log "Processing: #{f}"
+
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
       ext = File.extname(f)[1..-1]
