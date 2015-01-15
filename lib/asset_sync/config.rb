@@ -7,6 +7,7 @@ module AssetSync
     # AssetSync
     attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
     attr_accessor :gzip_compression
+    attr_accessor :uncompressable_files
     attr_accessor :manifest
     attr_accessor :fail_silently
     attr_accessor :log_silently
@@ -51,6 +52,7 @@ module AssetSync
       self.fog_region = nil
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
+      self.uncompressable_files = []
       self.manifest = false
       self.fail_silently = false
       self.log_silently = true
