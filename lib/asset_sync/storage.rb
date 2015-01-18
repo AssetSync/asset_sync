@@ -56,7 +56,12 @@ module AssetSync
     end
 
     def always_upload_files
-      self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
+      Dir.chdir(path) do
+        self.config.always_upload.map { |f| 
+          to_load = self.config.assets_prefix.present? ? File.join(self.config.assets_prefix, f) : f
+          Dir[to_load]
+        }.flatten
+      end
     end
 
     def files_with_custom_headers
