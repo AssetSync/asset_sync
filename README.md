@@ -274,6 +274,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 
 * **aws\_access\_key\_id**: your Amazon S3 access key
 * **aws\_secret\_access\_key**: your Amazon S3 access secret
+* **aws_iam_roles**: use IAM role instead of access keys
 
 #### Rackspace
 
