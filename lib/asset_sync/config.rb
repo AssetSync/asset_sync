@@ -78,7 +78,7 @@ module AssetSync
     end
 
     def aws?
-      fog_provider == 'AWS'
+      fog_provider =~ /aws/i
     end
 
     def aws_rrs?
@@ -102,11 +102,11 @@ module AssetSync
     end
 
     def rackspace?
-      fog_provider == 'Rackspace'
+      fog_provider =~ /rackspace/i
     end
 
     def google?
-      fog_provider == 'Google'
+      fog_provider =~ /google/i
     end
 
     def yml_exists?
@@ -203,7 +203,7 @@ module AssetSync
           :google_storage_access_key_id => google_storage_access_key_id
         })
       else
-        raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS and Rackspace are supported currently."
+        raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end
 
       options.merge!({:region => fog_region}) if fog_region && !rackspace?
