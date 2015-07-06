@@ -13,8 +13,9 @@ end
 
 def execute(command)
   app_path = File.expand_path("../../dummy_app", __FILE__)
-  Dir.chdir app_path
-  `#{command}`
+  Dir.chdir app_path do
+      puts `#{command}`
+  end
 end
 
 describe "AssetSync" do
@@ -47,14 +48,10 @@ describe "AssetSync" do
     files = bucket(@prefix).files
 
     app_js_path = files.select{ |f| f.key =~ app_js_regex }.first
-    app_js_gz_path = files.select{ |f| f.key =~ app_js_gz_regex }.first
 
     app_js = files.get( app_js_path.key )
     expect(app_js.content_type).to eq("text/javascript")
-
-    app_js_gz = files.get( app_js_gz_path.key )
-    expect(app_js_gz.content_type).to eq("text/javascript")
-    expect(app_js_gz.content_encoding).to eq("gzip")
+    expect(app_js.cache_control).to match("public")
   end
 
   it "sync with enabled=false" do
@@ -64,11 +61,16 @@ describe "AssetSync" do
 
   it "sync with gzip_compression=true" do
     execute "rake ASSET_SYNC_PREFIX=#{@prefix} ASSET_SYNC_GZIP_COMPRESSION=true assets:precompile"
-    # bucket(@prefix).files.size.should == 3
+    expect(bucket(@prefix).files.size).to eq(1)
 
     app_js_path = files.select{ |f| f.key =~ app_js_regex }.first
+
+    expect(app_js_path).not_to be_nil
     app_js = files.get( app_js_path.key )
     expect(app_js.content_type).to eq("text/javascript")
+    expect(app_js.content_encoding).to eq("gzip")
+    expect(app_js.cache_control).to match("public")
+    expect(app_js.key).to match(/\.js$/)
   end
 
 end
