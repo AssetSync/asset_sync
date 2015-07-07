@@ -32,6 +32,7 @@ module AssetSync
           config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"
 
           config.gzip_compression = (ENV['ASSET_SYNC_GZIP_COMPRESSION'] == 'true') if ENV.has_key?('ASSET_SYNC_GZIP_COMPRESSION')
+          config.extensions_to_gzip = ENV['ASSET_SYNC_EXTENSIONS_TO_GZIP'] if ENV.has_key?('ASSET_SYNC_EXTENSIONS_TO_GZIP')
           config.manifest = (ENV['ASSET_SYNC_MANIFEST'] == 'true') if ENV.has_key?('ASSET_SYNC_MANIFEST')
         end
 

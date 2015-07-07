@@ -84,8 +84,8 @@ describe AssetSync::Storage do
 
 
     it 'should correctly set expire date' do
-      local_files = ['file1.jpg', 'file1-1234567890abcdef1234567890abcdef.jpg']
-      local_files += ['dir1/dir2/file2.jpg', 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg']
+      local_files = ['file1.jpg', 'file1-1234567890abcdef1234567890abcdef.jpg', 'file1-1234567890abcdef1234567890abcdef.jpg.gz']
+      local_files += ['dir1/dir2/file2.jpg', 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg', 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg.gz']
       remote_files = []
       storage = AssetSync::Storage.new(@config)
       allow(storage).to receive(:local_files).and_return(local_files)
@@ -99,7 +99,9 @@ describe AssetSync::Storage do
         when 'dir1/dir2/file2.jpg'
           !expect(file).not_to include(:cache_control, :expires)
         when 'file1-1234567890abcdef1234567890abcdef.jpg'
+        when 'file1-1234567890abcdef1234567890abcdef.jpg.gz'
         when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg'
+        when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg.gz'
           expect(file).to include(:cache_control, :expires)
         else
           fail
@@ -190,5 +192,25 @@ describe AssetSync::Storage do
     after(:each) do
       #Object.send(:remove_const, :MIME) if defined?(MIME)
     end
+  end
+
+  describe '#compress_files' do
+    before(:each) do
+      @config = AssetSync::Config.new
+      @config.public_path = 'public'
+    end
+
+    it 'should compress text files' do
+      local_files = ['jquery.js', 'file1.jpg', 'application.css', 'logo.png',  'dir']
+      storage = AssetSync::Storage.new(@config)
+      allow(storage).to receive(:local_files).and_return(local_files)
+      allow(File).to receive(:file?).and_return(true)
+      allow(File).to receive(:open).and_return(nil)
+
+      expect(Zlib::GzipWriter).to receive(:open).with('public/application.css.gz', anything).and_return(nil)
+      expect(Zlib::GzipWriter).to receive(:open).with('public/jquery.js.gz', anything).and_return(nil)
+      storage.compress_files
+    end
+
   end
 end
