@@ -193,4 +193,24 @@ describe AssetSync::Storage do
       #Object.send(:remove_const, :MIME) if defined?(MIME)
     end
   end
+
+  describe '#compress_files' do
+    before(:each) do
+      @config = AssetSync::Config.new
+      @config.public_path = 'public'
+    end
+
+    it 'should compress text files' do
+      local_files = ['jquery.js', 'file1.jpg', 'application.css', 'logo.png',  'dir']
+      storage = AssetSync::Storage.new(@config)
+      allow(storage).to receive(:local_files).and_return(local_files)
+      allow(File).to receive(:file?).and_return(true)
+      allow(File).to receive(:open).and_return(nil)
+
+      expect(Zlib::GzipWriter).to receive(:open).with('public/application.css.gz', anything).and_return(nil)
+      expect(Zlib::GzipWriter).to receive(:open).with('public/jquery.js.gz', anything).and_return(nil)
+      storage.compress_files
+    end
+
+  end
 end

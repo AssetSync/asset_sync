@@ -210,16 +210,17 @@ module AssetSync
     end
 
     def compress_files
-      self.local_files.each do |f|
-        unless File.extname(f) == '.gz'
-          file = File.join(path, f)
-          gz_path = file + ".gz"
-          unless File.exist?(gz_path)
+      extensions_to_gzip = Regexp.union(*config.extensions_to_gzip.split(','))
+      self.local_files.each do |file|
+        if File.extname(file)[1..-1] =~ extensions_to_gzip
+          file_path = File.join(path, file)
+          if File.file?(file_path)
+            gz_path = file_path + ".gz"
             log "Writing #{gz_path}"
             Zlib::GzipWriter.open(gz_path, Zlib::BEST_COMPRESSION) do |gz|
-              gz.mtime = File.mtime(file)
-              gz.orig_name = file
-              gz.write(IO.binread(file))
+              gz.mtime = File.mtime(file_path)
+              gz.orig_name = file_path
+              gz.write(IO.binread(file_path))
             end
           end
         end
