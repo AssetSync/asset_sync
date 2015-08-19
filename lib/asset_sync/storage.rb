@@ -137,7 +137,7 @@ module AssetSync
         :content_type => mime
       }
 
-      if /-[0-9a-fA-F]{32}$/.match(File.basename(f,File.extname(f)))
+      if /-[0-9a-fA-F]{32,}$/.match(File.basename(f,File.extname(f)))
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
           :expires => CGI.rfc1123_date(Time.now + one_year)
