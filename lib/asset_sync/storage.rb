@@ -76,7 +76,7 @@ module AssetSync
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
-   
+
           return yml.map do |original, compiled|
             # Upload font originals and compiled
             if original =~ /^.+(eot|svg|ttf|woff)$/
@@ -137,7 +137,9 @@ module AssetSync
         :content_type => mime
       }
 
-      if /-[0-9a-fA-F]{32}$/.match(File.basename(f,File.extname(f)))
+      uncompressed_filename = f.sub(/\.gz\z/, '')
+      basename = File.basename(uncompressed_filename, File.extname(uncompressed_filename))
+      if /-[0-9a-fA-F]{32,64}$/.match(basename)
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
           :expires => CGI.rfc1123_date(Time.now + one_year)
@@ -207,6 +209,25 @@ module AssetSync
       file = bucket.files.create( file ) unless ignore
     end
 
+    def compress_files
+      extensions_to_gzip = Regexp.union(*config.extensions_to_gzip.split(','))
+      self.local_files.each do |file|
+        if File.extname(file)[1..-1] =~ extensions_to_gzip
+          file_path = File.join(path, file)
+          if File.file?(file_path)
+            gz_path = file_path + ".gz"
+            log "Writing #{gz_path}"
+            Zlib::GzipWriter.open(gz_path, Zlib::BEST_COMPRESSION) do |gz|
+              gz.mtime = File.mtime(file_path)
+              gz.orig_name = file_path
+              gz.write(IO.binread(file_path))
+            end
+          end
+        end
+      end
+      @local_files = nil  # break memoization to include new .gz files
+    end
+
     def upload_files
       # get a fresh list of remote files
       remote_files = ignore_existing_remote_files? ? [] : get_remote_files
@@ -231,6 +252,7 @@ module AssetSync
     def sync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       log "AssetSync: Syncing."
+      compress_files if config.gzip?
       upload_files
       delete_extra_remote_files unless keep_existing_remote_files?
       log "AssetSync: Done."
