@@ -73,7 +73,8 @@ describe AssetSync do
 
     it "log_silently? should always be true if ENV['RAILS_GROUPS'] == 'assets'" do
       AssetSync.config.log_silently = false
-      expect(ENV).to receive(:[]).with('RAILS_GROUPS').and_return('assets')
+      # make sure ENV is actually being checked ...
+      expect(ENV).to receive(:[]).with('RAILS_GROUPS').and_return('assets') 
       expect(AssetSync.config.log_silently?).to eq(true)
     end
 
