@@ -94,7 +94,7 @@ module AssetSync
     end
 
     def log_silently?
-      ENV['RAILS_GROUPS'] == 'assets' || self.log_silently == false
+      ENV['RAILS_GROUPS'] == 'assets' || !!self.log_silently
     end
 
     def enabled?
