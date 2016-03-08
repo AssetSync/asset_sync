@@ -57,7 +57,7 @@ module AssetSync
     end
 
     def log(msg)
-      stdout.puts msg if config.log_silently?
+      stdout.puts msg unless config.log_silently?
     end
 
     def enabled?
