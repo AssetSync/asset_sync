@@ -204,6 +204,10 @@ module AssetSync
         })
       end
 
+      if ENV['AWS_SERVER_SIDE_ENCRYPTION'] or ENV['PROD_S3_SERVER_SIDE_ENCRYPTION']
+        file[:encryption] = 'AES256'
+      end
+
       file = bucket.files.create( file ) unless ignore
     end
 
