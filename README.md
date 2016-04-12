@@ -343,6 +343,15 @@ IAM User Policy Example (replace "bucket_name" with your bucket):
 }
 ```
 
+If you want to use IAM roles you must set ```config.aws_iam_roles = true``` in your initializers.
+```
+AssetSync.configure do |config|
+  # ...
+  config.aws_iam_roles = true
+end
+```
+
+
 ## Automatic gzip compression
 
 With the `gzip_compression` option enabled, when uploading your assets. If a file has a gzip compressed equivalent we will replace that asset with the compressed version and sets the correct headers for S3 to serve it. For example, if you have a file **master.css** and it was compressed to **master.css.gz** we will upload the **.gz** file to S3 in place of the uncompressed file.
