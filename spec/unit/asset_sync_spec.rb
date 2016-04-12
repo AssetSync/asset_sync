@@ -65,6 +65,18 @@ describe AssetSync do
     it "should default log_silently to true" do
       expect(AssetSync.config.log_silently).to be_truthy
     end
+    
+    it "log_silently? should reflect the configuration" do
+      AssetSync.config.log_silently = false
+      expect(AssetSync.config.log_silently?).to eq(false)
+    end
+
+    it "log_silently? should always be true if ENV['RAILS_GROUPS'] == 'assets'" do
+      AssetSync.config.log_silently = false
+      # make sure ENV is actually being checked ...
+      expect(ENV).to receive(:[]).with('RAILS_GROUPS').and_return('assets') 
+      expect(AssetSync.config.log_silently?).to eq(true)
+    end
 
     it "should default cdn_distribution_id to nil" do
       expect(AssetSync.config.cdn_distribution_id).to be_nil
