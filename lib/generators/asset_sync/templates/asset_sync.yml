@@ -19,6 +19,8 @@ defaults: &defaults
   fog_directory: "<%= app_name %>-assets"
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
+  # Set fog_public to false if you prefer to use bucket policies instead of ACLs
+  # fog_public: true
   existing_remote_files: keep
   # To delete existing remote files.
   # existing_remote_files: delete

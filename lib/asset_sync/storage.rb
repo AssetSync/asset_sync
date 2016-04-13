@@ -133,7 +133,7 @@ module AssetSync
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
-        :public => true,
+        :public => self.config.fog_public,
         :content_type => mime
       }
 
