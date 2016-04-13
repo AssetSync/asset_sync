@@ -1,6 +1,6 @@
 module AssetSync
   class Storage
-    REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
+    REGEXP_FINGERPRINTED_FILES = /^([^-]+)-[^\.]+\.([^\.]+)$/
 
     class BucketNotFound < StandardError;
     end
@@ -56,7 +56,12 @@ module AssetSync
     end
 
     def always_upload_files
-      self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
+      Dir.chdir(path) do
+        self.config.always_upload.map { |f| 
+          to_load = self.config.assets_prefix.present? ? File.join(self.config.assets_prefix, f) : f
+          Dir[to_load]
+        }.flatten
+      end
     end
 
     def files_with_custom_headers
@@ -76,7 +81,7 @@ module AssetSync
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
-   
+
           return yml.map do |original, compiled|
             # Upload font originals and compiled
             if original =~ /^.+(eot|svg|ttf|woff)$/
@@ -126,6 +131,8 @@ module AssetSync
     end
 
     def upload_file(f)
+      log "Processing: #{f}"
+
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
       ext = File.extname(f)[1..-1]
@@ -167,7 +174,7 @@ module AssetSync
         # as we will overwrite file.css with file.css.gz if it exists.
         log "Ignoring: #{f}"
         ignore = true
-      elsif config.gzip? && File.exist?(gzipped)
+      elsif config.gzip? && File.exist?(gzipped) && can_be_compressed?(f)
         original_size = File.size("#{path}/#{f}")
         gzipped_size = File.size(gzipped)
 
@@ -245,9 +252,12 @@ module AssetSync
     def get_non_fingerprinted(files)
       files.map do |file|
         match_data = file.match(REGEXP_FINGERPRINTED_FILES)
-        match_data && "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
+        match_data && "#{match_data[1]}.#{match_data[2]}"
       end.compact
     end
 
+    def can_be_compressed?(file)
+      config.uncompressable_files.none? {|pattern| file.match pattern }
+    end
   end
 end

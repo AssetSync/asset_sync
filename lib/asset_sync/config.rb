@@ -7,6 +7,7 @@ module AssetSync
     # AssetSync
     attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
     attr_accessor :gzip_compression
+    attr_accessor :uncompressable_files
     attr_accessor :manifest
     attr_accessor :fail_silently
     attr_accessor :log_silently
@@ -24,6 +25,7 @@ module AssetSync
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
+    attr_accessor :fog_path_style        # enable/disable path_style
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles
@@ -50,6 +52,7 @@ module AssetSync
       self.fog_region = nil
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
+      self.uncompressable_files = []
       self.manifest = false
       self.fail_silently = false
       self.log_silently = true
@@ -207,6 +210,7 @@ module AssetSync
       end
 
       options.merge!({:region => fog_region}) if fog_region && !rackspace?
+      options.merge!({:path_style => fog_path_style})
       return options
     end
 
