@@ -269,6 +269,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 #### Fog (Optional)
 
 * **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+* **fog\_additional\_options**: additional options to pass to Fog e.g. `{ :path_style => true }`
 
 #### AWS
 

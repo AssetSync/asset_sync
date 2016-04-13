@@ -12,6 +12,7 @@ describe AssetSync do
         config.aws_secret_access_key = 'bbbb'
         config.fog_directory = 'mybucket'
         config.fog_region = 'eu-west-1'
+        config.fog_additional_options = { path_style: true }
         config.existing_remote_files = "keep"
       end
     end
@@ -48,6 +49,10 @@ describe AssetSync do
 
     it "should configure fog_region" do
       expect(AssetSync.config.fog_region).to eq("eu-west-1")
+    end
+
+    it "should configure fog_additional_options" do
+      AssetSync.config.fog_options[:path_style].should == true
     end
 
     it "should configure existing_remote_files" do
