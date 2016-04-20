@@ -52,7 +52,7 @@ describe AssetSync do
     end
 
     it "should configure path_style" do
-      AssetSync.config.fog_path_style.should be_truthy
+      expect(AssetSync.config.fog_path_style).to be_truthy
     end
 
     it "should configure existing_remote_files" do
@@ -112,7 +112,7 @@ describe AssetSync do
     end
 
     it "should configure path_style" do
-      AssetSync.config.fog_path_style.should be_truthy
+      expect(AssetSync.config.fog_path_style).to be_truthy
     end
 
     it "should configure existing_remote_files" do

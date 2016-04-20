@@ -193,6 +193,9 @@ AssetSync.configure do |config|
   #
   # Fail silently.  Useful for environments such as Heroku
   # config.fail_silently = true
+  #
+  # Use fog_path_style to use buckets with dot in names
+  # config.fog_path_style = true
 end
 ```
 
@@ -228,6 +231,8 @@ defaults: &defaults
   # always_upload: ['application.js', 'application.css']
   # Ignored files. Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy.
   # ignored_files: ['ignore_me.js', !ruby/regexp '/ignore_some/\d{32}\.css/']
+  # Use fog_path_style to use buckets with dot in names
+  # fog_path_style: true
 
 development:
   <<: *defaults
@@ -269,6 +274,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 #### Fog (Optional)
 
 * **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+* **fog\_path\_style**: To use buckets with dot in names, check https://github.com/fog/fog/issues/2381#issuecomment-28088524
 
 #### AWS
 
