@@ -193,9 +193,6 @@ AssetSync.configure do |config|
   #
   # Fail silently.  Useful for environments such as Heroku
   # config.fail_silently = true
-  #
-  # Use fog_path_style to use buckets with dot in names
-  # config.fog_path_style = true
 end
 ```
 
@@ -231,8 +228,6 @@ defaults: &defaults
   # always_upload: ['application.js', 'application.css']
   # Ignored files. Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy.
   # ignored_files: ['ignore_me.js', !ruby/regexp '/ignore_some/\d{32}\.css/']
-  # Use fog_path_style to use buckets with dot in names
-  # fog_path_style: true
 
 development:
   <<: *defaults
