@@ -137,7 +137,9 @@ module AssetSync
         :content_type => mime
       }
 
-      if /-[0-9a-fA-F]{32,}$/.match(File.basename(f,File.extname(f)))
+      uncompressed_filename = f.sub(/\.gz\z/, '')
+      basename = File.basename(uncompressed_filename, File.extname(uncompressed_filename))
+      if /-[0-9a-fA-F]{32,}$/.match(basename)
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
           :expires => CGI.rfc1123_date(Time.now + one_year)
