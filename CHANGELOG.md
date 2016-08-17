@@ -7,6 +7,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Nothing
+
+### Changed
+
+- Nothing
+
+### Fixed
+
+- Nothing
+
+
+## [1.2.0] - 2016-08-17
+
+### Added
+
 - Support for `fog_path_style` config option (AWS only) (https://github.com/AssetSync/asset_sync/pull/302)
 
 ### Changed
@@ -759,4 +774,5 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/AssetSync/asset_sync/compare/v1.1.0...v1.2.0
