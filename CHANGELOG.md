@@ -15,7 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Nothing
+- Respect value of option `log_silently` even when `ENV['RAILS_GROUPS'] == 'assets'`
 
 
 ## [1.2.0] - 2016-08-17
