@@ -15,6 +15,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- Nothing
+
+
+## [1.2.1] - 2016-08-19
+
+### Fixed
+
 - Respect value of option `log_silently` even when `ENV['RAILS_GROUPS'] == 'assets'`
 
 
@@ -774,5 +781,6 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/AssetSync/asset_sync/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/AssetSync/asset_sync/compare/v1.1.0...v1.2.0
