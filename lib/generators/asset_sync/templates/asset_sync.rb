@@ -38,4 +38,8 @@ AssetSync.configure do |config|
   #
   # Fail silently.  Useful for environments such as Heroku
   # config.fail_silently = true
+  #
+  # Log silently. Default is `true`. But you can set it to false if more logging message are preferred.
+  # Logging messages are sent to `STDOUT` when `log_silently` is falsy
+  # config.log_silently = true
 end
