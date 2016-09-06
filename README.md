@@ -272,7 +272,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 
 #### Fog (Optional)
 
-* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1*
+* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1* (AWS),  *ord* (Rackspace)
 * **fog\_path\_style**: To use buckets with dot in names, check https://github.com/fog/fog/issues/2381#issuecomment-28088524
 
 #### AWS
