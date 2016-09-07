@@ -6,7 +6,7 @@ describe AssetSync::Storage do
   describe '#upload_files' do
     before(:each) do
       @local_files = ["local_image2.jpg", "local_image1.jpg", "local_stylesheet1.css", "local_stylesheet2.css"]
-      @remote_files = ["local_image.jpg", "local_stylesheet1.css"]
+      @remote_files = ["local_image.jpg", "local_image3.svg", "local_image4.svg", "local_stylesheet1.css"]
       @config = AssetSync::Config.new
     end
 
@@ -23,7 +23,7 @@ describe AssetSync::Storage do
     end
 
     it 'should allow force overwriting of specific files' do
-      @config.always_upload = ['local_image.jpg']
+      @config.always_upload = ['local_image.jpg', /local_image\d\.svg/]
 
       storage = AssetSync::Storage.new(@config)
       allow(storage).to receive(:local_files).and_return(@local_files)
