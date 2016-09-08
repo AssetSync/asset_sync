@@ -229,7 +229,7 @@ defaults: &defaults
   # Always upload. Useful if you want to overwrite specific remote assets regardless of their existence
   #  eg: Static files in public often reference non-fingerprinted application.css
   #  note: You will still need to expire them from the CDN's edge cache locations
-  # always_upload: ['application.js', 'application.css']
+  # always_upload: ['application.js', 'application.css', !ruby/regexp '/application-/\d{32}\.css/']
   # Ignored files. Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy.
   # ignored_files: ['ignore_me.js', !ruby/regexp '/ignore_some/\d{32}\.css/']
 

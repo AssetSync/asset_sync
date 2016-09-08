@@ -33,22 +33,7 @@ module AssetSync
     end
 
     def ignored_files
-      files = []
-      Array(self.config.ignored_files).each do |ignore|
-        case ignore
-          when Regexp
-            files += self.local_files.select do |file|
-              file =~ ignore
-            end
-          when String
-            files += self.local_files.select do |file|
-              file.split('/').last == ignore
-            end
-          else
-            log "Error: please define ignored_files as string or regular expression. #{ignore} (#{ignore.class}) ignored."
-        end
-      end
-      files.uniq
+      expand_file_names(self.config.ignored_files)
     end
 
     def local_files
@@ -56,7 +41,7 @@ module AssetSync
     end
 
     def always_upload_files
-      self.config.always_upload.map { |f| File.join(self.config.assets_prefix, f) }
+      expand_file_names(self.config.always_upload)
     end
 
     def files_with_custom_headers
@@ -249,6 +234,25 @@ module AssetSync
         match_data = file.match(REGEXP_FINGERPRINTED_FILES)
         match_data && "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
       end.compact
+    end
+
+    def expand_file_names(names)
+      files = []
+      Array(names).each do |name|
+        case name
+          when Regexp
+            files += self.local_files.select do |file|
+              file =~ name
+            end
+          when String
+            files += self.local_files.select do |file|
+              file.split('/').last == name
+            end
+          else
+            log "Error: please define file names as string or regular expression. #{name} (#{name.class}) ignored."
+        end
+      end
+      files.uniq
     end
 
   end
