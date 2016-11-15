@@ -249,18 +249,12 @@ describe AssetSync do
   end
 
   describe 'with invalid yml' do
-
     before(:each) do
       set_rails_root('with_invalid_yml')
-      AssetSync.config = AssetSync::Config.new
     end
 
-    it "config should be invalid" do
-      expect(AssetSync.config.valid?).to be_falsey
-    end
-
-    it "should raise a config invalid error" do
-      expect{ AssetSync.sync }.to raise_error()
+    it "an error" do
+      expect{ AssetSync::Config.new }.to raise_error(Psych::SyntaxError)
     end
   end
 end
