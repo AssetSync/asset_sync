@@ -1,4 +1,4 @@
-require 'fog' unless defined?(::Fog)
+require 'fog/core'
 require 'active_model'
 require 'erb'
 require "asset_sync/asset_sync"
@@ -7,5 +7,7 @@ require 'asset_sync/storage'
 require 'asset_sync/multi_mime'
 
 
-require 'asset_sync/railtie' if defined?(Rails)
-require 'asset_sync/engine'  if defined?(Rails)
+if defined?(Rails)
+  require 'asset_sync/railtie'
+  require 'asset_sync/engine'
+end

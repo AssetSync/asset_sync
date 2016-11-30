@@ -24,13 +24,10 @@ gem 'asset_sync'
 
 ### Optimized Fog loading
 
-Since AssetSync doesn't know which parts of Fog you intend to use, it will just load the entire library.
-If you prefer to load fewer classes into your application, which will reduce load time and memory use,
-you need to load those parts of Fog yourself *before* loading AssetSync:
-
-In your Gemfile:
+Since AssetSync doesn't know which parts of Fog you intend to use, it will just load the fog-core library.
+In order to use aws or other providers, add those in your Gemfile accordingly, like:
 ```ruby
-gem "fog", "~>1.20", require: "fog/aws/storage"
+gem "fog-aws"
 gem "asset_sync"
 ```
 
