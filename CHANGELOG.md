@@ -11,13 +11,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Add regex support to always_upload (https://github.com/AssetSync/asset_sync/pull/333)
-- Stop failing sliently when YAML file does not contain key for rails environment (https://github.com/AssetSync/asset_sync/pull/270)
-- Stop failing sliently when YAML file cannot be parsed due to syntax error
+- Nothing
 
 ### Fixed
 
 - Nothing
+
+
+## [1.3.0] - 2016-11-30
+
+### Changed
+
+- Add regex support to always_upload (https://github.com/AssetSync/asset_sync/pull/333)
+- Stop failing sliently when YAML file does not contain key for rails environment (https://github.com/AssetSync/asset_sync/pull/270)
+- Stop failing sliently when YAML file cannot be parsed due to syntax error
 
 
 ## [1.2.1] - 2016-08-19
@@ -783,6 +790,7 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/AssetSync/asset_sync/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/AssetSync/asset_sync/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/AssetSync/asset_sync/compare/v1.1.0...v1.2.0
