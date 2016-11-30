@@ -1,3 +1,5 @@
+require "active_model"
+
 module AssetSync
   class Config
     include ActiveModel::Validations
