@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require "fog/aws"
 
 def bucket(name)
   options = {
@@ -23,12 +24,12 @@ describe "AssetSync" do
     @prefix = SecureRandom.hex(6)
   end
 
-  let(:app_js_regex){ 
-    /#{@prefix}\/application-[a-zA-Z0-9]*.js$/ 
+  let(:app_js_regex){
+    /#{@prefix}\/application-[a-zA-Z0-9]*.js$/
   }
 
-  let(:app_js_gz_regex){ 
-    /#{@prefix}\/application-[a-zA-Z0-9]*.js.gz$/ 
+  let(:app_js_gz_regex){
+    /#{@prefix}\/application-[a-zA-Z0-9]*.js.gz$/
   }
 
   let(:files){ bucket(@prefix).files }

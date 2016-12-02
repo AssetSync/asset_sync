@@ -12,26 +12,20 @@ This was initially built and is intended to work on [Heroku](http://heroku.com) 
 
 ## Upgrading?
 
-If you are upgrading from a version of asset_sync **< 0.2.0** (i.e. 0.1.x). All of the references to config variables have changed to reference those used in **Fog**. Ensure to backup your `asset_sync.rb` or `asset_sync.yml` files and re-run the generator. You may also then need to update your ENV configuration variables (or you can change the ones that are referenced).
+Upgraded from 1.x? Read `UPGRADING.md`
 
 ## Installation
 
-Add the gem to your Gemfile
+Since 2.x, Asset Sync depends on gem `fog-core` instead of `fog`.  
+This is due to `fog` is including many unused storage provider gems as its dependencies.  
 
-``` ruby
-gem 'asset_sync'
-```
-
-### Optimized Fog loading
-
-Since AssetSync doesn't know which parts of Fog you intend to use, it will just load the entire library.
-If you prefer to load fewer classes into your application, which will reduce load time and memory use,
-you need to load those parts of Fog yourself *before* loading AssetSync:
+Asset Sync has no idea about what provider will be used,  
+so you are responsible for bundling the right gem for the provider to be used.  
 
 In your Gemfile:
 ```ruby
-gem "fog", "~>1.20", require: "fog/aws/storage"
 gem "asset_sync"
+gem "fog-aws"
 ```
 
 ### Extended Installation (Faster sync with turbosprockets)

@@ -1,4 +1,6 @@
 require "active_model"
+require "erb"
+require "yaml"
 
 module AssetSync
   class Config
@@ -63,12 +65,12 @@ module AssetSync
       self.run_on_precompile = true
       self.cdn_distribution_id = nil
       self.invalidate = []
-      load_yml! if defined?(Rails) && yml_exists?
+      load_yml! if defined?(::Rails) && yml_exists?
     end
 
     def manifest_path
       directory =
-        Rails.application.config.assets.manifest || default_manifest_directory
+        ::Rails.application.config.assets.manifest || default_manifest_directory
       File.join(directory, "manifest.yml")
     end
 
@@ -113,24 +115,24 @@ module AssetSync
     end
 
     def yml_exists?
-      defined?(Rails.root) ? File.exist?(self.yml_path) : false
+      defined?(::Rails.root) ? File.exist?(self.yml_path) : false
     end
 
     def yml
-      @yml ||= YAML.load(ERB.new(IO.read(yml_path)).result)[Rails.env] || {}
+      @yml ||= ::YAML.load(::ERB.new(IO.read(yml_path)).result)[::Rails.env] || {}
     end
 
     def yml_path
-      Rails.root.join("config", "asset_sync.yml").to_s
+      ::Rails.root.join("config", "asset_sync.yml").to_s
     end
 
     def assets_prefix
       # Fix for Issue #38 when Rails.config.assets.prefix starts with a slash
-      self.prefix || Rails.application.config.assets.prefix.sub(/^\//, '')
+      self.prefix || ::Rails.application.config.assets.prefix.sub(/^\//, '')
     end
 
     def public_path
-      @public_path || Rails.public_path
+      @public_path || ::Rails.public_path
     end
 
     def load_yml!
@@ -214,7 +216,7 @@ module AssetSync
   private
 
     def default_manifest_directory
-      File.join(Rails.public_path, assets_prefix)
+      File.join(::Rails.public_path, assets_prefix)
     end
   end
 end
