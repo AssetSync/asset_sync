@@ -123,8 +123,10 @@ module AssetSync
     end
 
     def assets_prefix
-      # Fix for Issue #38 when Rails.config.assets.prefix starts with a slash
-      self.prefix || Rails.application.config.assets.prefix.sub(/^\//, '')
+      self.prefix || (
+        prefix = Rails.application.config.assets.prefix.sub(/^\//, '')
+        File.extname(prefix) == "" ? prefix : File.dirname(prefix)
+      )
     end
 
     def public_path
