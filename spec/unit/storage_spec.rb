@@ -132,7 +132,7 @@ describe AssetSync::Storage do
       storage.upload_files
     end
 
-    it "shoud invalidate files" do
+    it "should invalidate files" do
       @config.cdn_distribution_id = "1234"
       @config.invalidate = ['local_image1.jpg']
       @config.fog_provider = 'AWS'
