@@ -154,7 +154,12 @@ describe AssetSync::Storage do
     before(:each) do
       # Object#remove_const does not remove the loaded
       # file from the $" variable
-      #Object.send(:remove_const, :MIME) if defined?(MIME)
+      #
+      # So we need do both
+      #
+      # 1. Remove constant(s) to avoid warning messages
+      # 2. Remove loaded file(s)
+      Object.send(:remove_const, :MIME) if defined?(MIME)
       mime_types = $".grep(/mime\/types/).first
       $".delete(mime_types)
       require 'mime/types'
@@ -203,10 +208,6 @@ describe AssetSync::Storage do
         expect(argument[:cache_control]).to eq('max-age=0')
       end
       storage.upload_file('assets/some_longer_path/local_image2.jpg')
-    end
-
-    after(:each) do
-      #Object.send(:remove_const, :MIME) if defined?(MIME)
     end
   end
 end
