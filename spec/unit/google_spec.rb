@@ -86,7 +86,7 @@ describe AssetSync do
     end
 
     it "should be invalid" do
-      expect{ AssetSync.sync }.to raise_error()
+      expect{ AssetSync.sync }.to raise_error(::AssetSync::Config::Invalid)
     end
   end
 
@@ -100,7 +100,7 @@ describe AssetSync do
     end
 
     it "should not raise an invalid exception" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      expect{ AssetSync.sync }.not_to raise_error
     end
   end
 

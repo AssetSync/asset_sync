@@ -148,7 +148,7 @@ describe AssetSync do
     end
 
     it "should be disabled" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      expect{ AssetSync.sync }.not_to raise_error
     end
 
     after(:each) do
@@ -162,7 +162,7 @@ describe AssetSync do
     end
 
     it "should be invalid" do
-      expect{ AssetSync.sync }.to raise_error()
+      expect{ AssetSync.sync }.to raise_error(::AssetSync::Config::Invalid)
     end
   end
 
@@ -175,7 +175,7 @@ describe AssetSync do
     end
 
     it "should do nothing, without complaining" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      expect{ AssetSync.sync }.not_to raise_error
     end
   end
 
@@ -189,7 +189,7 @@ describe AssetSync do
     end
 
     it "should not raise an invalid exception" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      expect{ AssetSync.sync }.not_to raise_error
     end
 
     it "should output a warning to stderr" do
@@ -208,7 +208,7 @@ describe AssetSync do
     end
 
     it "should not raise an invalid exception" do
-      expect{ AssetSync.sync }.not_to raise_error()
+      expect{ AssetSync.sync }.not_to raise_error
     end
   end
 
