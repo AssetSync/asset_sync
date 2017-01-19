@@ -125,9 +125,7 @@ describe AssetSync::Storage do
       end
 
       files = double()
-      local_files.count.times do
-        expect(files).to receive(:create) { |file| check_file(file) }
-      end
+      expect(files).to receive(:create){ |file| check_file(file) }.exactly(local_files.count).times
       allow(storage).to receive_message_chain(:bucket, :files).and_return(files)
       storage.upload_files
     end
