@@ -107,17 +107,17 @@ describe AssetSync::Storage do
 
       def check_file(file)
         case file[:key]
-        when 'file1.jpg'
-        when 'dir1/dir2/file2.jpg'
+        when 'file1.jpg',
+             'dir1/dir2/file2.jpg'
           !expect(file).not_to include(:cache_control, :expires)
-        when 'file1-1234567890abcdef1234567890abcdef.jpg'
-        when 'file1-1234567890abcdef1234567890abcdef.jpg.gz'
-        when 'file1-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg'
-        when 'file1-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz'
-        when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg'
-        when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg.gz'
-        when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg'
-        when 'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz'
+        when 'file1-1234567890abcdef1234567890abcdef.jpg',
+             'file1-1234567890abcdef1234567890abcdef.jpg.gz',
+             'file1-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg',
+             'file1-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz',
+             'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg',
+             'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg.gz',
+             'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg',
+             'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz'
           expect(file).to include(:cache_control, :expires)
         else
           fail
