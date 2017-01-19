@@ -118,6 +118,10 @@ module AssetSync
       defined?(::Rails.root) ? File.exist?(self.yml_path) : false
     end
 
+    def path_style?
+      fog_directory && fog_directory.include?('.')
+    end
+
     def yml
       @yml ||= ::YAML.load(::ERB.new(IO.read(yml_path)).result)[::Rails.env] || {}
     end
@@ -190,6 +194,9 @@ module AssetSync
             :aws_secret_access_key => aws_secret_access_key
           })
         end
+        options.merge!({
+          :path_style => true
+        }) if path_style?
       elsif rackspace?
         options.merge!({
           :rackspace_username => rackspace_username,
