@@ -98,7 +98,14 @@ describe AssetSync::Storage do
         'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg',
         'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz'
       ]
+      local_files += [
+        'file3.png',
+        'file3.zabcde.png',
+        'file3.abcdef.jpg',
+        'dir3/file3.abc123.jpg'
+      ]
       remote_files = []
+      @config.cache_asset_regexp = [/\.[a-f0-9]{6}$/i]
       storage = AssetSync::Storage.new(@config)
       allow(storage).to receive(:local_files).and_return(local_files)
       allow(storage).to receive(:get_remote_files).and_return(remote_files)
@@ -108,7 +115,9 @@ describe AssetSync::Storage do
       def check_file(file)
         case file[:key]
         when 'file1.jpg',
-             'dir1/dir2/file2.jpg'
+             'dir1/dir2/file2.jpg',
+             'file3.png',
+             'file3.zabcde.png'
           !expect(file).not_to include(:cache_control, :expires)
         when 'file1-1234567890abcdef1234567890abcdef.jpg',
              'file1-1234567890abcdef1234567890abcdef.jpg.gz',
@@ -117,7 +126,9 @@ describe AssetSync::Storage do
              'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg',
              'dir1/dir2/file2-1234567890abcdef1234567890abcdef.jpg.gz',
              'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg',
-             'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz'
+             'dir1/dir2/file2-1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef.jpg.gz',
+             'file3.abcdef.jpg',
+             'dir3/file3.abc123.jpg'
           expect(file).to include(:cache_control, :expires)
         else
           fail
