@@ -23,6 +23,7 @@ module AssetSync
     attr_accessor :run_on_precompile
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
+    attr_accessor :webpacker_assets
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -64,6 +65,7 @@ module AssetSync
       self.enabled = true
       self.run_on_precompile = true
       self.cdn_distribution_id = nil
+      self.webpacker_assets = false
       self.invalidate = []
       load_yml! if defined?(::Rails) && yml_exists?
     end
@@ -160,6 +162,7 @@ module AssetSync
       self.run_on_precompile      = yml["run_on_precompile"] if yml.has_key?("run_on_precompile")
       self.invalidate             = yml["invalidate"] if yml.has_key?("invalidate")
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
+      self.webpacker_assets = yml['webpacker_assets'] if yml.has_key?("webpacker_assets")
 
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")

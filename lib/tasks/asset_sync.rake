@@ -20,11 +20,24 @@ if Rake::Task.task_defined?("assets:precompile:nondigest")
     Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
   end
 else
-  Rake::Task["assets:precompile"].enhance do
+  # Triggers on webpacker compile task instead of assets:precompile to ensure
+  # that syncing is done after all assets are compiled
+  # (webpacker:compile already enhances assets:precompile)
+  if Rake::Task.task_defined?("webpacker:compile")
+    Rake::Task['webpacker:compile'].enhance do
+      if defined?(AssetSync) && AssetSync.config.run_on_precompile && AssetSync.config.webpacker_assets
+        Rake::Task["assets:sync"].invoke
+      end
+    end
+  end
+
+  Rake::Task['assets:precompile'].enhance do
     # rails 3.1.1 will clear out Rails.application.config if the env vars
     # RAILS_GROUP and RAILS_ENV are not defined. We need to reload the
     # assets environment in this case.
     # Rake::Task["assets:environment"].invoke if Rake::Task.task_defined?("assets:environment")
-    Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
+    if defined?(AssetSync) && AssetSync.config.run_on_precompile && !AssetSync.config.webpacker_assets
+      Rake::Task["assets:sync"].invoke
+    end
   end
 end
