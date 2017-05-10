@@ -128,7 +128,7 @@ module AssetSync
       uncompressed_filename = f.sub(/\.gz\z/, '')
       basename = File.basename(uncompressed_filename, File.extname(uncompressed_filename))
 
-      assets_to_cache_control = Regexp.union([REGEXP_ASSETS_TO_CACHE_CONTROL] | config.cache_asset_regexp).source
+      assets_to_cache_control = Regexp.union([REGEXP_ASSETS_TO_CACHE_CONTROL] | config.cache_asset_regexps).source
       if basename.match(Regexp.new(assets_to_cache_control)).present?
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
