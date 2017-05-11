@@ -344,12 +344,7 @@ IAM User Policy Example (replace "bucket_name" with your bucket):
       "Resource": "arn:aws:s3:::*"
     },
     {
-      "Action": "s3:*",
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::bucket_name"
-    },
-    {
-      "Action": "s3:*",
+      "Action": "s3:PutObject*",
       "Effect": "Allow",
       "Resource": "arn:aws:s3:::bucket_name/*"
     }
