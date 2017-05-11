@@ -23,6 +23,7 @@ module AssetSync
     attr_accessor :run_on_precompile
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
+    attr_accessor :cache_asset_regexps
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -65,6 +66,7 @@ module AssetSync
       self.run_on_precompile = true
       self.cdn_distribution_id = nil
       self.invalidate = []
+      self.cache_asset_regexps = []
       load_yml! if defined?(::Rails) && yml_exists?
     end
 
@@ -114,6 +116,10 @@ module AssetSync
       fog_provider =~ /google/i
     end
 
+    def cache_asset_regexp=(cache_asset_regexp)
+      self.cache_asset_regexps = [cache_asset_regexp]
+    end
+
     def yml_exists?
       defined?(::Rails.root) ? File.exist?(self.yml_path) : false
     end
@@ -160,6 +166,7 @@ module AssetSync
       self.run_on_precompile      = yml["run_on_precompile"] if yml.has_key?("run_on_precompile")
       self.invalidate             = yml["invalidate"] if yml.has_key?("invalidate")
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
+      self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
 
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")

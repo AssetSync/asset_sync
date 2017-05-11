@@ -90,6 +90,10 @@ describe AssetSync do
     it "should default invalidate to empty array" do
       expect(AssetSync.config.invalidate).to eq([])
     end
+
+    it "should default asset_regexps to empty array" do
+      expect(AssetSync.config.cache_asset_regexps).to eq([])
+    end
   end
 
   describe 'from yml' do
@@ -138,6 +142,10 @@ describe AssetSync do
     it "should default manifest to false" do
       expect(AssetSync.config.manifest).to be_falsey
     end
+
+    it "should default asset_regexps to match regexps" do
+      expect(AssetSync.config.cache_asset_regexps).to eq(['cache_me.js', /cache_some\.\d{8}\.css/])
+    end    
   end
 
   describe 'from yml, exporting to a mobile hybrid development directory' do
@@ -245,6 +253,24 @@ describe AssetSync do
     it "config.manifest_path should default to public/custom_assets.." do
       Rails.application.config.assets.prefix = 'custom_assets'
       expect(AssetSync.config.manifest_path).to match(/public\/custom_assets\/manifest.yml/)
+    end
+  end
+  
+  describe 'with cache_asset_regexps' do
+    before(:each) do
+      AssetSync.config = AssetSync::Config.new
+    end
+    
+    it "config.cache_asset_regexp should set cache_asset_regexps" do
+      AssetSync.config.cache_asset_regexp = /\.[a-f0-9]{8}/i
+      expect(AssetSync.config.cache_asset_regexps.size).to eq(1)
+      expect(AssetSync.config.cache_asset_regexps[0]).to eq(/\.[a-f0-9]{8}/i)
+    end
+
+    it "set cache_asset_regexps" do
+      AssetSync.config.cache_asset_regexps = ["app.abc123.js", /\.[a-f0-9]{10}/i]
+      expect(AssetSync.config.cache_asset_regexps.size).to eq(2)
+      expect(AssetSync.config.cache_asset_regexps).to eq(["app.abc123.js", /\.[a-f0-9]{10}/i])
     end
   end
 

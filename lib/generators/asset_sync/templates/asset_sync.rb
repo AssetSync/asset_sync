@@ -42,4 +42,9 @@ AssetSync.configure do |config|
   # Log silently. Default is `true`. But you can set it to false if more logging message are preferred.
   # Logging messages are sent to `STDOUT` when `log_silently` is falsy
   # config.log_silently = true
+  #
+  # Allow custom assets to be cacheable. Note: The base filename will be matched
+  # If you have an asset with name `app.0ba4d3.js`, only `app.0ba4d3` will need to be matched
+  # config.cache_asset_regexps = [ /\.[a-f0-9]{8}$/i, /\.[a-f0-9]{20}$/i ]
+  # config.cache_asset_regexp = /\.[a-f0-9]{8}$/i
 end
