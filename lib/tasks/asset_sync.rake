@@ -25,7 +25,7 @@ else
   # (webpacker:compile already enhances assets:precompile)
   if Rake::Task.task_defined?("webpacker:compile")
     Rake::Task['webpacker:compile'].enhance do
-      if defined?(AssetSync) && AssetSync.config.run_on_precompile && AssetSync.config.webpacker_assets
+      if defined?(AssetSync) && AssetSync.config.run_on_precompile && AssetSync.config.include_webpacker_assets
         Rake::Task["assets:sync"].invoke
       end
     end
@@ -36,7 +36,7 @@ else
     # RAILS_GROUP and RAILS_ENV are not defined. We need to reload the
     # assets environment in this case.
     # Rake::Task["assets:environment"].invoke if Rake::Task.task_defined?("assets:environment")
-    if defined?(AssetSync) && AssetSync.config.run_on_precompile && !AssetSync.config.webpacker_assets
+    if defined?(AssetSync) && AssetSync.config.run_on_precompile && !AssetSync.config.include_webpacker_assets
       Rake::Task["assets:sync"].invoke
     end
   end

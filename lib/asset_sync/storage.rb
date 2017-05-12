@@ -62,7 +62,7 @@ module AssetSync
           manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
           asset_paths = manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
 
-          if defined?(Webpacker) && self.config.webpacker_assets
+          if defined?(Webpacker) && self.config.include_webpacker_assets
             log "Reading Webpacker assets from '#{Webpacker::Configuration.manifest_path}'"
             json = JSON.parse(File.read(Webpacker::Configuration.manifest_path))
             asset_paths += json.values.map { |f| URI.parse(f).path }
@@ -89,7 +89,7 @@ module AssetSync
       Dir.chdir(path) do
         to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
         files = Dir[to_load]
-        if defined?(Webpacker) && self.config.webpacker_assets
+        if defined?(Webpacker) && self.config.include_webpacker_assets
           files += Dir["#{Webpacker::Configuration.paths.fetch(:entry, "packs")}/**/**"]
         end
         files
