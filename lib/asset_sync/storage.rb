@@ -3,6 +3,7 @@ require "fog/core"
 module AssetSync
   class Storage
     REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
+    REGEXP_ASSETS_TO_CACHE_CONTROL = /-[0-9a-fA-F]{32,}$/
 
     class BucketNotFound < StandardError;
     end
@@ -138,7 +139,9 @@ module AssetSync
 
       uncompressed_filename = f.sub(/\.gz\z/, '')
       basename = File.basename(uncompressed_filename, File.extname(uncompressed_filename))
-      if /-[0-9a-fA-F]{32,}$/.match(basename)
+
+      assets_to_cache_control = Regexp.union([REGEXP_ASSETS_TO_CACHE_CONTROL] | config.cache_asset_regexps).source
+      if basename.match(Regexp.new(assets_to_cache_control)).present?
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
           :expires => CGI.rfc1123_date(Time.now + one_year)

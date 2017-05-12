@@ -26,6 +26,8 @@ defaults: &defaults
   # gzip_compression: true
   # Fail silently.  Useful for environments such as Heroku
   # fail_silently: true
+  # Allow custom assets to be cacheable. Note: The base filename will be matched
+  # cache_asset_regexps: ['cache_me.js', !ruby/regexp '/cache_some\.\d{8}\.css/']
 
 development:
   <<: *defaults

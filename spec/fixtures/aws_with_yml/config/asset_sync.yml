@@ -5,6 +5,7 @@ defaults: &defaults
   region: "eu-west-1"
   run_on_precompile: false
   fog_path_style: true
+  cache_asset_regexps: ['cache_me.js', !ruby/regexp '/cache_some\.\d{8}\.css/']
 
 development:
   <<: *defaults

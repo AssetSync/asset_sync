@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Nothing
+- Allow customization of regexp of files on target bucket to be marked as 'Cacheable' so that browsers when serving the content would cache them.The value can be set by `cache_asset_regexps`
 
 ### Changed
 
