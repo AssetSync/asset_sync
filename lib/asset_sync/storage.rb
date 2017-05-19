@@ -1,5 +1,7 @@
 require "fog/core"
 
+require "asset_sync/multi_mime"
+
 module AssetSync
   class Storage
     REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/

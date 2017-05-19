@@ -177,9 +177,12 @@ describe AssetSync::Storage do
       # 1. Remove constant(s) to avoid warning messages
       # 2. Remove loaded file(s)
       Object.send(:remove_const, :MIME) if defined?(MIME)
-      mime_types = $".grep(/mime\/types/).first
-      $".delete(mime_types)
+
+      $".grep(/mime\//).each do |file_path|
+        $".delete(file_path)
+      end
       require 'mime/types'
+
       @config = AssetSync::Config.new
     end
 

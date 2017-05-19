@@ -3,15 +3,39 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AssetSync::MultiMime do
 
   before(:each) do
+    # Object#remove_const does not remove the loaded
+    # file from the $" variable
+    #
+    # So we need do both
+    #
+    # 1. Remove constant(s) to avoid warning messages
+    # 2. Remove loaded file(s)
     Object.send(:remove_const, :Rails) if defined?(Rails)
     Object.send(:remove_const, :Mime) if defined?(Mime)
     Object.send(:remove_const, :Rack) if defined?(Rack)
+    Object.send(:remove_const, :MIME) if defined?(MIME)
+
+    $".grep(/mime\//).each do |file_path|
+      $".delete(file_path)
+    end
   end
 
   after(:each) do
+    # Object#remove_const does not remove the loaded
+    # file from the $" variable
+    #
+    # So we need do both
+    #
+    # 1. Remove constant(s) to avoid warning messages
+    # 2. Remove loaded file(s)
     Object.send(:remove_const, :Rails) if defined?(Rails)
     Object.send(:remove_const, :Mime) if defined?(Mime)
     Object.send(:remove_const, :Rack) if defined?(Rack)
+    Object.send(:remove_const, :MIME) if defined?(MIME)
+
+    $".grep(/mime\//).each do |file_path|
+      $".delete(file_path)
+    end
   end
 
   after(:all) do
