@@ -11,7 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Nothing
+- Only support mime-type >= 2.99,  
+  which is released at the end of 2015  
 
 ### Fixed
 
