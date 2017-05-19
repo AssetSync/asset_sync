@@ -7,12 +7,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Allow customization of regexp of files on target bucket to be marked as 'Cacheable' so that browsers when serving the content would cache them.The value can be set by `cache_asset_regexps`
+- Allow customization of regexp of files on target bucket to be marked as 'Cacheable'  
+  so that browsers when serving the content would cache them.  
+  The value can be set by `cache_asset_regexps`  
 
 ### Changed
 
 - Only support mime-type >= 2.99,  
   which is released at the end of 2015  
+- Only support mactivemodel >= 4.1,  
+  which is released in 2014  
 
 ### Fixed
 
