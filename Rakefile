@@ -40,4 +40,10 @@ namespace :spec do
   end
 end
 
-task :default => 'spec:all'
+if !ENV["APPRAISAL_INITIALIZED"] && !ENV["TRAVIS"]
+  task :default do
+    sh "appraisal install && rake appraisal spec:all"
+  end
+else
+  task default: ["spec:all"]
+end
