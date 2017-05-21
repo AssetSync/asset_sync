@@ -40,6 +40,8 @@ module AssetSync
     # Google Storage
     attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id
 
+    attr_accessor :webpacker
+
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
     validates :fog_provider,          :presence => true
@@ -181,6 +183,8 @@ module AssetSync
       self.fog_region             = yml["region"] if yml.has_key?("region")
 
       self.public_path            = yml["public_path"] if yml.has_key?("public_path")
+
+      self.webpacker              = yml['webpacker'] if yml.has_key?('webpacker')
     end
 
 

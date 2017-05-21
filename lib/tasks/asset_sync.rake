@@ -13,7 +13,11 @@ namespace :assets do
 
 end
 
-if Rake::Task.task_defined?("assets:precompile:nondigest")
+if Rake::Task.task_defined?('webpacker:compile')
+  Rake::Task['webpacker:compile'].enhance do
+    Rake::Task['assets:sync'].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile && AssetSync.config.webpacker
+  end
+elsif Rake::Task.task_defined?("assets:precompile:nondigest")
   Rake::Task["assets:precompile:nondigest"].enhance do
     # Conditional execution needs to be inside the enhance block because the enhance block
     # will get executed before yaml or Rails initializers.
@@ -28,3 +32,5 @@ else
     Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
   end
 end
+
+
