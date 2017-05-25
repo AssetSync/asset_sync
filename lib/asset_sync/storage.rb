@@ -62,7 +62,12 @@ module AssetSync
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
           manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
-          return manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
+          files  = manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
+          if self.config.webpacker
+            files += Dir[File.join(Webpacker::Configuration.fetch(:public_output_path), '/**/**')]
+          end
+
+          return files
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
@@ -82,7 +87,12 @@ module AssetSync
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
       Dir.chdir(path) do
         to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
-        Dir[to_load]
+        files = Dir[to_load]
+        if self.config.webpacker
+          files += Dir[File.join(Webpacker::Configuration.fetch(:public_output_path), '/**/**')]
+        end
+
+        files
       end
     end
 
