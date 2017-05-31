@@ -42,7 +42,7 @@ module AssetSync
     end
 
     def local_files
-      @local_files ||= get_local_files.uniq
+      @local_files ||= get_local_file_paths_with_extra.uniq
     end
 
     def always_upload_files
@@ -55,6 +55,17 @@ module AssetSync
 
     def files_to_invalidate
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
+    end
+
+    def get_local_file_paths_with_extra
+      local_file_paths = get_local_files
+
+      unless config.additional_local_file_paths_proc.respond_to?(:call)
+        return local_file_paths
+      end
+
+      # Using `Array()` to ensure it works when single value is returned
+      local_file_paths + Array(config.additional_local_file_paths_proc.call)
     end
 
     def get_local_files

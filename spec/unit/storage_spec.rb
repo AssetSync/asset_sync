@@ -13,7 +13,7 @@ describe AssetSync::Storage do
     it 'should overwrite all remote files if set to ignore' do
       @config.existing_remote_files = 'ignore'
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(File).to receive(:file?).and_return(true) # Pretend they all exist
 
       @local_files.each do |file|
@@ -26,7 +26,7 @@ describe AssetSync::Storage do
       @config.always_upload = ['local_image.jpg', /local_image\d\.svg/]
 
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(File).to receive(:file?).and_return(true) # Pretend they all exist
 
@@ -40,7 +40,7 @@ describe AssetSync::Storage do
       @config.ignored_files = ['local_image1.jpg', /local_stylesheet\d\.css/]
 
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(File).to receive(:file?).and_return(true) # Pretend they all exist
 
@@ -68,7 +68,77 @@ describe AssetSync::Storage do
       ]
 
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
+      allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+      allow(File).to receive(:file?).and_return(true) # Pretend they all exist
+
+      updated_nonfingerprinted_files = [
+        'public/image.png',
+        'public/application.js',
+      ]
+      (@local_files - @remote_files + updated_nonfingerprinted_files).each do |file|
+        expect(storage).to receive(:upload_file).with(file)
+      end
+      storage.upload_files
+    end
+
+    context "when config additional_local_file_paths_proc is set" do
+      let(:additional_local_file_paths_proc) do
+        -> { ["webpack/example_asset.jpg"] }
+      end
+
+      before(:each) do
+        @config.additional_local_file_paths_proc =
+          additional_local_file_paths_proc
+      end
+
+      let(:storage) do
+        AssetSync::Storage.new(@config)
+      end
+
+      let(:file_paths_should_be_uploaded) do
+        @local_files -
+          @remote_files -
+          storage.ignored_files +
+          storage.always_upload_files +
+          additional_local_file_paths_proc.call
+      end
+
+      before do
+        # Stubbing
+        allow(storage).to receive(:get_local_files).and_return(@local_files)
+        allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+        # Pretend the files all exist
+        allow(File).to receive(:file?).and_return(true)
+      end
+
+      it "uploads additional files in additional to local files" do
+        file_paths_should_be_uploaded.each do |file|
+          expect(storage).to receive(:upload_file).with(file)
+        end
+        storage.upload_files
+      end
+    end
+
+    it 'should upload additonal  files' do
+      @local_files = [
+        'public/image.png',
+        'public/image-82389298328.png',
+        'public/image-a8389f9h324.png',
+        'public/application.js',
+        'public/application-b3389d983k1.js',
+        'public/application-ac387d53f31.js',
+        'public',
+      ]
+      @remote_files = [
+        'public/image.png',
+        'public/image-a8389f9h324.png',
+        'public/application.js',
+        'public/application-b3389d983k1.js',
+      ]
+
+      storage = AssetSync::Storage.new(@config)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(File).to receive(:file?).and_return(true) # Pretend they all exist
 
@@ -110,7 +180,7 @@ describe AssetSync::Storage do
       remote_files = []
       @config.cache_asset_regexps = [/\.[a-f0-9]{6}$/i, /\.[a-f0-9]{8}$/i]
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(local_files)
+      allow(storage).to receive(:get_local_files).and_return(local_files)
       allow(storage).to receive(:get_remote_files).and_return(remote_files)
       allow(File).to receive(:file?).and_return(true)
       allow(File).to receive(:open).and_return(nil)
@@ -155,7 +225,7 @@ describe AssetSync::Storage do
       @config.fog_provider = 'AWS'
 
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(storage).to receive(:upload_file).and_return(true)
 
@@ -193,7 +263,7 @@ describe AssetSync::Storage do
         }
       }
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(File).to receive(:open).and_return('file') # Pretend they all exist
 
@@ -216,7 +286,7 @@ describe AssetSync::Storage do
         }
       }
       storage = AssetSync::Storage.new(@config)
-      allow(storage).to receive(:local_files).and_return(@local_files)
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
       allow(File).to receive(:open).and_return('file') # Pretend they all exist
       bucket = double

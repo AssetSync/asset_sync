@@ -24,6 +24,9 @@ module AssetSync
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
+    # This is a proc to get additional local files paths
+    # Since this is a proc it won't be able to be configured by a YAML file
+    attr_accessor :additional_local_file_paths_proc
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -67,6 +70,7 @@ module AssetSync
       self.cdn_distribution_id = nil
       self.invalidate = []
       self.cache_asset_regexps = []
+      self.additional_local_file_paths_proc = -> { [] }
       load_yml! if defined?(::Rails) && yml_exists?
     end
 
