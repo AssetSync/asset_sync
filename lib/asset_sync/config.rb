@@ -67,6 +67,8 @@ module AssetSync
       self.cdn_distribution_id = nil
       self.invalidate = []
       self.cache_asset_regexps = []
+      @additional_local_file_paths_procs = []
+
       load_yml! if defined?(::Rails) && yml_exists?
     end
 
@@ -220,7 +222,29 @@ module AssetSync
       return options
     end
 
+    # @api
+    def add_local_file_paths(&block)
+      @additional_local_file_paths_procs =
+        additional_local_file_paths_procs + [block]
+    end
+
+    # @api private
+    #   This is to be called in Storage
+    #   Not to be called by user
+    def additional_local_file_paths
+      return [] if additional_local_file_paths_procs.empty?
+
+      # Using `Array()` to ensure it works when single value is returned
+      additional_local_file_paths_procs.each_with_object([]) do |proc, paths|
+        paths.concat(Array(proc.call))
+      end
+    end
+
   private
+
+    # This is a proc to get additional local files paths
+    # Since this is a proc it won't be able to be configured by a YAML file
+    attr_reader :additional_local_file_paths_procs
 
     def default_manifest_directory
       File.join(::Rails.public_path, assets_prefix)
