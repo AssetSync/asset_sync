@@ -5,16 +5,27 @@ module AssetSync
 
     def self.lookup(ext)
 
+      mime = nil
+      library_found = false
       if defined?(::MIME::Types)
-        ::MIME::Types.type_for(ext).first
-      elsif defined?(::Mime::Type)
-        ::Mime::Type.lookup_by_extension(ext)
-      elsif defined?(::Rack::Mime)
+        mime = ::MIME::Types.type_for(ext).first
+        library_found = true
+      end
+      if !mime && defined?(::Mime::Type)
+        mime = ::Mime::Type.lookup_by_extension(ext)
+        library_found = true
+      end
+      if !mime && defined?(::Rack::Mime)
         ext_with_dot = ".#{ext}"
-        ::Rack::Mime.mime_type(ext_with_dot)
-      else
+        mime = ::Rack::Mime.mime_type(ext_with_dot)
+        library_found = true
+      end
+
+      if !library_found
         raise "No library found for mime type lookup"
       end
+
+      mime
 
     end
 
