@@ -121,9 +121,10 @@ module AssetSync
       one_year = 31557600
       ext = File.extname(f)[1..-1]
       mime = MultiMime.lookup(ext)
+      file_handle = File.open("#{path}/#{f}")
       file = {
         :key => f,
-        :body => File.open("#{path}/#{f}"),
+        :body => file_handle,
         :public => true,
         :content_type => mime
       }
@@ -199,7 +200,8 @@ module AssetSync
         })
       end
 
-      file = bucket.files.create( file ) unless ignore
+      bucket.files.create( file ) unless ignore
+      file_handle.close
     end
 
     def upload_files
