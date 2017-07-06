@@ -24,6 +24,7 @@ module AssetSync
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
+    attr_accessor :include_webpacker_assets
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -65,6 +66,7 @@ module AssetSync
       self.enabled = true
       self.run_on_precompile = true
       self.cdn_distribution_id = nil
+      self.include_webpacker_assets = false
       self.invalidate = []
       self.cache_asset_regexps = []
       @additional_local_file_paths_procs = []
@@ -169,6 +171,7 @@ module AssetSync
       self.invalidate             = yml["invalidate"] if yml.has_key?("invalidate")
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
+      self.include_webpacker_assets = yml['include_webpacker_assets'] if yml.has_key?("include_webpacker_assets")
 
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
