@@ -253,7 +253,7 @@ production:
 
 ### Available Configuration Options
 
-All AssetSync configuration can be modified directly using environment variables with the **Built-in initializer**. e.g.
+Most AssetSync configuration can be modified directly using environment variables with the **Built-in initializer**. e.g.
 
 ```ruby
 AssetSync.config.fog_provider == ENV['FOG_PROVIDER']
@@ -274,6 +274,19 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 * **ignored\_files**: an array of files to ignore e.g. `['ignore_me.js', %r(ignore_some/\d{32}\.css)]` Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy **default**: `[]`
 * **cache\_asset\_regexps**: an array of files to add cache headers e.g. `['cache_me.js', %r(cache_some\.\d{8}\.css)]` Useful if there are some files that are added to sprockets assets list and need to be set as 'Cacheable' on uploaded server.  Only rails compiled regexp is matched internally **default**: `[]`
 
+##### Config Method `add_local_file_paths`
+Adding local files by providing a block:
+```ruby
+AssetSync.configure do |config|
+  # The block should return an array of file paths
+  config.add_local_file_paths do
+    # Any code that returns paths of local asset files to be uploaded
+    # Like Webpacker
+    Dir[File.join(Webpacker::Configuration.fetch(:public_output_path), '/**/**')]
+  end
+end
+```
+The blocks are run when local files are being scanned and uploaded
 
 #### Fog (Required)
 * **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files) or *Google* (Google Storage)

@@ -7,7 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Nothing
+- Add method `add_local_file_paths` to config for uploading additional files, like webpacker
+  (https://github.com/AssetSync/asset_sync/pull/347)
 
 ### Changed
 
@@ -15,7 +16,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Nothing
+- Fix too many files open when uploading local files
+  (https://github.com/AssetSync/asset_sync/pull/351)
 
 
 ## [2.1.0] - 2016-05-19
