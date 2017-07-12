@@ -3,6 +3,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AssetSync::Storage do
   include_context "mock Rails without_yml"
 
+  let(:file_like_object) do
+    double("file like object").as_null_object
+  end
+
   describe '#upload_files' do
     before(:each) do
       @local_files = ["local_image2.jpg", "local_image1.jpg", "local_stylesheet1.css", "local_stylesheet2.css"]
@@ -184,7 +188,7 @@ describe AssetSync::Storage do
       allow(storage).to receive(:get_local_files).and_return(local_files)
       allow(storage).to receive(:get_remote_files).and_return(remote_files)
       allow(File).to receive(:file?).and_return(true)
-      allow(File).to receive(:open).and_return(nil)
+      allow(File).to receive(:open).and_return(file_like_object)
 
       def check_file(file)
         case file[:key]
@@ -266,7 +270,8 @@ describe AssetSync::Storage do
       storage = AssetSync::Storage.new(@config)
       allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
-      allow(File).to receive(:open).and_return('file') # Pretend they all exist
+      # Pretend they all exist
+      allow(File).to receive(:open).and_return(file_like_object)
 
       bucket = double
       files = double
@@ -289,7 +294,8 @@ describe AssetSync::Storage do
       storage = AssetSync::Storage.new(@config)
       allow(storage).to receive(:get_local_files).and_return(@local_files)
       allow(storage).to receive(:get_remote_files).and_return(@remote_files)
-      allow(File).to receive(:open).and_return('file') # Pretend they all exist
+      # Pretend they all exist
+      allow(File).to receive(:open).and_return(file_like_object)
       bucket = double
       files = double
       allow(storage).to receive(:bucket).and_return(bucket)
