@@ -7,6 +7,21 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Nothing
+
+### Changed
+
+- Nothing
+
+### Fixed
+
+- Nothing
+
+
+## [2.2.0] - 2016-07-12
+
+### Added
+
 - Add method `add_local_file_paths` to config for uploading additional files, like webpacker
   (https://github.com/AssetSync/asset_sync/pull/347)
 
@@ -815,7 +830,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/AssetSync/asset_sync/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/AssetSync/asset_sync/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/AssetSync/asset_sync/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/AssetSync/asset_sync/compare/v1.2.1...v1.3.0
