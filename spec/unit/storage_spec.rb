@@ -307,4 +307,25 @@ describe AssetSync::Storage do
       storage.upload_file('assets/some_longer_path/local_image2.jpg')
     end
   end
+
+  describe '#delete_extra_remote_files' do
+    it 'should delete the files in bulk' do
+      remote_files = ['public/image.png']
+
+      storage = AssetSync::Storage.new(@config)
+
+      [:local_files, :ignored_files, :always_upload_files].each do |method|
+         expect(storage).to receive(method).and_return([])
+      end
+
+      expect(storage).to receive(:get_remote_files).and_return(remote_files)
+      expect(storage).to receive(:connection).and_return(connection = double)
+      expect(storage).to receive(:config).and_return(config = double)
+      expect(config).to receive(:fog_directory).and_return('foo')
+      expect(connection).to receive(:delete_multiple_objects).with('foo', remote_files)
+      
+      storage.delete_extra_remote_files
+    end
+  end
+
 end

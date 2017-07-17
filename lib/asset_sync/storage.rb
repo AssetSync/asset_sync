@@ -106,13 +106,12 @@ module AssetSync
     def delete_extra_remote_files
       log "Fetching files to flag for delete"
       remote_files = get_remote_files
-      # fixes: https://github.com/rumblelabs/asset_sync/issues/19
-      from_remote_files_to_delete = remote_files - local_files - ignored_files - always_upload_files
+      remote_files_to_delete = remote_files - local_files - ignored_files - always_upload_files
 
-      log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
-      # Delete unneeded remote files
-      bucket.files.each do |f|
-        delete_file(f, from_remote_files_to_delete)
+      log "Flagging #{remote_files_to_delete.size} file(s) for deletion"
+      # Delete unneeded remote files, in chunks of 500
+      remote_files_to_delete.each_slice(500) do |slice|
+        connection.delete_multiple_objects(self.config.fog_directory, slice)
       end
     end
 
