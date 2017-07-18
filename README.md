@@ -282,7 +282,9 @@ AssetSync.configure do |config|
   config.add_local_file_paths do
     # Any code that returns paths of local asset files to be uploaded
     # Like Webpacker
-    Dir[File.join(Webpacker::Configuration.fetch(:public_output_path), '/**/**')]
+    Dir.chdir(Rails.root.join('public')) do
+      Dir[File.join(Webpacker::Configuration.fetch(:public_output_path), '/**/**')]
+    end
   end
 end
 ```
