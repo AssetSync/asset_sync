@@ -344,19 +344,21 @@ production:
 
 ### Amazon (AWS) IAM Users
 
-Amazon has switched to the more secure IAM User security policy model. When generating a user & policy for asset_sync you will need to ensure the policy has the following permissions.
-You __must__ give the user permission to **s3:ListAllMyBuckets** as well as give permission to both the bucket, as well as the bucket's contents (/*). If not given all these permissions you'll see the error ```Expected(200) <=> Actual(403 Forbidden) ```
+Amazon has switched to the more secure IAM User security policy model. When generating a user & policy for asset_sync you **must** ensure the policy has the following permissions, or you'll see the error:
 
-IAM User Policy Example (replace "bucket_name" with your bucket):
+```
+Expected(200) <=> Actual(403 Forbidden)
+```
+
+IAM User Policy Example with minimum require permissions (replace `bucket_name` with your bucket):
+
 ``` json
 {
   "Statement": [
     {
-      "Action": [
-        "s3:ListAllMyBuckets"
-      ],
+      "Action": "s3:ListBucket",
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::*"
+      "Resource": "arn:aws:s3:::bucket_name"
     },
     {
       "Action": "s3:PutObject*",
@@ -368,6 +370,7 @@ IAM User Policy Example (replace "bucket_name" with your bucket):
 ```
 
 If you want to use IAM roles you must set ```config.aws_iam_roles = true``` in your initializers.
+
 ```
 AssetSync.configure do |config|
   # ...
