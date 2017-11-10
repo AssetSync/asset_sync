@@ -18,7 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
-## [2.2.0] - 2016-07-12
+## [2.2.0] - 2017-07-12
 
 ### Added
 
@@ -35,7 +35,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   (https://github.com/AssetSync/asset_sync/pull/351)
 
 
-## [2.1.0] - 2016-05-19
+## [2.1.0] - 2017-05-19
 
 ### Added
 
