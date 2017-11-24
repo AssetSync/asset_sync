@@ -6,6 +6,12 @@ if defined?(AssetSync)
     config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
     # To use AWS reduced redundancy storage.
     # config.aws_reduced_redundancy = true
+    #
+    # Change AWS signature version. Default is 4
+    # config.aws_signature_version = 4
+    #
+    # Use http instead of https.
+    # config.fog_scheme = 'http'
     <%- elsif google? -%>
     config.fog_provider = 'Google'
     config.google_storage_access_key_id = ENV['GOOGLE_STORAGE_ACCESS_KEY_ID']

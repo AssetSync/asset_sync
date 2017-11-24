@@ -16,9 +16,13 @@ module AssetSync
           config.fog_provider = ENV['FOG_PROVIDER'] if ENV.has_key?('FOG_PROVIDER')
           config.fog_directory = ENV['FOG_DIRECTORY'] if ENV.has_key?('FOG_DIRECTORY')
           config.fog_region = ENV['FOG_REGION'] if ENV.has_key?('FOG_REGION')
+          config.fog_host = ENV['FOG_HOST'] if ENV.has_key?('FOG_HOST')
+          config.fog_scheme = ENV['FOG_SCHEMA'] if ENV.has_key?('FOG_SCHEMA')
+          config.fog_path_style = ENV['FOG_PATH_STYLE'] if ENV.has_key?('FOG_PATH_STYLE')
 
           config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID'] if ENV.has_key?('AWS_ACCESS_KEY_ID')
           config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY'] if ENV.has_key?('AWS_SECRET_ACCESS_KEY')
+          config.fog_aws_signature_version = ENV['AWS_SIGNATURE_VERSION'] if ENV.has_key?('AWS_SIGNATURE_VERSION')
           config.aws_reduced_redundancy = ENV['AWS_REDUCED_REDUNDANCY'] == true  if ENV.has_key?('AWS_REDUCED_REDUNDANCY')
 
           config.rackspace_username = ENV['RACKSPACE_USERNAME'] if ENV.has_key?('RACKSPACE_USERNAME')

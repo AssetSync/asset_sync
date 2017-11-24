@@ -183,6 +183,12 @@ AssetSync.configure do |config|
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
+  # Change AWS signature version. Default is 4
+  # config.aws_signature_version = 4
+  #
+  # Use http instead of https.
+  # config.fog_scheme = 'http'
+  #
   # Automatically replace files with their equivalent gzip compressed version
   # config.gzip_compression = true
   #
@@ -222,6 +228,10 @@ defaults: &defaults
   aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
+  # Change AWS signature version. Default is 4
+  # aws_signature_version: 4
+  # Use http instead of https.
+  # fog_scheme: 'http'
   existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
   # To delete existing remote files.
   # existing_remote_files: delete
