@@ -7,7 +7,7 @@ defaults: &defaults
   # aws_reduced_redundancy: true
   # Change AWS signature version. Default is 4
   # aws_signature_version: 4
-  # Use http instead of https.
+  # Use http instead of https. Default is 'http'
   # fog_scheme: 'http'
   <%- elsif google? -%>
   fog_provider: 'Google'

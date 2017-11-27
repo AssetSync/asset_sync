@@ -10,7 +10,7 @@ if defined?(AssetSync)
     # Change AWS signature version. Default is 4
     # config.aws_signature_version = 4
     #
-    # Use http instead of https.
+    # Use http instead of https. Default is 'http'
     # config.fog_scheme = 'http'
     <%- elsif google? -%>
     config.fog_provider = 'Google'

@@ -22,7 +22,7 @@ module AssetSync
 
           config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID'] if ENV.has_key?('AWS_ACCESS_KEY_ID')
           config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY'] if ENV.has_key?('AWS_SECRET_ACCESS_KEY')
-          config.fog_aws_signature_version = ENV['AWS_SIGNATURE_VERSION'] if ENV.has_key?('AWS_SIGNATURE_VERSION')
+          config.aws_signature_version = ENV['AWS_SIGNATURE_VERSION'] if ENV.has_key?('AWS_SIGNATURE_VERSION')
           config.aws_reduced_redundancy = ENV['AWS_REDUCED_REDUNDANCY'] == true  if ENV.has_key?('AWS_REDUCED_REDUNDANCY')
 
           config.rackspace_username = ENV['RACKSPACE_USERNAME'] if ENV.has_key?('RACKSPACE_USERNAME')
