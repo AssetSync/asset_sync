@@ -5,10 +5,15 @@ defaults: &defaults
   aws_secret_access_key: "<%= aws_secret_access_key %>"
   # To use AWS reduced redundancy storage.
   # aws_reduced_redundancy: true
+  #
   # Change AWS signature version. Default is 4
   # aws_signature_version: 4
-  # Use http instead of https. Default is 'http'
-  # fog_scheme: 'http'
+  #
+  # Change host option in fog (only if you need to)
+  # fog_host: "s3.amazonaws.com"
+  #
+  # Use http instead of https. Default should be "https" (at least for fog-aws)
+  # fog_scheme: "http"
   <%- elsif google? -%>
   fog_provider: 'Google'
   google_storage_access_key_id: "<%= google_storage_access_key_id %>"

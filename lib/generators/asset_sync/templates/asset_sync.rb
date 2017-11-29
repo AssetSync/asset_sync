@@ -10,8 +10,11 @@ if defined?(AssetSync)
     # Change AWS signature version. Default is 4
     # config.aws_signature_version = 4
     #
-    # Use http instead of https. Default is 'http'
-    # config.fog_scheme = 'http'
+    # Change host option in fog (only if you need to)
+    # config.fog_host = "s3.amazonaws.com"
+    #
+    # Use http instead of https. Default should be "https" (at least for fog-aws)
+    # config.fog_scheme = "http"
     <%- elsif google? -%>
     config.fog_provider = 'Google'
     config.google_storage_access_key_id = ENV['GOOGLE_STORAGE_ACCESS_KEY_ID']

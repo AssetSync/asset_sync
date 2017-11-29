@@ -186,6 +186,9 @@ AssetSync.configure do |config|
   # Change AWS signature version. Default is 4
   # config.aws_signature_version = 4
   #
+  # Change host option in fog (only if you need to)
+  # config.fog_host = 's3.amazonaws.com'
+  #
   # Use http instead of https.
   # config.fog_scheme = 'http'
   #
@@ -226,12 +229,22 @@ defaults: &defaults
   fog_directory: "rails-app-assets"
   aws_access_key_id: "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
   aws_secret_access_key: "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
+
+  # To use AWS reduced redundancy storage.
+  # aws_reduced_redundancy: true
+  #
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
+  #
   # Change AWS signature version. Default is 4
   # aws_signature_version: 4
-  # Use http instead of https.
-  # fog_scheme: 'http'
+  #
+  # Change host option in fog (only if you need to)
+  # fog_host: "s3.amazonaws.com"
+  #
+  # Use http instead of https. Default should be "https" (at least for fog-aws)
+  # fog_scheme: "http"
+
   existing_remote_files: keep # Existing pre-compiled assets on S3 will be kept
   # To delete existing remote files.
   # existing_remote_files: delete
