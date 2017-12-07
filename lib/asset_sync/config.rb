@@ -234,6 +234,7 @@ module AssetSync
           :google_storage_access_key_id => google_storage_access_key_id
         })
       elsif azure_rm?
+        require 'fog/azurerm'
         options.merge!({
           :azure_storage_account_name => azure_storage_account_name,
           :azure_storage_access_key   => azure_storage_access_key,
