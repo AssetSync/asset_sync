@@ -31,6 +31,9 @@ module AssetSync
           config.google_storage_access_key_id = ENV['GOOGLE_STORAGE_ACCESS_KEY_ID'] if ENV.has_key?('GOOGLE_STORAGE_ACCESS_KEY_ID')
           config.google_storage_secret_access_key = ENV['GOOGLE_STORAGE_SECRET_ACCESS_KEY'] if ENV.has_key?('GOOGLE_STORAGE_SECRET_ACCESS_KEY')
 
+          config.azure_storage_account_name = ENV['AZURE_STORAGE_ACCOUNT_NAME'] if ENV.has_key?('AZURE_STORAGE_ACCOUNT_NAME')
+          config.azure_storage_access_key = ENV['AZURE_STORAGE_ACCESS_KEY'] if ENV.has_key?('AZURE_STORAGE_ACCESS_KEY')
+
           config.enabled = (ENV['ASSET_SYNC_ENABLED'] == 'true') if ENV.has_key?('ASSET_SYNC_ENABLED')
 
           config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"

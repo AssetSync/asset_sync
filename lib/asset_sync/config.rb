@@ -42,6 +42,10 @@ module AssetSync
     # Google Storage
     attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id
 
+    # Azure Blob with Fog::AzureRM
+    attr_accessor :azure_storage_account_name
+    attr_accessor :azure_storage_access_key
+
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
     validates :fog_provider,          :presence => true
@@ -120,6 +124,10 @@ module AssetSync
       fog_provider =~ /google/i
     end
 
+    def azure_rm?
+      fog_provider =~ /azurerm/i
+    end
+
     def cache_asset_regexp=(cache_asset_regexp)
       self.cache_asset_regexps = [cache_asset_regexp]
     end
@@ -175,6 +183,9 @@ module AssetSync
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
 
+      self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
+      self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")
+
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
       self.aws_secret_access_key  = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")
@@ -222,11 +233,19 @@ module AssetSync
           :google_storage_secret_access_key => google_storage_secret_access_key,
           :google_storage_access_key_id => google_storage_access_key_id
         })
+      elsif azure_rm?
+        options.merge!({
+          :azure_storage_account_name => azure_storage_account_name,
+          :azure_storage_access_key   => azure_storage_access_key,
+        })
+        options.merge!({
+          :environment => fog_region
+        }) if fog_region
       else
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end
 
-      options.merge!({:region => fog_region}) if fog_region && !rackspace?
+      options.merge!({:region => fog_region}) if fog_region && !rackspace? && !azure_rm?
       return options
     end
 

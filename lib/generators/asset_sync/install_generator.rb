@@ -23,6 +23,10 @@ module AssetSync
       options[:provider] == 'Rackspace'
     end
 
+    def azure_rm?
+      options[:provider] == 'AzureRm'
+    end
+
     def aws_access_key_id
       "<%= ENV['AWS_ACCESS_KEY_ID'] %>"
     end
@@ -45,6 +49,14 @@ module AssetSync
 
     def rackspace_api_key
       "<%= ENV['RACKSPACE_API_KEY'] %>"
+    end
+
+    def azure_storage_account_name
+      "<%= ENV['AZURE_STORAGE_ACCOUNT_NAME'] %>"
+    end
+
+    def azure_storage_access_key
+      "<%= ENV['AZURE_STORAGE_ACCESS_KEY'] %>"
     end
 
     def app_name
