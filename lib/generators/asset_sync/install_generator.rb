@@ -5,7 +5,7 @@ module AssetSync
 
     # Commandline options can be defined here using Thor-like options:
     class_option :use_yml,   :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
-    class_option :provider,  :type => :string,  :default => "AWS",  :desc => "Generate with support for 'AWS', 'Rackspace', or 'Google'"
+    class_option :provider,  :type => :string,  :default => "AWS",  :desc => "Generate with support for 'AWS', 'Rackspace', 'Google', or 'AzureRM"
 
     def self.source_root
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')

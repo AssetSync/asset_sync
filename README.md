@@ -33,6 +33,14 @@ gem "asset_sync"
 gem "fog-aws"
 ```
 
+Or, to use Azure Blob storage, configure as this.
+
+``` ruby
+gem "asset_sync"
+gem "fog-azure-rm"
+```
+
+
 ### Extended Installation (Faster sync with turbosprockets)
 
 It's possible to improve **asset:precompile** time if you are using Rails 3.2.x
@@ -64,6 +72,12 @@ Or, to use Google Storage Cloud, configure as this.
   config.action_controller.asset_host = "//#{ENV['FOG_DIRECTORY']}.storage.googleapis.com"
 ```
 
+Or, to use Azure Blob storage, configure as this.
+
+``` ruby
+  #config/environments/production.rb
+  config.action_controller.asset_host = "//#{ENV['AZURE_STORAGE_ACCOUNT_NAME']}.blob.core.windows.net/#{ENV['FOG_DIRECTORY']}"
+```
 
 
 On **HTTPS**: the exclusion of any protocol in the asset host declaration above will allow browsers to choose the transport mechanism on the fly. So if your application is available under both HTTP and HTTPS the assets will be served to match.
@@ -73,11 +87,20 @@ On **HTTPS**: the exclusion of any protocol in the asset host declaration above 
 ``` ruby
   config.action_controller.asset_host = "//s3.amazonaws.com/#{ENV['FOG_DIRECTORY']}"
 ```
-Or
+
+Or, to use Google Storage Cloud, configure as this.
 
 ``` ruby
   config.action_controller.asset_host = "//storage.googleapis.com/#{ENV['FOG_DIRECTORY']}"
 ```
+
+Or, to use Azure Blob storage, configure as this.
+
+``` ruby
+  #config/environments/production.rb
+  config.action_controller.asset_host = "//#{ENV['AZURE_STORAGE_ACCOUNT_NAME']}.blob.core.windows.net/#{ENV['FOG_DIRECTORY']}"
+```
+
 On **non default S3 bucket region**: If your bucket is set to a region that is not the default US Standard (us-east-1) you must use the first style of url ``//#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com`` or amazon will return a 301 permanently moved when assets are requested. Note the caveat above about bucket names and periods.
 
 If you wish to have your assets sync to a sub-folder of your bucket instead of into the root add the following to your ``production.rb`` file
@@ -167,6 +190,7 @@ Run the included Rake task to generate a starting point.
 
     rails g asset_sync:install --provider=Rackspace
     rails g asset_sync:install --provider=AWS
+    rails g asset_sync:install --provider=AzureRM
 
 The generator will create a Rails initializer at `config/initializers/asset_sync.rb`.
 
@@ -220,6 +244,7 @@ Run the included Rake task to generate a starting point.
 
     rails g asset_sync:install --use-yml --provider=Rackspace
     rails g asset_sync:install --use-yml --provider=AWS
+    rails g asset_sync:install --use-yml --provider=AzureRM
 
 The generator will create a YAML file at `config/asset_sync.yml`.
 
@@ -316,12 +341,12 @@ end
 The blocks are run when local files are being scanned and uploaded
 
 #### Fog (Required)
-* **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files) or *Google* (Google Storage)
+* **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files) or *Google* (Google Storage) or *AzureRM* (Azure Blob)
 * **fog\_directory**: your bucket name
 
 #### Fog (Optional)
 
-* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1* (AWS),  *ord* (Rackspace)
+* **fog\_region**: the region your storage bucket is in e.g. *eu-west-1* (AWS),  *ord* (Rackspace), *japanwest* (Azure Blob)
 * **fog\_path\_style**: To use buckets with dot in names, check https://github.com/fog/fog/issues/2381#issuecomment-28088524
 
 #### AWS
@@ -337,6 +362,10 @@ The blocks are run when local files are being scanned and uploaded
 #### Google Storage
 * **google\_storage\_access\_key\_id**: your Google Storage access key
 * **google\_storage\_secret\_access\_key**: your Google Storage access secret
+
+#### Azure Blob
+* **azure\_storage\_account\_name**: your Azure Blob access key
+* **azure\_storage\_access\_key**: your Azure Blob access secret
 
 #### Rackspace (Optional)
 
