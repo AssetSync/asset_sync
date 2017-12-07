@@ -24,7 +24,7 @@ module AssetSync
     end
 
     def azure_rm?
-      options[:provider] == 'AzureRm'
+      options[:provider] == 'AzureRM'
     end
 
     def aws_access_key_id
