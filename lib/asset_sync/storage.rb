@@ -202,6 +202,10 @@ module AssetSync
         })
       end
 
+      if config.azure_rm?
+        file[:content_type] = file[:content_type].content_type if file[:content_type].is_a?(::MIME::Type)
+      end
+
       bucket.files.create( file ) unless ignore
       file_handle.close
       gzip_file_handle.close if gzip_file_handle
