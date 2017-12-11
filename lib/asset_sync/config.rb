@@ -219,34 +219,31 @@ module AssetSync
         options.merge!({:scheme => fog_scheme}) if fog_scheme
         options.merge!({:aws_signature_version => aws_signature_version}) if aws_signature_version
         options.merge!({:path_style => fog_path_style}) if fog_path_style
+        options.merge!({:region => fog_region}) if fog_region
       elsif rackspace?
         options.merge!({
           :rackspace_username => rackspace_username,
           :rackspace_api_key => rackspace_api_key
         })
-        options.merge!({
-          :rackspace_region => fog_region
-        }) if fog_region
+        options.merge!({ :rackspace_region => fog_region }) if fog_region
         options.merge!({ :rackspace_auth_url => rackspace_auth_url }) if rackspace_auth_url
       elsif google?
         options.merge!({
           :google_storage_secret_access_key => google_storage_secret_access_key,
           :google_storage_access_key_id => google_storage_access_key_id
         })
+        options.merge!({:region => fog_region}) if fog_region
       elsif azure_rm?
         require 'fog/azurerm'
         options.merge!({
           :azure_storage_account_name => azure_storage_account_name,
           :azure_storage_access_key   => azure_storage_access_key,
         })
-        options.merge!({
-          :environment => fog_region
-        }) if fog_region
+        options.merge!({:environment => fog_region}) if fog_region
       else
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end
 
-      options.merge!({:region => fog_region}) if fog_region && !rackspace? && !azure_rm?
       return options
     end
 
