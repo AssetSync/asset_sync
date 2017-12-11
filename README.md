@@ -523,9 +523,17 @@ end
 
 Make sure you have a .env file with these details:-
 
+    # for AWS provider
     AWS_ACCESS_KEY_ID=<yourkeyid>
     AWS_SECRET_ACCESS_KEY=<yoursecretkey>
     FOG_DIRECTORY=<yourbucket>
+    FOG_REGION=<youbucketregion>
+
+    # for AzureRM provider
+    AZURE_STORAGE_ACCOUNT_NAME=<youraccountname>
+    AZURE_STORAGE_ACCESS_KEY=<youraccesskey>
+    FOG_DIRECTORY=<yourcontainer>
+    FOG_REGION=<yourcontainerregion>
 
 Make sure the bucket has read/write permissions.  Then to run the tests:-
 
