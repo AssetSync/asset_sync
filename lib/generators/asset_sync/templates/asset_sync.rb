@@ -26,6 +26,12 @@ if defined?(AssetSync)
 
     # if you need to change rackspace_auth_url (e.g. if you need to use Rackspace London)
     # config.rackspace_auth_url = "lon.auth.api.rackspacecloud.com"
+    <%- elsif azure_rm? -%>
+    config.fog_provider = 'AzureRM'
+    config.azure_storage_account_name = ENV['AZURE_STORAGE_ACCOUNT_NAME']
+    config.azure_storage_access_key = ENV['AZURE_STORAGE_ACCESS_KEY']
+
+    # config.fog_directory specifies container name of Azure Blob storage
     <%- end -%>
     config.fog_directory = ENV['FOG_DIRECTORY']
 

@@ -5,7 +5,7 @@ module AssetSync
 
     # Commandline options can be defined here using Thor-like options:
     class_option :use_yml,   :type => :boolean, :default => false, :desc => "Use YML file instead of Rails Initializer"
-    class_option :provider,  :type => :string,  :default => "AWS",  :desc => "Generate with support for 'AWS', 'Rackspace', or 'Google'"
+    class_option :provider,  :type => :string,  :default => "AWS",  :desc => "Generate with support for 'AWS', 'Rackspace', 'Google', or 'AzureRM"
 
     def self.source_root
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')
@@ -21,6 +21,10 @@ module AssetSync
 
     def rackspace?
       options[:provider] == 'Rackspace'
+    end
+
+    def azure_rm?
+      options[:provider] == 'AzureRM'
     end
 
     def aws_access_key_id
@@ -45,6 +49,14 @@ module AssetSync
 
     def rackspace_api_key
       "<%= ENV['RACKSPACE_API_KEY'] %>"
+    end
+
+    def azure_storage_account_name
+      "<%= ENV['AZURE_STORAGE_ACCOUNT_NAME'] %>"
+    end
+
+    def azure_storage_access_key
+      "<%= ENV['AZURE_STORAGE_ACCESS_KEY'] %>"
     end
 
     def app_name
