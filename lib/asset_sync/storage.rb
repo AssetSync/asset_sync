@@ -59,6 +59,18 @@ module AssetSync
     end
 
     def get_local_files
+      if from_manifest = get_asset_files_from_manifest
+        return from_manifest
+      end
+
+      log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
+      Dir.chdir(path) do
+        to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
+        Dir[to_load]
+      end
+    end
+
+    def get_asset_files_from_manifest
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
@@ -79,11 +91,6 @@ module AssetSync
         else
           log "Warning: Manifest could not be found"
         end
-      end
-      log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
-      Dir.chdir(path) do
-        to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
-        Dir[to_load]
       end
     end
 
@@ -234,11 +241,61 @@ module AssetSync
       end
     end
 
+    def download_manifest
+      files = get_remote_files
+      manifest_key   = files.find { |f| File.basename(f) =~ Sprockets::ManifestUtils::MANIFEST_RE }
+      manifest_key ||= files.find { |f| File.basename(f) =~ Sprockets::ManifestUtils::LEGACY_MANIFEST_RE }
+      raise "Could not find any manifests. aborted."
+
+      manifest = bucket.files.get(manifest_key)
+      log "Downloaded: #{manifest_key} (#{manifest.content_length} Bytes)"
+
+      manifest_path = File.join(path, manifest_key)
+      local_dir = File.dirname(manifest_path)
+      FileUtils.mkdir_p(local_dir) unless File.directory?(local_dir)
+      File.open(manifest_path, "wb") { |f| f.write(manifest.body) }
+    end
+
+    def download_asset_files
+      asset_paths = get_asset_files_from_manifest
+      if asset_paths.nil?
+        log "Using: Remote Directory Search"
+        asset_paths = get_remote_files
+      end
+
+      asset_paths.each do |asset_path|
+        local_path = File.join(path, asset_path)
+        if File.exists?(local_path)
+          log "Skipped: #{asset_path}"
+          next
+        end
+
+        file = bucket.files.get(asset_path)
+        log "Downloaded: #{asset_path} (#{file.content_length} Bytes)"
+        local_dir = File.dirname(local_path)
+        FileUtils.mkdir_p(local_dir) unless File.directory?(local_dir)
+        File.open(local_path, "wb") { |f| f.write(file.body) }
+      end
+    end
+
     def sync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       log "AssetSync: Syncing."
       upload_files
       delete_extra_remote_files unless keep_existing_remote_files?
+      log "AssetSync: Done."
+    end
+
+    def download(target = :asset_files)
+      log "AssetSync: Downloading #{target}."
+      case target
+      when :manifest
+        download_manifest
+      when :asset_files
+        download_asset_files
+      else
+        raise "Unknown target specified: #{target}. It must be :manifest or :asset_files."
+      end
       log "AssetSync: Done."
     end
 

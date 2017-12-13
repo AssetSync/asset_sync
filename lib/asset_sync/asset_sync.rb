@@ -30,6 +30,12 @@ module AssetSync
       end
     end
 
+    def download(target = :asset_files)
+      with_config do
+        self.storage.download(target)
+      end
+    end
+
     def clean
       with_config do
         self.storage.delete_extra_remote_files

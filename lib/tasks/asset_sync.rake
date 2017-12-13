@@ -4,11 +4,29 @@ namespace :assets do
   task :sync => :environment do
     AssetSync.sync
   end
+
   namespace :sync do
     desc 'Delete out-of-sync files on remote'
     task :clean => :environment do
       AssetSync.clean
     end
+
+    desc "Download a manifest and asset files"
+    task :download => :environment do
+      Rake::Task["assets:sync:download:manifest"].invoke
+      Rake::Task["assets:sync:download:asset_files"].invoke
+    end
+
+    namespace :download do
+      desc "Download a manifest"
+      task :manifest => :environment do
+        AssetSync.download(:manifest)
+      end
+
+      desc "Download asset files"
+      task :asset_files => :environment do
+        AssetSync.download(:asset_files)
+      end
   end
 
 end
