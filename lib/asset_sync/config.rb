@@ -24,6 +24,7 @@ module AssetSync
     attr_accessor :invalidate
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
+    attr_accessor :include_manifest
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -73,6 +74,7 @@ module AssetSync
       self.cdn_distribution_id = nil
       self.invalidate = []
       self.cache_asset_regexps = []
+      self.include_manifest = false
       @additional_local_file_paths_procs = []
 
       load_yml! if defined?(::Rails) && yml_exists?
@@ -182,6 +184,7 @@ module AssetSync
       self.invalidate             = yml["invalidate"] if yml.has_key?("invalidate")
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
+      self.include_manifest       = yml['include_manifest'] if yml.has_key?("include_manifest")
 
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")

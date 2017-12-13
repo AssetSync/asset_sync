@@ -43,7 +43,7 @@ module AssetSync
 
     def local_files
       @local_files ||=
-        (get_local_files + config.additional_local_file_paths).uniq
+        (get_local_files + get_manifest_path + config.additional_local_file_paths).uniq
     end
 
     def always_upload_files
@@ -91,6 +91,14 @@ module AssetSync
         else
           log "Warning: Manifest could not be found"
         end
+      end
+    end
+
+    def get_manifest_path
+      if self.config.include_manifest
+        [ActionView::Base.assets_manifest.filename.sub(/^#{path}\//, "")]
+      else
+        []
       end
     end
 
