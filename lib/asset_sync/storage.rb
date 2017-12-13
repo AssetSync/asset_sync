@@ -253,7 +253,7 @@ module AssetSync
       files = get_remote_files
       manifest_key   = files.find { |f| File.basename(f) =~ Sprockets::ManifestUtils::MANIFEST_RE }
       manifest_key ||= files.find { |f| File.basename(f) =~ Sprockets::ManifestUtils::LEGACY_MANIFEST_RE }
-      raise "Could not find any manifests. aborted."
+      raise "Could not find any manifests. aborted." if manifest_key.nil?
 
       manifest = bucket.files.get(manifest_key)
       log "Downloaded: #{manifest_key} (#{manifest.content_length} Bytes)"
