@@ -41,6 +41,14 @@ module AssetSync
       expand_file_names(self.config.ignored_files)
     end
 
+    def get_manifest_path
+      if self.config.include_manifest
+        [ActionView::Base.assets_manifest.filename.sub(/^#{path}\//, "")]
+      else
+        []
+      end
+    end
+
     def local_files
       @local_files ||=
         (get_local_files + get_manifest_path + config.additional_local_file_paths).uniq
@@ -56,18 +64,6 @@ module AssetSync
 
     def files_to_invalidate
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
-    end
-
-    def get_local_files
-      if from_manifest = get_asset_files_from_manifest
-        return from_manifest
-      end
-
-      log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
-      Dir.chdir(path) do
-        to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
-        Dir[to_load]
-      end
     end
 
     def get_asset_files_from_manifest
@@ -94,11 +90,15 @@ module AssetSync
       end
     end
 
-    def get_manifest_path
-      if self.config.include_manifest
-        [ActionView::Base.assets_manifest.filename.sub(/^#{path}\//, "")]
-      else
-        []
+    def get_local_files
+      if from_manifest = get_asset_files_from_manifest
+        return from_manifest
+      end
+
+      log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
+      Dir.chdir(path) do
+        to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
+        Dir[to_load]
       end
     end
 
