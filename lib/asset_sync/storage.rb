@@ -51,11 +51,11 @@ module AssetSync
 
     def local_files
       @local_files ||=
-        (get_local_files + get_manifest_path + config.additional_local_file_paths).uniq
+        (get_local_files + config.additional_local_file_paths).uniq
     end
 
     def always_upload_files
-      expand_file_names(self.config.always_upload)
+      expand_file_names(self.config.always_upload) + get_manifest_path
     end
 
     def files_with_custom_headers
