@@ -27,6 +27,7 @@ namespace :assets do
       task :asset_files => :environment do
         AssetSync.download(:asset_files)
       end
+    end
   end
 
 end
