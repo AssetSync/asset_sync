@@ -42,11 +42,15 @@ module AssetSync
     end
 
     def get_manifest_path
-      if self.config.include_manifest
-        [ActionView::Base.assets_manifest.filename.sub(/^#{path}\//, "")]
+      return [] unless self.config.include_manifest
+        
+      if ActionView::Base.respond_to?(:assets_manifest)
+        manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
+        manifest_path = manifest.filename
       else
-        []
+        manifest_path = self.config.manifest_path
       end
+      [manifest_path.filename.sub(/^#{path}\//, "")] # full path to relative path
     end
 
     def local_files
