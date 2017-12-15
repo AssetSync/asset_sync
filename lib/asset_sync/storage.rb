@@ -58,7 +58,7 @@ module AssetSync
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
     end
 
-    def get_local_files
+    def get_asset_files_from_manifest
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
@@ -80,6 +80,13 @@ module AssetSync
           log "Warning: Manifest could not be found"
         end
       end
+    end
+
+    def get_local_files
+      if from_manifest = get_asset_files_from_manifest
+        return from_manifest
+      end
+
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
       Dir.chdir(path) do
         to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
