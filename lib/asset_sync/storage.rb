@@ -58,6 +58,9 @@ module AssetSync
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
     end
 
+    # @api
+    #   To get a list of asset files indicated in a manifest file.
+    #   It makes sense if a user sets `config.manifest` is true.
     def get_asset_files_from_manifest
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
