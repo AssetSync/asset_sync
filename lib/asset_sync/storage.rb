@@ -41,13 +41,25 @@ module AssetSync
       expand_file_names(self.config.ignored_files)
     end
 
+    def get_manifest_path
+      return [] unless self.config.include_manifest
+        
+      if ActionView::Base.respond_to?(:assets_manifest)
+        manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
+        manifest_path = manifest.filename
+      else
+        manifest_path = self.config.manifest_path
+      end
+      [manifest_path.sub(/^#{path}\//, "")] # full path to relative path
+    end
+
     def local_files
       @local_files ||=
         (get_local_files + config.additional_local_file_paths).uniq
     end
 
     def always_upload_files
-      expand_file_names(self.config.always_upload)
+      expand_file_names(self.config.always_upload) + get_manifest_path
     end
 
     def files_with_custom_headers
