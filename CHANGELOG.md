@@ -18,6 +18,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.4.0] - 2017-12-20
+
+### Added
+
+- Add support for Azure Blob storage
+  (https://github.com/AssetSync/asset_sync/pull/363)
+- Add option: `include_manifest`
+  (https://github.com/AssetSync/asset_sync/pull/365)
+
+### Changed
+
+- Add public API method `get_asset_files_from_manifest` split from `get_local_files` for another gem
+  (https://github.com/AssetSync/asset_sync/pull/366)
+
+### Fixed
+
+- Nothing
+
+
 ## [2.3.0] - 2017-12-05
 
 ### Added
@@ -842,7 +861,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/AssetSync/asset_sync/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/AssetSync/asset_sync/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/AssetSync/asset_sync/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/AssetSync/asset_sync/compare/v2.0.0...v2.1.0
