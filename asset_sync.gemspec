@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "jeweler"
 
   s.add_development_dependency "fog-aws"
+  s.add_development_dependency "fog-azure-rm"
 
   s.add_development_dependency "uglifier"
   s.add_development_dependency "appraisal"

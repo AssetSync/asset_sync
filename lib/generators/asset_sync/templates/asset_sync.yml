@@ -5,6 +5,15 @@ defaults: &defaults
   aws_secret_access_key: "<%= aws_secret_access_key %>"
   # To use AWS reduced redundancy storage.
   # aws_reduced_redundancy: true
+  #
+  # Change AWS signature version. Default is 4
+  # aws_signature_version: 4
+  #
+  # Change host option in fog (only if you need to)
+  # fog_host: "s3.amazonaws.com"
+  #
+  # Use http instead of https. Default should be "https" (at least for fog-aws)
+  # fog_scheme: "http"
   <%- elsif google? -%>
   fog_provider: 'Google'
   google_storage_access_key_id: "<%= google_storage_access_key_id %>"
@@ -15,6 +24,12 @@ defaults: &defaults
   rackspace_api_key: "<%= rackspace_api_key %>"
   # if you need to change rackspace_auth_url (e.g. if you need to use Rackspace London)
   # rackspace_auth_url: "https://lon.identity.api.rackspacecloud.com/v2.0"
+  <%- elsif azure_rm? -%>
+  fog_provider: 'AzureRM'
+  azure_storage_account_name: "<%= azure_storage_account_name %>"
+  azure_storage_access_key: "<%= azure_storage_access_key %>"
+
+  # fog_directory specifies container name of Azure Blob storage
   <%- end -%>
   fog_directory: "<%= app_name %>-assets"
   # You may need to specify what region your storage bucket is in

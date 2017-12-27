@@ -41,13 +41,25 @@ module AssetSync
       expand_file_names(self.config.ignored_files)
     end
 
+    def get_manifest_path
+      return [] unless self.config.include_manifest
+        
+      if ActionView::Base.respond_to?(:assets_manifest)
+        manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
+        manifest_path = manifest.filename
+      else
+        manifest_path = self.config.manifest_path
+      end
+      [manifest_path.sub(/^#{path}\//, "")] # full path to relative path
+    end
+
     def local_files
       @local_files ||=
         (get_local_files + config.additional_local_file_paths).uniq
     end
 
     def always_upload_files
-      expand_file_names(self.config.always_upload)
+      expand_file_names(self.config.always_upload) + get_manifest_path
     end
 
     def files_with_custom_headers
@@ -58,7 +70,10 @@ module AssetSync
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
     end
 
-    def get_local_files
+    # @api
+    #   To get a list of asset files indicated in a manifest file.
+    #   It makes sense if a user sets `config.manifest` is true.
+    def get_asset_files_from_manifest
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
@@ -80,6 +95,13 @@ module AssetSync
           log "Warning: Manifest could not be found"
         end
       end
+    end
+
+    def get_local_files
+      if from_manifest = get_asset_files_from_manifest
+        return from_manifest
+      end
+
       log "Using: Directory Search of #{path}/#{self.config.assets_prefix}"
       Dir.chdir(path) do
         to_load = self.config.assets_prefix.present? ? "#{self.config.assets_prefix}/**/**" : '**/**'
@@ -199,6 +221,12 @@ module AssetSync
         file.merge!({
           :storage_class => 'REDUCED_REDUNDANCY'
         })
+      end
+
+      if config.azure_rm?
+        # converts content_type from MIME::Type to String.
+        # because Azure::Storage (called from Fog::AzureRM) expects content_type as a String like "application/json; charset=utf-8"
+        file[:content_type] = file[:content_type].content_type if file[:content_type].is_a?(::MIME::Type)
       end
 
       bucket.files.create( file ) unless ignore
