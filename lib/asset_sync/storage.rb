@@ -5,7 +5,7 @@ require "asset_sync/multi_mime"
 module AssetSync
   class Storage
     REGEXP_FINGERPRINTED_FILES = /^(.*)\/([^-]+)-[^\.]+\.([^\.]+)$/
-    REGEXP_ASSETS_TO_CACHE_CONTROL = /-[0-9a-fA-F]{32,}$/
+    REGEXP_ASSETS_TO_CACHE_CONTROL = /-[0-9a-fA-F]{20,}$/
 
     class BucketNotFound < StandardError;
     end
