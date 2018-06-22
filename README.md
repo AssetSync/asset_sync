@@ -523,6 +523,37 @@ namespace :assets do
 end
 ```
 
+## Webpacker (> 2.0) support
+
+1. Add webpacker files and disable `run_on_precompile`:
+```ruby
+AssetSync.configure do |config|
+  # Disable automatic run on precompile in order to attach to webpacker rake task
+  config.run_on_precompile = false
+  # The block should return an array of file paths
+  config.add_local_file_paths do
+    # Support webpacker assets
+    public_root = Rails.root.join("public")
+    Dir.chdir(public_root) do
+      packs_dir = Webpacker.config.public_output_path.relative_path_from(public_root)
+      Dir[File.join(packs_dir, '/**/**')]
+    end
+  end
+end
+```
+
+2. Add a `asset_sync.rake` in your `lib/tasks` directory that enhances the correct task, otherwise asset_sync runs before `webpacker:compile` does:
+```
+if defined?(AssetSync)
+  Rake::Task['webpacker:compile'].enhance do
+    Rake::Task["assets:sync"].invoke
+  end
+end
+```
+
+### Caveat
+By adding local files outside the normal Rails `assets` directory, the uploading part works, however checking that the asset was previously uploaded is not working because asset_sync is only fetching the files in the `assets` directory on the remote bucket. This will mean additional time used to upload the same assets again on every precompilation.
+
 ## Running the specs
 
 Make sure you have a .env file with these details:-
