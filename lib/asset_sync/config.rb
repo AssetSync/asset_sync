@@ -17,7 +17,6 @@ module AssetSync
     attr_accessor :always_upload
     attr_accessor :ignored_files
     attr_accessor :prefix
-    attr_accessor :public_path
     attr_accessor :enabled
     attr_accessor :custom_headers
     attr_accessor :run_on_precompile
@@ -25,6 +24,7 @@ module AssetSync
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
     attr_accessor :include_manifest
+    attr_writer :public_path
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
