@@ -19,7 +19,7 @@ if Rake::Task.task_defined?("assets:precompile:nondigest")
     # will get executed before yaml or Rails initializers.
     Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
   end
-else
+elsif Rake::Task.task_defined?("assets:precompile")
   Rake::Task["assets:precompile"].enhance do
     # rails 3.1.1 will clear out Rails.application.config if the env vars
     # RAILS_GROUP and RAILS_ENV are not defined. We need to reload the
@@ -27,4 +27,6 @@ else
     # Rake::Task["assets:environment"].invoke if Rake::Task.task_defined?("assets:environment")
     Rake::Task["assets:sync"].invoke if defined?(AssetSync) && AssetSync.config.run_on_precompile
   end
+else
+  # Nothing to be enhanced
 end
