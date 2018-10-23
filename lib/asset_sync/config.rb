@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_model"
 require "erb"
 require "yaml"
@@ -268,6 +270,11 @@ module AssetSync
       end
     end
 
+    #@api
+    def file_ext_to_mime_type_overrides
+      @file_ext_to_mime_type_overrides ||= FileExtToMimeTypeOverrides.new
+    end
+
   private
 
     # This is a proc to get additional local files paths
@@ -276,6 +283,44 @@ module AssetSync
 
     def default_manifest_directory
       File.join(::Rails.public_path, assets_prefix)
+    end
+
+
+    # @api private
+    class FileExtToMimeTypeOverrides
+      def initialize
+        # The default is to prevent new mime type `application/ecmascript` to be returned
+        # which disables compression on some CDNs
+        @overrides = {
+          "js" => "application/javascript",
+        }
+      end
+
+      # @api
+      def add(ext, mime_type)
+        # Symbol / Mime type object might be passed in
+        # But we want strings only
+        @overrides.store(
+          ext.to_s, mime_type.to_s,
+        )
+      end
+
+      # @api
+      def clear
+        @overrides = {}
+      end
+
+
+      # @api private
+      def key?(key)
+        @overrides.key?(key)
+      end
+
+      # @api private
+      def fetch(key)
+        @overrides.fetch(key)
+      end
+
     end
   end
 end

@@ -344,6 +344,24 @@ end
 ```
 The blocks are run when local files are being scanned and uploaded
 
+##### Config Method `file_ext_to_mime_type_overrides`
+It's reported that `mime-types` 3.x returns `application/ecmascript` instead of `application/javascript`  
+Such change of mime type might cause some CDN to disable asset compression  
+So this gem has defined a default override for file ext `js` to be mapped to `application/javascript` by default
+
+To customize the overrides:
+```ruby
+AssetSync.configure do |config|
+  # Clear the default overrides
+  config.file_ext_to_mime_type_overrides.clear
+  
+  # Add/Edit overrides
+  # Will call `#to_s` for inputs
+  config.file_ext_to_mime_type_overrides.add(:js, :"application/x-javascript")
+end
+```
+The blocks are run when local files are being scanned and uploaded
+
 #### Fog (Required)
 * **fog\_provider**: your storage provider *AWS* (S3) or *Rackspace* (Cloud Files) or *Google* (Google Storage) or *AzureRM* (Azure Blob)
 * **fog\_directory**: your bucket name
