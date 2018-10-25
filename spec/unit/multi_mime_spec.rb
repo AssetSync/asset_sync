@@ -94,7 +94,7 @@ describe AssetSync::MultiMime do
       it "should return value from mime-types gem" do
         expect(
           AssetSync::MultiMime.lookup("js").to_s,
-        ).to eq("application/ecmascript")
+        ).to eq(::MIME::Types.type_for("js").first.to_s)
       end
     end
     context "with custom value" do
@@ -108,7 +108,7 @@ describe AssetSync::MultiMime do
         end
       end
 
-      it "should return value from mime-types gem" do
+      it "should return custom value" do
         expect(
           AssetSync::MultiMime.lookup("js").to_s,
         ).to eq("application/x-javascript")
