@@ -4,6 +4,11 @@ module AssetSync
   class MultiMime
 
     def self.lookup(ext)
+      overrides =
+        ::AssetSync.config.file_ext_to_mime_type_overrides
+      if overrides.key?(ext)
+        return overrides.fetch(ext)
+      end
 
       if defined?(::MIME::Types)
         ::MIME::Types.type_for(ext).first
