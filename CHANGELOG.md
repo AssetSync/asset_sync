@@ -18,6 +18,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.5.0] - 2018-10-25
+
+### Added
+
+- Add ruby only option `file_ext_to_mime_type_overrides`
+  (https://github.com/AssetSync/asset_sync/pull/374)
+
+### Changed
+
+- Start testing against rails 5.2, stop testing against rails 4.2
+
+### Fixed
+
+- Only enhance rake task assets:precompile if it's defined
+  (https://github.com/AssetSync/asset_sync/commit/e1eb1a16b06fd39def1759428a2d94733915bbff)
+- Avoid ruby warning due to "method redefined"
+  (https://github.com/AssetSync/asset_sync/pull/371)
+
+
 ## [2.4.0] - 2017-12-20
 
 ### Added
@@ -861,7 +880,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/AssetSync/asset_sync/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/AssetSync/asset_sync/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/AssetSync/asset_sync/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/AssetSync/asset_sync/compare/v2.1.0...v2.2.0
