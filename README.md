@@ -1,7 +1,7 @@
 
 [![Gem Version](https://img.shields.io/gem/v/asset_sync.svg?style=flat-square)](http://badge.fury.io/rb/asset_sync)
-[![Build Status](https://img.shields.io/travis/rumblelabs/asset_sync.svg?style=flat-square)](http://travis-ci.org/rumblelabs/asset_sync)
-[![Code Climate](https://img.shields.io/codeclimate/github/AssetSync/asset_sync/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/AssetSync/asset_sync)
+[![Build Status](https://img.shields.io/travis/AssetSync/asset_sync.svg?style=flat-square)](http://travis-ci.org/AssetSync/asset_sync)
+[![Coverage Status](http://img.shields.io/coveralls/AssetSync/asset_sync.svg?style=flat-square)](https://coveralls.io/r/AssetSync/asset_sync)
 
 (Build Status is broken as expected until Travis is fixed by AssetSync organization owner)
 
@@ -123,7 +123,7 @@ Additionally, if you depend on any configuration that is setup in your `initiali
 
 **AssetSync** supports the following methods of configuration.
 
-* [Built-in Initializer](https://github.com/rumblelabs/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
+* [Built-in Initializer](https://github.com/AssetSync/asset_sync/blob/master/lib/asset_sync/engine.rb) (configured through environment variables)
 * Rails Initializer
 * A YAML config file
 
