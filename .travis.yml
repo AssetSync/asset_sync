@@ -12,8 +12,6 @@ rvm:
   - ruby-head
   - jruby
   - jruby-head
-  - rbx-2
-  - rbx-3
 gemfile:
   - gemfiles/rails_4_2.gemfile
   - gemfiles/rails_5_0.gemfile
@@ -30,7 +28,5 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: rbx-2
-    - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
