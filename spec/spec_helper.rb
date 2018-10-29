@@ -10,6 +10,12 @@ rescue LoadError
   # SimpleCov ain't available - continue
 end
 
+if ENV["TRAVIS"]
+  require "coveralls"
+  Coveralls.wear!("rails")
+end
+
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e

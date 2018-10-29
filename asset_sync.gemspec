@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "bundler"
+  s.add_development_dependency "coveralls", ">= 0.7"
 
   s.add_development_dependency('mime-types', ">= 3.0")
 
