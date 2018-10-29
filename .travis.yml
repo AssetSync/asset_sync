@@ -30,3 +30,6 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+notifications:
+  webhooks:
+    - https://www.travisbuddy.com/
