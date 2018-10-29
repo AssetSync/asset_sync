@@ -1,14 +1,24 @@
+# Send builds to container-based infrastructure
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
 language: ruby
+cache:
+  bundler: true
 rvm:
-  - 1.9.2
-  - 1.9.3
-  - jruby-19mode
-  - rbx-2
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
   - ruby-head
+  - jruby
   - jruby-head
+  - rbx-2
+  - rbx-3
 gemfile:
-  - gemfiles/rails_3.1.gemfile
-  - gemfiles/rails_3.2.gemfile
+  - gemfiles/rails_4_2.gemfile
+  - gemfiles/rails_5_0.gemfile
+  - gemfiles/rails_5_1.gemfile
+  - gemfiles/rails_5_2.gemfile
 before_install:
   - gem install bundler
 env:
@@ -18,25 +28,9 @@ env:
     - secure: "dy8Fqlg3b1ZMK1BY5z6NMQLbzAVd7GWVYY0MeCQALz76zRac0z8MyU8hkv6h\nozFry7DSdbGehGT9foOnkWTwzGzf1rzdd5cmWrUPk1wDTRgMM9SrwodPj1TU\nzsq2EFx0a79vADQN8JXkpLC1YD6kEb9aWkTxrIT9KBgw+J5H32o="
     - secure: "Hmx7D7/p2LlA2ya/xBIz21s/8MLIQCjvfYB7RWBNlWk1PfqRLAz8wX6TUVWy\nfAFktMjLnpRLRYO7AgQS4jcfQ/k0HYK9IXzqXzeI00TNm0Vwp0TCXhawiOFT\nSvUMhs2/1vRfjN0HOJ75XlWRhJzV/G5rOMiafAZLsVzN/0iiB8g="
 matrix:
-  include:
-    - rvm: 1.9.3
-      gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: jruby-19mode
-      gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: rbx-2
-      gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_3.2.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_4.0.gemfile
-    - rvm: 2.1.2
-      gemfile: gemfiles/rails_4.1.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/rails_4.1.gemfile
-    - rvm: 2.1.2
-      gemfile: gemfiles/rails_4.1.gemfile
+  fast_finish: true
   allow_failures:
-    - rvm: 1.9.2
     - rvm: rbx-2
+    - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
