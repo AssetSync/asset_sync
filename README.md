@@ -3,8 +3,6 @@
 [![Build Status](https://img.shields.io/travis/AssetSync/asset_sync.svg?style=flat-square)](http://travis-ci.org/AssetSync/asset_sync)
 [![Coverage Status](http://img.shields.io/coveralls/AssetSync/asset_sync.svg?style=flat-square)](https://coveralls.io/r/AssetSync/asset_sync)
 
-(Build Status is broken as expected until Travis is fixed by AssetSync organization owner)
-
 
 # Asset Sync
 
