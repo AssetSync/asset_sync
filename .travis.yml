@@ -32,4 +32,6 @@ matrix:
     - rvm: jruby-head
 notifications:
   webhooks:
-    - https://www.travisbuddy.com/
+    urls:
+      - https://www.travisbuddy.com/
+    on_success: never
