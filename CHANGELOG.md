@@ -27,7 +27,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Start testing against rails 5.2, stop testing against rails 4.2
+- Start testing against rails 5.2, stop testing against rails 4.1
 
 ### Fixed
 
