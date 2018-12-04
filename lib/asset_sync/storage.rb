@@ -43,7 +43,7 @@ module AssetSync
 
     def get_manifest_path
       return [] unless self.config.include_manifest
-        
+
       if ActionView::Base.respond_to?(:assets_manifest)
         manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
         manifest_path = manifest.filename
@@ -148,9 +148,16 @@ module AssetSync
       file = {
         :key => f,
         :body => file_handle,
-        :public => true,
         :content_type => mime
       }
+
+      # region fog_public
+
+      if config.fog_public.use_explicit_value?
+        file[:public] = config.fog_public.to_bool
+      end
+
+      # endregion fog_public
 
       uncompressed_filename = f.sub(/\.gz\z/, '')
       basename = File.basename(uncompressed_filename, File.extname(uncompressed_filename))

@@ -205,6 +205,11 @@ AssetSync.configure do |config|
   # Increase upload performance by configuring your region
   # config.fog_region = 'eu-west-1'
   #
+  # Set `public` option when uploading file depending on value,
+  # Setting to "default" makes asset sync skip setting the option
+  # Possible values: true, false, "default" (default: true)
+  # config.fog_public = true
+  #
   # Change AWS signature version. Default is 4
   # config.aws_signature_version = 4
   #

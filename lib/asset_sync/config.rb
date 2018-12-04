@@ -32,6 +32,7 @@ module AssetSync
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
+    attr_reader   :fog_public            # e.g. true, false, "default"
 
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles, :aws_signature_version
@@ -63,6 +64,7 @@ module AssetSync
 
     def initialize
       self.fog_region = nil
+      self.fog_public = true
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
       self.manifest = false
@@ -163,6 +165,7 @@ module AssetSync
       self.fog_host               = yml["fog_host"]
       self.fog_directory          = yml["fog_directory"]
       self.fog_region             = yml["fog_region"]
+      self.fog_public             = yml["fog_public"] if yml.has_key?("fog_public")
       self.fog_path_style         = yml["fog_path_style"]
       self.fog_scheme             = yml["fog_scheme"]
       self.aws_access_key_id      = yml["aws_access_key_id"]
@@ -249,7 +252,7 @@ module AssetSync
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end
 
-      return options
+      options
     end
 
     # @api
@@ -273,6 +276,10 @@ module AssetSync
     #@api
     def file_ext_to_mime_type_overrides
       @file_ext_to_mime_type_overrides ||= FileExtToMimeTypeOverrides.new
+    end
+
+    def fog_public=(new_val)
+      @fog_public = FogPublicValue.new(new_val)
     end
 
   private
@@ -320,7 +327,21 @@ module AssetSync
       def fetch(key)
         @overrides.fetch(key)
       end
+    end
 
+    # @api private
+    class FogPublicValue
+      def initialize(val)
+        @value = val
+      end
+
+      def use_explicit_value?
+        @value.to_s != "default"
+      end
+
+      def to_bool
+        !@value.nil?
+      end
     end
   end
 end

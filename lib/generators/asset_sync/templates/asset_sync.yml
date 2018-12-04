@@ -3,6 +3,7 @@ defaults: &defaults
   fog_provider: 'AWS'
   aws_access_key_id: "<%= aws_access_key_id %>"
   aws_secret_access_key: "<%= aws_secret_access_key %>"
+
   # To use AWS reduced redundancy storage.
   # aws_reduced_redundancy: true
   #
@@ -32,15 +33,25 @@ defaults: &defaults
   # fog_directory specifies container name of Azure Blob storage
   <%- end -%>
   fog_directory: "<%= app_name %>-assets"
+
   # You may need to specify what region your storage bucket is in
   # fog_region: "eu-west-1"
+
+  # Set `public` option when uploading file depending on value,
+  # Setting to "default" makes asset sync skip setting the option
+  # Possible values: true, false, "default" (default: true)
+  # config.fog_public = true
+
   existing_remote_files: keep
   # To delete existing remote files.
   # existing_remote_files: delete
+
   # Automatically replace files with their equivalent gzip compressed version
   # gzip_compression: true
+
   # Fail silently.  Useful for environments such as Heroku
   # fail_silently: true
+
   # Allow custom assets to be cacheable. Note: The base filename will be matched
   # cache_asset_regexps: ['cache_me.js', !ruby/regexp '/cache_some\.\d{8}\.css/']
 
