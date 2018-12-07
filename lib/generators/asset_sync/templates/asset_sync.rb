@@ -42,6 +42,11 @@ if defined?(AssetSync)
     # Increase upload performance by configuring your region
     # config.fog_region = 'eu-west-1'
     #
+    # Set `public` option when uploading file depending on value,
+    # Setting to "default" makes asset sync skip setting the option
+    # Possible values: true, false, "default" (default: true)
+    # config.fog_public = true
+    #
     # Don't delete files from the store
     # config.existing_remote_files = "keep"
     #
