@@ -21,8 +21,7 @@ gemfile:
 before_install:
   # Cannot use bundler 2.x due to dependency
   # Solution from https://github.com/travis-ci/travis-ci/issues/5290#issuecomment-164600246
-  - rvm @global do gem uninstall bundler -a -x
-  - rvm @global do gem install bundler -v '~> 1.17.0' --conservative
+  - rvm @global do gem install bundler -v '< 2.0.0'
 env:
   global:
     - FOG_DIRECTORY=asset-sync-travis
