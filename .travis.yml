@@ -5,7 +5,6 @@ language: ruby
 cache:
   bundler: true
 rvm:
-  - 2.2
   - 2.3
   - 2.4
   - 2.5
@@ -19,9 +18,10 @@ gemfile:
   - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
 before_install:
-  # Cannot use bundler 2.x due to dependency
-  # Solution from https://github.com/travis-ci/travis-ci/issues/5290#issuecomment-164600246
-  - rvm @global do gem install bundler -v '< 2.0.0'
+  # Cannot use bundler 2.x due to dependency (mainly rails 4.2)
+  # Solution from https://github.com/rails/rails/blob/4-2-stable/.travis.yml
+  - "travis_retry gem update --system 2.7.8"
+  - "travis_retry gem install bundler -v '<2'"
 env:
   global:
     - FOG_DIRECTORY=asset-sync-travis
@@ -31,6 +31,11 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
+    # bundler version conflict
+    - rvm: 2.3
+      gemfile: gemfiles/rails_4_2.gemfile
+    - rvm: jruby
+      gemfile: gemfiles/rails_4_2.gemfile
     - rvm: ruby-head
     - rvm: jruby-head
 notifications:
