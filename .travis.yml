@@ -17,6 +17,7 @@ gemfile:
   - gemfiles/rails_5_0.gemfile
   - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
+  - gemfiles/rails_6_0.gemfile
 before_install:
   # Cannot use bundler 2.x due to dependency (mainly rails 4.2)
   # Solution from https://github.com/rails/rails/blob/4-2-stable/.travis.yml
@@ -36,6 +37,7 @@ matrix:
       gemfile: gemfiles/rails_4_2.gemfile
     - rvm: jruby
       gemfile: gemfiles/rails_4_2.gemfile
+    - gemfile: gemfiles/rails_6_0.gemfile
     - rvm: ruby-head
     - rvm: jruby-head
 notifications:
