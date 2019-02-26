@@ -11,9 +11,9 @@ module AssetSync
       end
 
       if defined?(::MIME::Types)
-        ::MIME::Types.type_for(ext).first
+        ::MIME::Types.type_for(ext).first.to_s
       elsif defined?(::Mime::Type)
-        ::Mime::Type.lookup_by_extension(ext)
+        ::Mime::Type.lookup_by_extension(ext).to_s
       elsif defined?(::Rack::Mime)
         ext_with_dot = ".#{ext}"
         ::Rack::Mime.mime_type(ext_with_dot)
