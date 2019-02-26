@@ -19,7 +19,10 @@ gemfile:
   - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
 before_install:
-  - gem install bundler
+  # Cannot use bundler 2.x due to dependency
+  # Solution from https://github.com/travis-ci/travis-ci/issues/5290#issuecomment-164600246
+  - rvm @global do gem uninstall bundler -a -x
+  - rvm @global do gem install bundler -v '~> 1.17.0' --conservative
 env:
   global:
     - FOG_DIRECTORY=asset-sync-travis
@@ -29,7 +32,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: 2.6
     - rvm: ruby-head
     - rvm: jruby-head
 notifications:
