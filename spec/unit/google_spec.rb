@@ -8,8 +8,6 @@ describe AssetSync do
       AssetSync.config = AssetSync::Config.new
       AssetSync.configure do |config|
         config.fog_provider = 'Google'
-        config.google_storage_access_key_id = 'aaaa'
-        config.google_storage_secret_access_key = 'bbbb'
         config.fog_directory = 'mybucket'
         config.existing_remote_files = "keep"
       end
@@ -22,14 +20,6 @@ describe AssetSync do
 
     it "should should keep existing remote files" do
       expect(AssetSync.config.existing_remote_files?).to eq(true)
-    end
-
-    it "should configure google_storage_access_key_id" do
-      expect(AssetSync.config.google_storage_access_key_id).to eq("aaaa")
-    end
-
-    it "should configure google_storage_secret_access_key" do
-      expect(AssetSync.config.google_storage_secret_access_key).to eq("bbbb")
     end
 
     it "should configure fog_directory" do
@@ -47,36 +37,119 @@ describe AssetSync do
     it "should default manifest to false" do
       expect(AssetSync.config.manifest).to be_falsey
     end
+
+    describe "when using S3 interop API" do
+      before(:each) do
+        AssetSync.configure do |config|
+          config.google_storage_access_key_id = 'aaaa'
+          config.google_storage_secret_access_key = 'bbbb'
+        end
+      end
+
+      it "should configure google_storage_access_key_id" do
+        expect(AssetSync.config.google_storage_access_key_id).to eq("aaaa")
+      end
+
+      it "should configure google_storage_secret_access_key" do
+        expect(AssetSync.config.google_storage_secret_access_key).to eq("bbbb")
+      end
+
+      it "should return the correct fog_options" do
+        expected_fog_options = { google_storage_access_key_id: "aaaa",
+                                google_storage_secret_access_key: "bbbb",
+                                provider: "Google"}
+        expect(AssetSync.config.fog_options).to eq(expected_fog_options)
+      end
+
+      it "should not require that google_json_key_location be set" do
+        expect(AssetSync.config.valid?).to eq(true)
+      end
+
+      it "should require that google_storage_secret_access_key or access_key_id be set" do
+
+        AssetSync.configure do |config|
+          config.google_storage_access_key_id = nil
+          config.google_storage_secret_access_key = nil
+        end
+
+        expect(AssetSync.config.valid?).to eq(false)
+      end
+    end
+
+    describe "when using service account" do
+      before(:each) do
+        AssetSync.configure do |config|
+          config.google_json_key_location = '/path/to.json'
+          config.google_project = 'a-google-project-name'
+        end
+      end
+
+      it "should configure google_json_key_location" do
+        expect(AssetSync.config.google_json_key_location).to eq("/path/to.json")
+      end
+
+      it "should return the correct fog_options" do
+        expected_fog_options = { google_json_key_location: "/path/to.json",
+                                 google_project: 'a-google-project-name',
+                                provider: "Google"}
+        expect(AssetSync.config.fog_options).to eq(expected_fog_options)
+      end
+      it "should not require that google_storage_secret_access_key or access_key_id be set" do
+        expect(AssetSync.config.valid?).to eq(true)
+      end
+    end
+
   end
 
   describe 'from yml' do
-    before(:each) do
-      set_rails_root('google_with_yml')
-      AssetSync.config = AssetSync::Config.new
+    describe 'when using S3 interop API' do
+      before(:each) do
+        set_rails_root('google_with_yml')
+        AssetSync.config = AssetSync::Config.new
+      end
+
+      it "should configure google_storage_access_key_id" do
+        expect(AssetSync.config.google_storage_access_key_id).to eq("xxxx")
+      end
+
+      it "should configure google_storage_secret_access_key" do
+        expect(AssetSync.config.google_storage_secret_access_key).to eq("zzzz")
+      end
+
+      it "should not configure google_json_key_location" do
+        expect(AssetSync.config.google_json_key_location).to eq(nil)
+      end
+
+      it "should configure fog_directory" do
+        expect(AssetSync.config.fog_directory).to eq("rails_app_test")
+      end
+
+      it "should configure existing_remote_files" do
+        expect(AssetSync.config.existing_remote_files).to eq("keep")
+      end
+
+      it "should default gzip_compression to false" do
+        expect(AssetSync.config.gzip_compression).to be_falsey
+      end
+
+      it "should default manifest to false" do
+        expect(AssetSync.config.manifest).to be_falsey
+      end
     end
 
-    it "should configure google_storage_access_key_id" do
-      expect(AssetSync.config.google_storage_access_key_id).to eq("xxxx")
-    end
+    describe 'when using service account API' do
+      before(:each) do
+        set_rails_root('google_with_service_account_yml')
+        AssetSync.config = AssetSync::Config.new
+      end
 
-    it "should configure google_storage_secret_access_key" do
-      expect(AssetSync.config.google_storage_secret_access_key).to eq("zzzz")
-    end
+      it "should configure google_json_key_location" do
+        expect(AssetSync.config.google_json_key_location).to eq("gcs.json")
+      end
 
-    it "should configure google_storage_access_key" do
-      expect(AssetSync.config.fog_directory).to eq("rails_app_test")
-    end
-
-    it "should configure google_storage_access_key" do
-      expect(AssetSync.config.existing_remote_files).to eq("keep")
-    end
-
-    it "should default gzip_compression to false" do
-      expect(AssetSync.config.gzip_compression).to be_falsey
-    end
-
-    it "should default manifest to false" do
-      expect(AssetSync.config.manifest).to be_falsey
+      it "should not configure google_storage_secret_access_key" do
+        expect(AssetSync.config.google_storage_secret_access_key).to eq(nil)
+      end
     end
   end
 
