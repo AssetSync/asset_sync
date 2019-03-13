@@ -1,0 +1,19 @@
+defaults: &defaults
+  fog_provider: "Google"
+  google_json_key_location: 'gcs.json'
+  google_project: 'some-project'
+
+development:
+  <<: *defaults
+  fog_directory: "rails_app_development"
+  existing_remote_files: keep
+
+test:
+  <<: *defaults
+  fog_directory: "rails_app_test"
+  existing_remote_files: keep
+
+production:
+  <<: *defaults
+  fog_directory: "rails_app_production"
+  existing_remote_files: delete

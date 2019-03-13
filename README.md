@@ -106,7 +106,7 @@ If you wish to have your assets sync to a sub-folder of your bucket instead of i
 ```ruby
   # store assets in a 'folder' instead of bucket root
   config.assets.prefix = "/production/assets"
-````
+​````
 
 Also, ensure the following are defined (in production.rb or application.rb)
 
@@ -141,7 +141,7 @@ The Built-in Initializer will configure **AssetSync** based on the contents of y
 
 Add your configuration details to **heroku**
 
-``` bash
+​``` bash
 heroku config:add AWS_ACCESS_KEY_ID=xxxx
 heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
@@ -170,7 +170,17 @@ heroku config:add FOG_DIRECTORY=xxxx
 heroku config:add FOG_PROVIDER=Rackspace
 ```
 
-Google Storage Cloud configuration is supported as well
+Google Storage Cloud configuration is supported as well. The preferred option is using the [GCS JSON API](https://github.com/fog/fog-google#storage) which requires that you create an appropriate service account, generate the signatures and make them accessible to asset sync at the prescribed location 
+
+```bash
+heroku config:add FOG_PROVIDER=Google
+heroku config:add GOOGLE_PROJECT=xxxx
+heroku config:add GOOGLE_JSON_KEY_LOCATION=xxxx
+heroku config:add FOG_DIRECTORY=xxxx
+```
+
+If using the S3 API the following config is required
+
 ``` bash
 heroku config:add FOG_PROVIDER=Google
 heroku config:add GOOGLE_STORAGE_ACCESS_KEY_ID=xxxx
@@ -385,6 +395,14 @@ The blocks are run when local files are being scanned and uploaded
 * **rackspace\_api\_key**: your Rackspace API Key.
 
 #### Google Storage
+
+When using the JSON API
+
+- **google\_project**: your Google Cloud Project name where the Google Cloud Storage bucket resides
+- **google\_json\_key\_location**: path to the location of the service account key.  The service account key must be a JSON type key
+
+When using the S3 API
+
 * **google\_storage\_access\_key\_id**: your Google Storage access key
 * **google\_storage\_secret\_access\_key**: your Google Storage access secret
 
@@ -584,7 +602,7 @@ Make sure you have a .env file with these details:-
     AWS_SECRET_ACCESS_KEY=<yoursecretkey>
     FOG_DIRECTORY=<yourbucket>
     FOG_REGION=<youbucketregion>
-
+    
     # for AzureRM provider
     AZURE_STORAGE_ACCOUNT_NAME=<youraccountname>
     AZURE_STORAGE_ACCESS_KEY=<youraccesskey>
