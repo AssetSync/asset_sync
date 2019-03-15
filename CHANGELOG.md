@@ -18,6 +18,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.7.0] - 2019-03-15
+
+### Added
+
+- Adds JSON API support when using Google Storage
+  (https://github.com/AssetSync/asset_sync/pull/381)
+
+### Changed
+
+- Update `AssetSync::MultiMime.lookup` to always return strings (kind of internal change)
+  (https://github.com/AssetSync/asset_sync/pull/380)
+
+
 ## [2.6.0] - 2018-12-07
 
 ### Added
@@ -888,7 +901,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.7.0...HEAD
+[2.7.0]: https://github.com/AssetSync/asset_sync/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/AssetSync/asset_sync/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/AssetSync/asset_sync/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/AssetSync/asset_sync/compare/v2.3.0...v2.4.0
