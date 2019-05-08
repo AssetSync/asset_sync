@@ -118,7 +118,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Only support mime-type >= 2.99,  
   which is released at the end of 2015  
-- Only support mactivemodel >= 4.1,  
+- Only support activemodel >= 4.1,  
   which is released in 2014  
 
 
