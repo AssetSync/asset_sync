@@ -35,6 +35,10 @@ matrix:
     # bundler version conflict
     - rvm: 2.3
       gemfile: gemfiles/rails_4_2.gemfile
+    - rvm: 2.4
+      gemfile: gemfiles/rails_4_2.gemfile
+    - rvm: 2.5
+      gemfile: gemfiles/rails_4_2.gemfile
     - rvm: jruby
       gemfile: gemfiles/rails_4_2.gemfile
     - gemfile: gemfiles/rails_6_0.gemfile
