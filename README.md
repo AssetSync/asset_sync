@@ -103,10 +103,10 @@ On **non default S3 bucket region**: If your bucket is set to a region that is n
 
 If you wish to have your assets sync to a sub-folder of your bucket instead of into the root add the following to your ``production.rb`` file
 
-```ruby
+``` ruby
   # store assets in a 'folder' instead of bucket root
   config.assets.prefix = "/production/assets"
-​````
+```
 
 Also, ensure the following are defined (in production.rb or application.rb)
 
