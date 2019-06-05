@@ -17,6 +17,7 @@ module AssetSync
           config.fog_directory = ENV['FOG_DIRECTORY'] if ENV.has_key?('FOG_DIRECTORY')
           config.fog_region = ENV['FOG_REGION'] if ENV.has_key?('FOG_REGION')
           config.fog_host = ENV['FOG_HOST'] if ENV.has_key?('FOG_HOST')
+          config.fog_port = ENV['FOG_PORT'] if ENV.has_key?('FOG_PORT')
           config.fog_scheme = ENV['FOG_SCHEMA'] if ENV.has_key?('FOG_SCHEMA')
           config.fog_path_style = ENV['FOG_PATH_STYLE'] if ENV.has_key?('FOG_PATH_STYLE')
 

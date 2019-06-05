@@ -37,6 +37,7 @@ module AssetSync
     # Amazon AWS
     attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles, :aws_signature_version
     attr_accessor :fog_host              # e.g. 's3.amazonaws.com'
+    attr_accessor :fog_port              # e.g. '9000'
     attr_accessor :fog_path_style        # e.g. true
     attr_accessor :fog_scheme            # e.g. 'http'
 
@@ -175,6 +176,7 @@ module AssetSync
       self.enabled                = yml["enabled"] if yml.has_key?('enabled')
       self.fog_provider           = yml["fog_provider"]
       self.fog_host               = yml["fog_host"]
+      self.fog_port               = yml["fog_port"]
       self.fog_directory          = yml["fog_directory"]
       self.fog_region             = yml["fog_region"]
       self.fog_public             = yml["fog_public"] if yml.has_key?("fog_public")
@@ -238,6 +240,7 @@ module AssetSync
           })
         end
         options.merge!({:host => fog_host}) if fog_host
+        options.merge!({:port => fog_port}) if fog_port
         options.merge!({:scheme => fog_scheme}) if fog_scheme
         options.merge!({:aws_signature_version => aws_signature_version}) if aws_signature_version
         options.merge!({:path_style => fog_path_style}) if fog_path_style

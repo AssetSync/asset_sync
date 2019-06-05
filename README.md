@@ -226,6 +226,9 @@ AssetSync.configure do |config|
   # Change host option in fog (only if you need to)
   # config.fog_host = 's3.amazonaws.com'
   #
+  # Change port option in fog (only if you need to)
+  # config.fog_port = "9000"
+  #
   # Use http instead of https.
   # config.fog_scheme = 'http'
   #
