@@ -13,6 +13,9 @@ if defined?(AssetSync)
     # Change host option in fog (only if you need to)
     # config.fog_host = "s3.amazonaws.com"
     #
+    # Change port option in fog (only if you need to)
+    # config.fog_port = "9000"
+    #
     # Use http instead of https. Default should be "https" (at least for fog-aws)
     # config.fog_scheme = "http"
     <%- elsif google? -%>
