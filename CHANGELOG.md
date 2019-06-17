@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.8.0] - 2019-06-17
+
+### Added
+
+- Add option `fog_port`
+  (https://github.com/AssetSync/asset_sync/pull/385)
+
+
 ## [2.7.0] - 2019-03-15
 
 ### Added
@@ -901,7 +909,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.7.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.8.0...HEAD
+[2.8.0]: https://github.com/AssetSync/asset_sync/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/AssetSync/asset_sync/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/AssetSync/asset_sync/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/AssetSync/asset_sync/compare/v2.4.0...v2.5.0
