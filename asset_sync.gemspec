@@ -15,8 +15,6 @@ Gem::Specification.new do |s|
 
   s.license = 'MIT'
 
-  s.rubyforge_project = "asset_sync"
-
   s.add_dependency("fog-core")
   s.add_dependency('unf')
   s.add_dependency('activemodel', ">= 4.1.0")
