@@ -283,4 +283,16 @@ describe AssetSync do
       expect{ AssetSync::Config.new }.to raise_error(Psych::SyntaxError)
     end
   end
+
+  describe 'FogPublicValue' do
+    it "true should be converted to true" do
+      expect(AssetSync::Config::FogPublicValue.new(true).to_bool).to be_truthy
+    end
+    it "false should be converted to false" do
+      expect(AssetSync::Config::FogPublicValue.new(false).to_bool).to be_falsey
+    end
+    it "nil should be converted to false" do
+      expect(AssetSync::Config::FogPublicValue.new(nil).to_bool).to be_falsey
+    end
+  end
 end
