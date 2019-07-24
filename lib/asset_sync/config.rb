@@ -361,7 +361,7 @@ module AssetSync
       end
 
       def to_bool
-        !@value.nil?
+        !!@value
       end
     end
   end
