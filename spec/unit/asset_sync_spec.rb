@@ -145,7 +145,7 @@ describe AssetSync do
 
     it "should default asset_regexps to match regexps" do
       expect(AssetSync.config.cache_asset_regexps).to eq(['cache_me.js', /cache_some\.\d{8}\.css/])
-    end    
+    end
   end
 
   describe 'from yml, exporting to a mobile hybrid development directory' do
@@ -255,12 +255,12 @@ describe AssetSync do
       expect(AssetSync.config.manifest_path).to match(/public\/custom_assets\/manifest.yml/)
     end
   end
-  
+
   describe 'with cache_asset_regexps' do
     before(:each) do
       AssetSync.config = AssetSync::Config.new
     end
-    
+
     it "config.cache_asset_regexp should set cache_asset_regexps" do
       AssetSync.config.cache_asset_regexp = /\.[a-f0-9]{8}/i
       expect(AssetSync.config.cache_asset_regexps.size).to eq(1)
@@ -285,14 +285,34 @@ describe AssetSync do
   end
 
   describe 'FogPublicValue' do
-    it "true should be converted to true" do
-      expect(AssetSync::Config::FogPublicValue.new(true).to_bool).to be_truthy
+    describe "#to_bool" do
+      it "true should be converted to true" do
+        expect(AssetSync::Config::FogPublicValue.new(true).to_bool).to be_truthy
+      end
+      it "false should be converted to false" do
+        expect(AssetSync::Config::FogPublicValue.new(false).to_bool).to be_falsey
+      end
+      it "nil should be converted to false" do
+        expect(AssetSync::Config::FogPublicValue.new(nil).to_bool).to be_falsey
+      end
+      it "'default' should be converted to false" do
+        expect(AssetSync::Config::FogPublicValue.new("default").to_bool).to be_truthy
+      end
     end
-    it "false should be converted to false" do
-      expect(AssetSync::Config::FogPublicValue.new(false).to_bool).to be_falsey
-    end
-    it "nil should be converted to false" do
-      expect(AssetSync::Config::FogPublicValue.new(nil).to_bool).to be_falsey
+
+    describe "#use_explicit_value?" do
+      it "true should be converted to true" do
+        expect(AssetSync::Config::FogPublicValue.new(true).use_explicit_value?).to be_truthy
+      end
+      it "false should be converted to true" do
+        expect(AssetSync::Config::FogPublicValue.new(false).use_explicit_value?).to be_truthy
+      end
+      it "nil should be converted to true" do
+        expect(AssetSync::Config::FogPublicValue.new(nil).use_explicit_value?).to be_truthy
+      end
+      it "'default' should be converted to false" do
+        expect(AssetSync::Config::FogPublicValue.new("default").use_explicit_value?).to be_falsey
+      end
     end
   end
 end
