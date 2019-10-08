@@ -19,11 +19,11 @@ Upgraded from 1.x? Read `UPGRADING.md`
 
 ## Installation
 
-Since 2.x, Asset Sync depends on gem `fog-core` instead of `fog`.  
-This is due to `fog` is including many unused storage provider gems as its dependencies.  
+Since 2.x, Asset Sync depends on gem `fog-core` instead of `fog`.
+This is due to `fog` is including many unused storage provider gems as its dependencies.
 
-Asset Sync has no idea about what provider will be used,  
-so you are responsible for bundling the right gem for the provider to be used.  
+Asset Sync has no idea about what provider will be used,
+so you are responsible for bundling the right gem for the provider to be used.
 
 In your Gemfile:
 ```ruby
@@ -141,7 +141,7 @@ The Built-in Initializer will configure **AssetSync** based on the contents of y
 
 Add your configuration details to **heroku**
 
-​``` bash
+``` bash
 heroku config:add AWS_ACCESS_KEY_ID=xxxx
 heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
@@ -170,7 +170,7 @@ heroku config:add FOG_DIRECTORY=xxxx
 heroku config:add FOG_PROVIDER=Rackspace
 ```
 
-Google Storage Cloud configuration is supported as well. The preferred option is using the [GCS JSON API](https://github.com/fog/fog-google#storage) which requires that you create an appropriate service account, generate the signatures and make them accessible to asset sync at the prescribed location 
+Google Storage Cloud configuration is supported as well. The preferred option is using the [GCS JSON API](https://github.com/fog/fog-google#storage) which requires that you create an appropriate service account, generate the signatures and make them accessible to asset sync at the prescribed location
 
 ```bash
 heroku config:add FOG_PROVIDER=Google
@@ -361,8 +361,8 @@ end
 The blocks are run when local files are being scanned and uploaded
 
 ##### Config Method `file_ext_to_mime_type_overrides`
-It's reported that `mime-types` 3.x returns `application/ecmascript` instead of `application/javascript`  
-Such change of mime type might cause some CDN to disable asset compression  
+It's reported that `mime-types` 3.x returns `application/ecmascript` instead of `application/javascript`
+Such change of mime type might cause some CDN to disable asset compression
 So this gem has defined a default override for file ext `js` to be mapped to `application/javascript` by default
 
 To customize the overrides:
@@ -370,7 +370,7 @@ To customize the overrides:
 AssetSync.configure do |config|
   # Clear the default overrides
   config.file_ext_to_mime_type_overrides.clear
-  
+
   # Add/Edit overrides
   # Will call `#to_s` for inputs
   config.file_ext_to_mime_type_overrides.add(:js, :"application/x-javascript")
@@ -605,7 +605,7 @@ Make sure you have a .env file with these details:-
     AWS_SECRET_ACCESS_KEY=<yoursecretkey>
     FOG_DIRECTORY=<yourbucket>
     FOG_REGION=<youbucketregion>
-    
+
     # for AzureRM provider
     AZURE_STORAGE_ACCOUNT_NAME=<youraccountname>
     AZURE_STORAGE_ACCESS_KEY=<youraccesskey>
