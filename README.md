@@ -141,7 +141,7 @@ The Built-in Initializer will configure **AssetSync** based on the contents of y
 
 Add your configuration details to **heroku**
 
-​``` bash
+``` bash
 heroku config:add AWS_ACCESS_KEY_ID=xxxx
 heroku config:add AWS_SECRET_ACCESS_KEY=xxxx
 heroku config:add FOG_DIRECTORY=xxxx
