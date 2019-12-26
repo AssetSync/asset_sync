@@ -52,6 +52,7 @@ module AssetSync
     # Azure Blob with Fog::AzureRM
     attr_accessor :azure_storage_account_name
     attr_accessor :azure_storage_access_key
+    attr_accessor :concurrent_uploads
 
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
@@ -66,6 +67,7 @@ module AssetSync
     validates :google_storage_access_key_id,      :presence => true, :if => :google_interop?
     validates :google_json_key_location,          :presence => true, :if => :google_service_account?
     validates :google_project,                    :presence => true, :if => :google_service_account?
+    validates :concurrent_uploads,    :inclusion => { :in => [true, false] }
 
     def initialize
       self.fog_region = nil
@@ -84,6 +86,7 @@ module AssetSync
       self.invalidate = []
       self.cache_asset_regexps = []
       self.include_manifest = false
+      self.concurrent_uploads = false
       @additional_local_file_paths_procs = []
 
       load_yml! if defined?(::Rails) && yml_exists?
