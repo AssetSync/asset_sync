@@ -307,4 +307,59 @@ describe AssetSync::Storage do
       storage.upload_file('assets/some_longer_path/local_image2.jpg')
     end
   end
+
+  describe '#delete_extra_remote_files' do
+    it 'should delete the files in bulk' do
+      remote_files = ['public/image.png']
+      connection = double
+      config = double
+
+      storage = AssetSync::Storage.new(@config)
+
+      [:local_files, :ignored_files, :always_upload_files].each do |method|
+        expect(storage).to receive(method).and_return([])
+      end
+
+      allow(storage).to receive(:get_remote_files).and_return(remote_files)
+      allow(storage).to receive(:connection).and_return(connection).twice
+      allow(storage).to receive(:config).and_return(config).twice
+      allow(config).to receive(:aws?).and_return(true)
+      allow(config).to receive(:fog_directory).and_return('foo')
+      expect(connection).to receive(:delete_multiple_objects).with('foo', remote_files)
+
+      storage.delete_extra_remote_files
+    end
+
+    context 'when not aws' do
+      it 'deletes files sequentially' do
+        remote_files = ['public/image.png']
+        connection = double
+        config = double
+        directories = double
+        directory = double
+        file = double
+
+        storage = AssetSync::Storage.new(@config)
+
+        [:local_files, :ignored_files, :always_upload_files].each do |method|
+          expect(storage).to receive(method).and_return([])
+        end
+
+        allow(storage).to receive(:get_remote_files).and_return(remote_files)
+        allow(storage).to receive(:connection).and_return(connection).twice
+        allow(storage).to receive(:config).and_return(config)
+        allow(config).to receive(:aws?).and_return(false)
+        allow(config).to receive(:fog_directory).and_return('foo')
+        allow(config).to receive(:assets_prefix).and_return('foo')
+        allow(directories).to receive(:get).and_return(directory)
+        allow(directory).to receive(:files).and_return([file])
+        allow(file).to receive(:key).and_return('public/image.png')
+        allow(connection).to receive(:directories).and_return(directories)
+        expect(connection).not_to receive(:delete_multiple_objects)
+        expect(file).to receive(:destroy)
+
+        storage.delete_extra_remote_files
+      end
+    end
+  end
 end

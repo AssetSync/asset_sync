@@ -132,9 +132,15 @@ module AssetSync
       from_remote_files_to_delete = remote_files - local_files - ignored_files - always_upload_files
 
       log "Flagging #{from_remote_files_to_delete.size} file(s) for deletion"
-      # Delete unneeded remote files
-      bucket.files.each do |f|
-        delete_file(f, from_remote_files_to_delete)
+      # Delete unneeded remote files, if we are on aws delete in bulk else use sequential delete
+      if self.config.aws? && connection.respond_to?(:delete_multiple_objects)
+        from_remote_files_to_delete.each_slice(500) do |slice|
+          connection.delete_multiple_objects(config.fog_directory, slice)
+        end
+      else
+        bucket.files.each do |f|
+          delete_file(f, from_remote_files_to_delete)
+        end
       end
     end
 
