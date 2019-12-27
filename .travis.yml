@@ -14,7 +14,6 @@ rvm:
   - jruby
   - jruby-head
 gemfile:
-  - gemfiles/rails_4_2.gemfile
   - gemfiles/rails_5_0.gemfile
   - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
@@ -33,15 +32,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    # bundler version conflict
-    - rvm: 2.3
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: 2.5
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: jruby
-      gemfile: gemfiles/rails_4_2.gemfile
     - gemfile: gemfiles/rails_6_0.gemfile
     - rvm: ruby-head
     - rvm: jruby-head
