@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.8.2] - 2019-12-27
+
+### Changed
+
+- Use `delete_multiple_objects` when storage is `aws`
+  (https://github.com/AssetSync/asset_sync/pull/392)
+
+
 ## [2.8.1] - 2019-07-25
 
 ### Changed
@@ -922,7 +930,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.8.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.8.2...HEAD
+[2.8.2]: https://github.com/AssetSync/asset_sync/compare/v2.8.1...v2.8.2
 [2.8.1]: https://github.com/AssetSync/asset_sync/compare/v2.8.0...v2.8.1
 [2.8.0]: https://github.com/AssetSync/asset_sync/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/AssetSync/asset_sync/compare/v2.6.0...v2.7.0
