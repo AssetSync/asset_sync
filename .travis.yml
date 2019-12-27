@@ -32,7 +32,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    - gemfile: gemfiles/rails_6_0.gemfile
     - rvm: ruby-head
     - rvm: jruby-head
   exclude:
