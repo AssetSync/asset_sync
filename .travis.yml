@@ -9,11 +9,11 @@ rvm:
   - 2.4
   - 2.5
   - 2.6
+  - 2.7
   - ruby-head
   - jruby
   - jruby-head
 gemfile:
-  - gemfiles/rails_4_2.gemfile
   - gemfiles/rails_5_0.gemfile
   - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
@@ -21,7 +21,7 @@ gemfile:
 before_install:
   # Cannot use bundler 2.x due to dependency (mainly rails 4.2)
   # Solution from https://github.com/rails/rails/blob/4-2-stable/.travis.yml
-  - "travis_retry gem update --system 2.7.8 --no-doc || travis_retry gem update --system 2.7.8 --no-rdoc --no-ri"
+  - "travis_retry gem update --system --no-doc || travis_retry gem update --system --no-rdoc --no-ri"
   - "travis_retry gem install bundler -v '<2'"
 env:
   global:
@@ -32,16 +32,6 @@ env:
 matrix:
   fast_finish: true
   allow_failures:
-    # bundler version conflict
-    - rvm: 2.3
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: 2.5
-      gemfile: gemfiles/rails_4_2.gemfile
-    - rvm: jruby
-      gemfile: gemfiles/rails_4_2.gemfile
-    - gemfile: gemfiles/rails_6_0.gemfile
     - rvm: ruby-head
     - rvm: jruby-head
   exclude:
