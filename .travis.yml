@@ -22,7 +22,7 @@ gemfile:
 before_install:
   # Cannot use bundler 2.x due to dependency (mainly rails 4.2)
   # Solution from https://github.com/rails/rails/blob/4-2-stable/.travis.yml
-  - "travis_retry gem update --system 2.7.8 --no-doc || travis_retry gem update --system 2.7.8 --no-rdoc --no-ri"
+  - "travis_retry gem update --system --no-doc || travis_retry gem update --system --no-rdoc --no-ri"
   - "travis_retry gem install bundler -v '<2'"
 env:
   global:
