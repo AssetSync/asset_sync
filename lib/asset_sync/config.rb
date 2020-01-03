@@ -26,6 +26,7 @@ module AssetSync
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
     attr_accessor :include_manifest
+    attr_accessor :concurrent_uploads
     attr_writer :public_path
 
     # FOG configuration
@@ -209,6 +210,7 @@ module AssetSync
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
       self.include_manifest       = yml['include_manifest'] if yml.has_key?("include_manifest")
+      self.concurrent_uploads     = yml['concurrent_uploads'] if yml.has_key?('concurrent_uploads')
 
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")
