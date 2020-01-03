@@ -53,7 +53,6 @@ module AssetSync
     # Azure Blob with Fog::AzureRM
     attr_accessor :azure_storage_account_name
     attr_accessor :azure_storage_access_key
-    attr_accessor :concurrent_uploads
 
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
