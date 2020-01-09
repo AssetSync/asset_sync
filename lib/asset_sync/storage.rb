@@ -59,7 +59,7 @@ module AssetSync
       return [] unless self.config.include_manifest
 
       if ActionView::Base.respond_to?(:assets_manifest)
-        manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
+        manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir, self.config.manifest_path)
         manifest_path = manifest.filename
       else
         manifest_path = self.config.manifest_path
@@ -139,7 +139,7 @@ module AssetSync
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
-          manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir)
+          manifest = Sprockets::Manifest.new(ActionView::Base.assets_manifest.environment, ActionView::Base.assets_manifest.dir, self.config.manifest_path)
           return manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
