@@ -249,10 +249,20 @@ module AssetSync
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
       local_files_to_upload = (local_files_to_upload + get_non_fingerprinted(local_files_to_upload)).uniq
 
-      # Upload new files
-      local_files_to_upload.each do |f|
-        next unless File.file? "#{path}/#{f}" # Only files.
-        upload_file f
+      if self.config.concurrent_uploads
+        threads = ThreadGroup.new
+        # Upload new files
+        local_files_to_upload.each do |f|
+          next unless File.file? "#{path}/#{f}" # Only files.
+          threads.add(Thread.new { upload_file f })
+        end
+        sleep 1 while threads.list.any? # wait for threads to finish uploading
+      else
+        # Upload new files
+        local_files_to_upload.each do |f|
+          next unless File.file? "#{path}/#{f}" # Only files.
+          upload_file f
+        end
       end
 
       if self.config.cdn_distribution_id && files_to_invalidate.any?

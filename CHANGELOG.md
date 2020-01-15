@@ -7,7 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Nothing
+- Add option `concurrent_uploads` to improve speed of uploading 
+  (https://github.com/AssetSync/asset_sync/pull/393)
 
 ### Changed
 

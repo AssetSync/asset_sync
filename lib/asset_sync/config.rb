@@ -26,6 +26,7 @@ module AssetSync
     attr_accessor :cdn_distribution_id
     attr_accessor :cache_asset_regexps
     attr_accessor :include_manifest
+    attr_accessor :concurrent_uploads
     attr_writer :public_path
 
     # FOG configuration
@@ -66,6 +67,7 @@ module AssetSync
     validates :google_storage_access_key_id,      :presence => true, :if => :google_interop?
     validates :google_json_key_location,          :presence => true, :if => :google_service_account?
     validates :google_project,                    :presence => true, :if => :google_service_account?
+    validates :concurrent_uploads,    :inclusion => { :in => [true, false] }
 
     def initialize
       self.fog_region = nil
@@ -84,6 +86,7 @@ module AssetSync
       self.invalidate = []
       self.cache_asset_regexps = []
       self.include_manifest = false
+      self.concurrent_uploads = false
       @additional_local_file_paths_procs = []
 
       load_yml! if defined?(::Rails) && yml_exists?
@@ -206,6 +209,7 @@ module AssetSync
       self.cdn_distribution_id    = yml['cdn_distribution_id'] if yml.has_key?("cdn_distribution_id")
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
       self.include_manifest       = yml['include_manifest'] if yml.has_key?("include_manifest")
+      self.concurrent_uploads     = yml['concurrent_uploads'] if yml.has_key?('concurrent_uploads')
 
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")

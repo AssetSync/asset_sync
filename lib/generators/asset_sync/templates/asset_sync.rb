@@ -63,6 +63,9 @@ if defined?(AssetSync)
     # Upload the manifest file also.
     # config.include_manifest = false
     #
+    # Upload files concurrently
+    # config.concurrent_uploads = false
+    #
     # Fail silently.  Useful for environments such as Heroku
     # config.fail_silently = true
     #
