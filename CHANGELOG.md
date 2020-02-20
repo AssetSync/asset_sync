@@ -18,11 +18,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.9.1] - 2020-02-20
+
+### Fixed
+
+- Fix uploading of sprockets manifest file
+  (https://github.com/AssetSync/asset_sync/pull/397)
+
+
 ## [2.9.0] - 2020-01-15
 
 ### Added
 
-- Add option `concurrent_uploads` to improve speed of uploading 
+- Add option `concurrent_uploads` to improve speed of uploading
   (https://github.com/AssetSync/asset_sync/pull/393)
 
 
