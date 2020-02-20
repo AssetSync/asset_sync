@@ -540,6 +540,10 @@ AssetSync.configure do |config|
   config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
   config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
   config.prefix = 'assets'
+  # Can be a `Pathname` or `String`
+  # Will be converted into an `Pathname`
+  # If relative, will be converted into an absolute path 
+  # via `::Rails.root` or `::Dir.pwd`
   config.public_path = Pathname('./public')
 end
 ```

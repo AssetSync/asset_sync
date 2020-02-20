@@ -27,7 +27,6 @@ module AssetSync
     attr_accessor :cache_asset_regexps
     attr_accessor :include_manifest
     attr_accessor :concurrent_uploads
-    attr_writer :public_path
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -173,6 +172,19 @@ module AssetSync
 
     def public_path
       @public_path || ::Rails.public_path
+    end
+
+    def public_path=(path)
+      # Generate absolute path even when relative path passed in
+      # Required for generating relative sprockets manifest path
+      pathname = Pathname(path)
+      @public_path = if pathname.absolute?
+        pathname
+      elsif defined?(::Rails.root)
+        ::Rails.root.join(pathname)
+      else
+        Pathname(::Dir.pwd).join(pathname)
+      end
     end
 
     def load_yml!

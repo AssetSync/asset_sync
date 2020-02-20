@@ -14,7 +14,7 @@ describe AssetSync do
         config.fog_region = 'eu-west-1'
         config.existing_remote_files = "keep"
         config.prefix = "assets"
-        config.public_path = Pathname("./public")
+        config.public_path = "./public"
       end
     end
 
@@ -22,8 +22,9 @@ describe AssetSync do
       expect(AssetSync.config.prefix).to eq("assets")
     end
 
-    it "should have prefix of assets" do
-      expect(AssetSync.config.public_path.to_s).to eq("./public")
+    it "should have public_path" do
+      expect(AssetSync.config.public_path.to_s).to be_end_with("/public")
+      expect(AssetSync.config.public_path).to be_absolute
     end
 
     it "should default AssetSync to enabled" do
