@@ -70,6 +70,23 @@ describe AssetSync::Storage do
       storage.upload_files
     end
 
+    it 'should allow custom number of threads' do
+      @config.concurrent_uploads = true
+      @config.concurrent_uploads_max_threads = 2
+      storage = AssetSync::Storage.new(@config)
+
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
+      allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+      allow(File).to receive(:file?).and_return(true) # Pretend they all exist
+
+      expect(Thread).to receive(:new).exactly(2).times.and_call_original
+      (@local_files - @remote_files + storage.always_upload_files).each do |file|
+        expect(storage).to receive(:upload_file).with(file)
+      end
+
+      storage.upload_files
+    end
+
     it 'should upload updated non-fingerprinted files' do
       @local_files = [
         'public/image.png',
