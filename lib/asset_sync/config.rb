@@ -27,6 +27,7 @@ module AssetSync
     attr_accessor :cache_asset_regexps
     attr_accessor :include_manifest
     attr_accessor :concurrent_uploads
+    attr_accessor :concurrent_uploads_max_threads
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -86,6 +87,7 @@ module AssetSync
       self.cache_asset_regexps = []
       self.include_manifest = false
       self.concurrent_uploads = false
+      self.concurrent_uploads_max_threads = 10
       @additional_local_file_paths_procs = []
 
       load_yml! if defined?(::Rails) && yml_exists?
@@ -222,6 +224,7 @@ module AssetSync
       self.cache_asset_regexps    = yml['cache_asset_regexps'] if yml.has_key?("cache_asset_regexps")
       self.include_manifest       = yml['include_manifest'] if yml.has_key?("include_manifest")
       self.concurrent_uploads     = yml['concurrent_uploads'] if yml.has_key?('concurrent_uploads')
+      self.concurrent_uploads_max_threads = yml['concurrent_uploads_max_threads'] if yml.has_key?('concurrent_uploads_max_threads')
 
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")

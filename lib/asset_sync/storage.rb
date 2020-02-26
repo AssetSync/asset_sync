@@ -248,19 +248,27 @@ module AssetSync
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
       local_files_to_upload = (local_files_to_upload + get_non_fingerprinted(local_files_to_upload)).uniq
+      # Only files.
+      local_files_to_upload = local_files_to_upload.select { |f| File.file? "#{path}/#{f}" }
 
       if self.config.concurrent_uploads
-        threads = ThreadGroup.new
+        jobs = Queue.new
+        local_files_to_upload.each { |f| jobs.push(f) }
+        jobs.close
+
+        num_threads = [self.config.concurrent_uploads_max_threads, local_files_to_upload.length].min
         # Upload new files
-        local_files_to_upload.each do |f|
-          next unless File.file? "#{path}/#{f}" # Only files.
-          threads.add(Thread.new { upload_file f })
+        workers = Array.new(num_threads) do
+          Thread.new do
+            while f = jobs.pop
+              upload_file(f)
+            end
+          end
         end
-        sleep 1 while threads.list.any? # wait for threads to finish uploading
+        workers.map(&:join)
       else
         # Upload new files
         local_files_to_upload.each do |f|
-          next unless File.file? "#{path}/#{f}" # Only files.
           upload_file f
         end
       end
