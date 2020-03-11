@@ -66,6 +66,9 @@ if defined?(AssetSync)
     # Upload files concurrently
     # config.concurrent_uploads = false
     #
+    # Path to cache file to skip scanning remote
+    # config.remote_file_list_cache_file_path = './.asset_sync_remote_file_list_cache.json'
+    #
     # Fail silently.  Useful for environments such as Heroku
     # config.fail_silently = true
     #

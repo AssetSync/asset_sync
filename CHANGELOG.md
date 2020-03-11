@@ -7,7 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Nothing
+- Add option `remote_file_list_cache_file_path` to skip scanning remote
+  (https://github.com/AssetSync/asset_sync/pull/400)
 
 ### Changed
 
