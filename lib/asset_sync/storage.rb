@@ -37,6 +37,10 @@ module AssetSync
       self.config.public_path
     end
 
+    def remote_file_list_cache_file_path
+      self.config.remote_file_list_cache_file_path
+    end
+
     def ignored_files
       expand_file_names(self.config.ignored_files)
     end
@@ -56,6 +60,32 @@ module AssetSync
     def local_files
       @local_files ||=
         (get_local_files + config.additional_local_file_paths).uniq
+    end
+
+    def remote_files
+      return [] if ignore_existing_remote_files?
+      return @remote_files if @remote_files
+
+      if remote_file_list_cache_file_path && File.file?(remote_file_list_cache_file_path)
+        begin
+          content = File.read(remote_file_list_cache_file_path)
+          return @remote_files = JSON.parse(content)
+        rescue JSON::ParserError
+          warn "Failed to parse #{remote_file_list_cache_file_path} as json"
+        end
+      end
+
+      @remote_files = get_remote_files
+    end
+
+    def update_remote_file_list_cache(local_files_to_upload)
+      return unless remote_file_list_cache_file_path
+      return if ignore_existing_remote_files?
+
+      File.open(self.remote_file_list_cache_file_path, 'w') do |file|
+        uploaded = local_files_to_upload + remote_files
+        file.write(uploaded.to_json)
+      end
     end
 
     def always_upload_files
@@ -243,8 +273,6 @@ module AssetSync
     end
 
     def upload_files
-      # get a fresh list of remote files
-      remote_files = ignore_existing_remote_files? ? [] : get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
       local_files_to_upload = (local_files_to_upload + get_non_fingerprinted(local_files_to_upload)).uniq
@@ -279,6 +307,8 @@ module AssetSync
         data = cdn.post_invalidation(self.config.cdn_distribution_id, files_to_invalidate)
         log "Invalidation id: #{data.body["Id"]}"
       end
+
+      update_remote_file_list_cache(local_files_to_upload)
     end
 
     def sync

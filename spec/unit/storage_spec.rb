@@ -87,6 +87,54 @@ describe AssetSync::Storage do
       storage.upload_files
     end
 
+    it 'should allow remote_file_list_cache_file_path configuration' do
+      file_path = './foo.json'
+      @config.remote_file_list_cache_file_path = file_path
+      storage = AssetSync::Storage.new(@config)
+
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
+      File.write(file_path, @remote_files.to_json)
+      expect(storage).not_to receive(:get_remote_files)
+      allow(File).to receive(:file?).and_return(true) # Pretend they all exist
+
+      (@local_files - @remote_files + storage.always_upload_files).each do |file|
+        expect(storage).to receive(:upload_file).with(file)
+      end
+
+      expect(storage).not_to receive(:warn)
+      storage.upload_files
+
+      # update remote_file_list_cache corretly
+      updated = JSON.parse(File.read(file_path))
+      expect(updated.sort.uniq).to eq (@remote_files + @local_files + storage.always_upload_files).sort.uniq
+
+      File.delete(file_path)
+    end
+
+    it 'should work with broken cache' do
+      file_path = './foo.json'
+      @config.remote_file_list_cache_file_path = file_path
+
+      storage = AssetSync::Storage.new(@config)
+
+      File.write(file_path, 'some non-json text file content')
+
+      allow(storage).to receive(:get_local_files).and_return(@local_files)
+      allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+      allow(File).to receive(:file?).and_return(true) # Pretend they all exist
+
+      (@local_files - @remote_files + storage.always_upload_files).each do |file|
+        expect(storage).to receive(:upload_file).with(file)
+      end
+
+      # when broken, warning message should be prompted
+      expect(storage).to receive(:warn)
+
+      storage.upload_files
+
+      File.delete(file_path)
+    end
+
     it 'should upload updated non-fingerprinted files' do
       @local_files = [
         'public/image.png',
