@@ -7,8 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Add option `remote_file_list_cache_file_path` to skip scanning remote
-  (https://github.com/AssetSync/asset_sync/pull/400)
+- Nothing
 
 ### Changed
 
@@ -17,6 +16,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Nothing
+
+
+## [2.11.0] - 2020-03-13
+
+### Added
+
+- Add option `remote_file_list_cache_file_path` to skip scanning remote
+  (https://github.com/AssetSync/asset_sync/pull/400)
 
 
 ## [2.10.0] - 2020-02-26
@@ -955,7 +962,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.10.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.11.0...HEAD
+[2.11.0]: https://github.com/AssetSync/asset_sync/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/AssetSync/asset_sync/compare/v2.9.1...v2.10.0
 [2.9.1]: https://github.com/AssetSync/asset_sync/compare/v2.9.0...v2.9.1
 [2.9.0]: https://github.com/AssetSync/asset_sync/compare/v2.8.2...v2.9.0
