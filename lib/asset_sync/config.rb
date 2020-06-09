@@ -37,7 +37,7 @@ module AssetSync
     attr_reader   :fog_public            # e.g. true, false, "default"
 
     # Amazon AWS
-    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_reduced_redundancy, :aws_iam_roles, :aws_signature_version
+    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :aws_reduced_redundancy, :aws_iam_roles, :aws_signature_version
     attr_accessor :fog_host              # e.g. 's3.amazonaws.com'
     attr_accessor :fog_port              # e.g. '9000'
     attr_accessor :fog_path_style        # e.g. true
@@ -203,6 +203,7 @@ module AssetSync
       self.fog_scheme             = yml["fog_scheme"]
       self.aws_access_key_id      = yml["aws_access_key_id"]
       self.aws_secret_access_key  = yml["aws_secret_access_key"]
+      self.aws_session_token      = yml["aws_session_token"] if yml.has_key?("aws_session_token")
       self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
       self.aws_iam_roles          = yml["aws_iam_roles"]
       self.aws_signature_version  = yml["aws_signature_version"]
@@ -260,6 +261,7 @@ module AssetSync
             :aws_access_key_id => aws_access_key_id,
             :aws_secret_access_key => aws_secret_access_key
           })
+          options.merge!({:aws_session_token => aws_session_token}) if aws_session_token
         end
         options.merge!({:host => fog_host}) if fog_host
         options.merge!({:port => fog_port}) if fog_port

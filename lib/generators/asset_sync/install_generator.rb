@@ -35,6 +35,10 @@ module AssetSync
       "<%= ENV['AWS_SECRET_ACCESS_KEY'] %>"
     end
 
+    def aws_session_token
+      "<%= ENV['AWS_SESSION_TOKEN'] %>"
+    end
+
     def google_storage_access_key_id
       "<%= ENV['GOOGLE_STORAGE_ACCESS_KEY_ID'] %>"
     end
