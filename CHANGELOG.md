@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.12.0] - 2020-06-11
+
+### Added
+
+- Add option `aws_session_token` to support AWS Temporary Security Credentials
+  (https://github.com/AssetSync/asset_sync/pull/403)
+
+
 ## [2.11.0] - 2020-03-13
 
 ### Added
@@ -962,7 +970,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.11.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.12.0...HEAD
+[2.12.0]: https://github.com/AssetSync/asset_sync/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/AssetSync/asset_sync/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/AssetSync/asset_sync/compare/v2.9.1...v2.10.0
 [2.9.1]: https://github.com/AssetSync/asset_sync/compare/v2.9.0...v2.9.1
