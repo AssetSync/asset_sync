@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.12.1] - 2020-06-17
+
+### Fixed
+
+- Fix initializer template in generator
+  (https://github.com/AssetSync/asset_sync/pull/404)
+
+
 ## [2.12.0] - 2020-06-11
 
 ### Added
@@ -970,7 +978,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.12.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.12.1...HEAD
+[2.12.1]: https://github.com/AssetSync/asset_sync/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/AssetSync/asset_sync/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/AssetSync/asset_sync/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/AssetSync/asset_sync/compare/v2.9.1...v2.10.0
