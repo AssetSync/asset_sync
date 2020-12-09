@@ -2,6 +2,9 @@
 # http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 language: ruby
+arch: 
+  - amd64
+  - ppc64le
 cache:
   bundler: true
 rvm:
