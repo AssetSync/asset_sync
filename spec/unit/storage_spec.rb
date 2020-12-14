@@ -436,6 +436,7 @@ describe AssetSync::Storage do
         allow(directory).to receive(:files).and_return([file])
         allow(file).to receive(:key).and_return('public/image.png')
         allow(connection).to receive(:directories).and_return(directories)
+        allow(config).to receive(:backblaze?).and_return(false)
         expect(connection).not_to receive(:delete_multiple_objects)
         expect(file).to receive(:destroy)
 

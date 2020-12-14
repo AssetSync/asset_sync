@@ -1,0 +1,20 @@
+defaults: &defaults
+  fog_provider: "Backblaze"
+  b2_key_id: 'xxxx'
+  b2_key_token: 'zzzz'
+  b2_bucket_id: '1234'
+
+development:
+  <<: *defaults
+  fog_directory: "rails_app_development"
+  existing_remote_files: keep
+
+test:
+  <<: *defaults
+  fog_directory: "rails_app_test"
+  existing_remote_files: keep
+
+production:
+  <<: *defaults
+  fog_directory: "rails_app_production"
+  existing_remote_files: delete
