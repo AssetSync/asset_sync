@@ -55,6 +55,11 @@ module AssetSync
     attr_accessor :azure_storage_account_name
     attr_accessor :azure_storage_access_key
 
+    # Backblaze B2 with Fog::Backblaze
+    attr_accessor :b2_key_id
+    attr_accessor :b2_key_token
+    attr_accessor :b2_bucket_id
+
     validates :existing_remote_files, :inclusion => { :in => %w(keep delete ignore) }
 
     validates :fog_provider,          :presence => true
@@ -153,6 +158,10 @@ module AssetSync
       fog_provider =~ /azurerm/i
     end
 
+    def backblaze?
+      fog_provider =~ /backblaze/i
+    end
+
     def cache_asset_regexp=(cache_asset_regexp)
       self.cache_asset_regexps = [cache_asset_regexp]
     end
@@ -233,6 +242,10 @@ module AssetSync
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")
 
+      self.b2_key_id      = yml['b2_key_id']    if yml.has_key?("b2_key_id")
+      self.b2_key_token   = yml['b2_key_token'] if yml.has_key?("b2_key_token")
+      self.b2_bucket_id   = yml['b2_bucket_id'] if yml.has_key?("b2_bucket_id")
+
       # TODO deprecate the other old style config settings. FML.
       self.aws_access_key_id      = yml["aws_access_key"] if yml.has_key?("aws_access_key")
       self.aws_secret_access_key  = yml["aws_access_secret"] if yml.has_key?("aws_access_secret")
@@ -293,6 +306,13 @@ module AssetSync
           :azure_storage_access_key   => azure_storage_access_key,
         })
         options.merge!({:environment => fog_region}) if fog_region
+      elsif backblaze?
+        require 'fog/backblaze'
+        options.merge!({
+          :b2_key_id      => b2_key_id,
+          :b2_key_token   => b2_key_token,
+          :b2_bucket_id   => b2_bucket_id,
+        })
       else
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end

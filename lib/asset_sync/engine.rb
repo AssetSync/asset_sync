@@ -36,6 +36,10 @@ module AssetSync
           config.azure_storage_account_name = ENV['AZURE_STORAGE_ACCOUNT_NAME'] if ENV.has_key?('AZURE_STORAGE_ACCOUNT_NAME')
           config.azure_storage_access_key = ENV['AZURE_STORAGE_ACCESS_KEY'] if ENV.has_key?('AZURE_STORAGE_ACCESS_KEY')
 
+          config.b2_key_id    = ENV['B2_KEY_ID']    if ENV.has_key?('B2_KEY_ID')
+          config.b2_key_token = ENV['B2_KEY_TOKEN'] if ENV.has_key?('B2_KEY_TOKEN')
+          config.b2_bucket_id = ENV['B2_BUCKET_ID'] if ENV.has_key?('B2_BUCKET_ID')
+
           config.enabled = (ENV['ASSET_SYNC_ENABLED'] == 'true') if ENV.has_key?('ASSET_SYNC_ENABLED')
 
           config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"

@@ -35,6 +35,12 @@ if defined?(AssetSync)
     config.azure_storage_account_name = ENV['AZURE_STORAGE_ACCOUNT_NAME']
     config.azure_storage_access_key = ENV['AZURE_STORAGE_ACCESS_KEY']
 
+    <%- elsif backblaze? -%>
+    config.fog_provider = 'Backblaze'
+    config.b2_key_id      = ENV['B2_KEY_ID']
+    config.b2_key_token   = ENV['B2_KEY_TOKEN']
+    config.b2_bucket_id   = ENV['B2_BUCKET_ID']
+
     # config.fog_directory specifies container name of Azure Blob storage
     <%- end -%>
     config.fog_directory = ENV['FOG_DIRECTORY']
