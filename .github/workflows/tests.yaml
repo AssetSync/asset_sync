@@ -25,19 +25,14 @@ jobs:
           - 2.5
           - 2.6
           - 2.7
-          # Disabled due to `bundle install` timeout
-          # Same for `jruby-head` below
-          # - jruby
+          - 3.0
+          - jruby
         gemfile:
           - gemfiles/rails_5_2.gemfile
           - gemfiles/rails_6_0.gemfile
         allow_failures:
           - false
         include:
-          - os: ubuntu
-            ruby: 3.0
-            gemfile: gemfiles/rails_6_0.gemfile
-            allow_failures: true
           - os: ubuntu
             ruby: ruby-head
             gemfile: gemfiles/rails_6_0.gemfile
