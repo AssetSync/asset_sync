@@ -35,13 +35,17 @@ jobs:
           - false
         include:
           - os: ubuntu
+            ruby: 3.0
+            gemfile: gemfiles/rails_6_0.gemfile
+            allow_failures: true
+          - os: ubuntu
             ruby: ruby-head
             gemfile: gemfiles/rails_6_0.gemfile
             allow_failures: true
-#          - os: ubuntu
-#            ruby: jruby-head
-#            gemfile: gemfiles/rails_6_0.gemfile
-#            allow_failures: true
+          - os: ubuntu
+            ruby: jruby-head
+            gemfile: gemfiles/rails_6_0.gemfile
+            allow_failures: true
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       ALLOW_FAILURES: "${{ matrix.allow_failures }}"
