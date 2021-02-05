@@ -30,16 +30,17 @@ jobs:
         gemfile:
           - gemfiles/rails_5_2.gemfile
           - gemfiles/rails_6_0.gemfile
+          - gemfiles/rails_6_1.gemfile
         allow_failures:
           - false
         include:
           - os: ubuntu
             ruby: ruby-head
-            gemfile: gemfiles/rails_6_0.gemfile
+            gemfile: gemfiles/rails_6_1.gemfile
             allow_failures: true
           - os: ubuntu
             ruby: jruby-head
-            gemfile: gemfiles/rails_6_0.gemfile
+            gemfile: gemfiles/rails_6_1.gemfile
             allow_failures: true
         exclude:
           - os: ubuntu
