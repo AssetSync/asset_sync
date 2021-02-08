@@ -2,14 +2,12 @@
 # http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 language: ruby
-arch: 
+arch:
   - amd64
   - ppc64le
 cache:
   bundler: true
 rvm:
-  - 2.3
-  - 2.4
   - 2.5
   - 2.6
   - 2.7
@@ -17,10 +15,9 @@ rvm:
   - jruby
   - jruby-head
 gemfile:
-  - gemfiles/rails_5_0.gemfile
-  - gemfiles/rails_5_1.gemfile
   - gemfiles/rails_5_2.gemfile
   - gemfiles/rails_6_0.gemfile
+  - gemfiles/rails_6_1.gemfile
 before_install:
   # Cannot use bundler 2.x due to dependency (mainly rails 4.2)
   # Solution from https://github.com/rails/rails/blob/4-2-stable/.travis.yml
@@ -37,11 +34,6 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-  exclude:
-    - rvm: 2.3
-      gemfile: gemfiles/rails_6_0.gemfile
-    - rvm: 2.4
-      gemfile: gemfiles/rails_6_0.gemfile
 notifications:
   webhooks:
     urls:
