@@ -137,17 +137,17 @@ describe AssetSync::Storage do
 
     it 'should upload updated non-fingerprinted files' do
       @local_files = [
-        'public/image.png',
-        'public/image-82389298328.png',
-        'public/image-a8389f9h324.png',
+        'public/great-image.png',
+        'public/great-image-82389298328.png',
+        'public/great-image-a8389f9h324.png',
         'public/application.js',
         'public/application-b3389d983k1.js',
         'public/application-ac387d53f31.js',
         'public',
       ]
       @remote_files = [
-        'public/image.png',
-        'public/image-a8389f9h324.png',
+        'public/great-image.png',
+        'public/great-image-a8389f9h324.png',
         'public/application.js',
         'public/application-b3389d983k1.js',
       ]
@@ -158,7 +158,7 @@ describe AssetSync::Storage do
       allow(File).to receive(:file?).and_return(true) # Pretend they all exist
 
       updated_nonfingerprinted_files = [
-        'public/image.png',
+        'public/great-image.png',
         'public/application.js',
       ]
       (@local_files - @remote_files + updated_nonfingerprinted_files).each do |file|
