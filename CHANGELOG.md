@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.13.1] - 2021-03-01
+
+### Fixed
+
+- Fix "files to be uploaded list" generation for file names with dashes
+  (https://github.com/AssetSync/asset_sync/pull/414)
+
+
 ## [2.13.0] - 2020-12-14
 
 ### Added
@@ -986,7 +994,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.13.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...HEAD
+[2.13.1]: https://github.com/AssetSync/asset_sync/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/AssetSync/asset_sync/compare/v2.12.1...v2.13.0
 [2.12.1]: https://github.com/AssetSync/asset_sync/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/AssetSync/asset_sync/compare/v2.11.0...v2.12.0
