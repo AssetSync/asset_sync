@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.14.0] - 2020-03-31
+
+### Added
+
+- Add support for fog option `google_json_key_string`
+  (https://github.com/AssetSync/asset_sync/pull/415)
+
+
 ## [2.13.1] - 2021-03-01
 
 ### Fixed
@@ -994,7 +1002,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.0...HEAD
+[2.14.0]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...v2.14.0
 [2.13.1]: https://github.com/AssetSync/asset_sync/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/AssetSync/asset_sync/compare/v2.12.1...v2.13.0
 [2.12.1]: https://github.com/AssetSync/asset_sync/compare/v2.12.0...v2.12.1
