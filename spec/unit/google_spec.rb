@@ -99,6 +99,28 @@ describe AssetSync do
       end
     end
 
+    describe "when using service account with JSON key string" do
+      before(:each) do
+        AssetSync.configure do |config|
+          config.google_json_key_string = 'a-google-json-key-string'
+          config.google_project = 'a-google-project-name'
+        end
+      end
+
+      it "should configure google_json_key_string" do
+        expect(AssetSync.config.google_json_key_string).to eq("a-google-json-key-string")
+      end
+
+      it "should return the correct fog_options" do
+        expected_fog_options = { google_json_key_string: "a-google-json-key-string",
+                                 google_project: 'a-google-project-name',
+                                provider: "Google"}
+        expect(AssetSync.config.fog_options).to eq(expected_fog_options)
+      end
+      it "should not require that google_storage_secret_access_key or access_key_id be set" do
+        expect(AssetSync.config.valid?).to eq(true)
+      end
+    end
   end
 
   describe 'from yml' do
