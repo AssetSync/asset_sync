@@ -49,6 +49,7 @@ module AssetSync
     # Google Storage
     attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id  # when using S3 interop
     attr_accessor :google_json_key_location # when using service accounts
+    attr_accessor :google_json_key_string # when using service accounts
     attr_accessor :google_project # when using service accounts
 
     # Azure Blob with Fog::AzureRM
@@ -71,8 +72,12 @@ module AssetSync
     validates :rackspace_api_key,     :presence => true, :if => :rackspace?
     validates :google_storage_secret_access_key,  :presence => true, :if => :google_interop?
     validates :google_storage_access_key_id,      :presence => true, :if => :google_interop?
-    validates :google_json_key_location,          :presence => true, :if => :google_service_account?
     validates :google_project,                    :presence => true, :if => :google_service_account?
+    validate(:if => :google_service_account?) do
+      unless google_json_key_location.present? || google_json_key_string.present?
+        errors.add(:base, 'must provide either google_json_key_location or google_json_key_string if using Google service account')
+      end
+    end
     validates :concurrent_uploads,    :inclusion => { :in => [true, false] }
 
     def initialize
@@ -147,11 +152,11 @@ module AssetSync
     end
 
     def google_interop?
-      google? && google_json_key_location.nil?
+      google? && google_json_key_location.nil? && google_json_key_string.nil?
     end
 
     def google_service_account?
-      google? && google_json_key_location
+      google? && (google_json_key_location || google_json_key_string)
     end
 
     def azure_rm?
@@ -292,6 +297,8 @@ module AssetSync
       elsif google?
         if google_json_key_location
           options.merge!({:google_json_key_location => google_json_key_location, :google_project => google_project})
+        elsif google_json_key_string
+          options.merge!({:google_json_key_string => google_json_key_string, :google_project => google_project})
         else
           options.merge!({
             :google_storage_secret_access_key => google_storage_secret_access_key,
