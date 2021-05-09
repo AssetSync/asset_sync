@@ -18,7 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
-## [2.14.0] - 2020-03-31
+## [2.14.0] - 2021-03-31
 
 ### Added
 
