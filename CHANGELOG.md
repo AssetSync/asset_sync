@@ -18,6 +18,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+=======
+## [2.14.1]
+
+### Added
+
+- Add support for setting option `log_silently` in YML (not new option)
+  (https://github.com/AssetSync/asset_sync/pull/417)
+
+
 ## [2.14.0] - 2021-03-31
 
 ### Added
@@ -1002,7 +1011,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.1...HEAD
+[2.14.1]: https://github.com/AssetSync/asset_sync/compare/v2.14.0...v2.14.1
 [2.14.0]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...v2.14.0
 [2.13.1]: https://github.com/AssetSync/asset_sync/compare/v2.13.0...v2.13.1
 [2.13.0]: https://github.com/AssetSync/asset_sync/compare/v2.12.1...v2.13.0
