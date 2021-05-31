@@ -19,6 +19,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 =======
+## [2.14.2]
+
+### Added
+
+- Add support for setting option `google_json_key_string` in YML (not new option)
+  (https://github.com/AssetSync/asset_sync/pull/419)
+
+
+=======
 ## [2.14.1]
 
 ### Added
@@ -1011,7 +1020,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.2...HEAD
+[2.14.2]: https://github.com/AssetSync/asset_sync/compare/v2.14.1...v2.14.2
 [2.14.1]: https://github.com/AssetSync/asset_sync/compare/v2.14.0...v2.14.1
 [2.14.0]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...v2.14.0
 [2.13.1]: https://github.com/AssetSync/asset_sync/compare/v2.13.0...v2.13.1
