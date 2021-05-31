@@ -228,6 +228,7 @@ module AssetSync
       self.google_project = yml["google_project"] if yml.has_key?("google_project")
       self.google_storage_secret_access_key = yml["google_storage_secret_access_key"] if yml.has_key?("google_storage_secret_access_key")
       self.google_storage_access_key_id     = yml["google_storage_access_key_id"] if yml.has_key?("google_storage_access_key_id")
+      self.google_json_key_string           = yml["google_json_key_string"] if yml.has_key?("google_json_key_string")
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
