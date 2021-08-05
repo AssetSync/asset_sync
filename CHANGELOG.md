@@ -18,8 +18,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
-=======
-## [2.14.2]
+## [2.15.0] - 2021-08-05
+
+### Added
+
+- Add support for option `aws_acl`
+  (https://github.com/AssetSync/asset_sync/pull/420)
+
+
+## [2.14.2] - 2021-05-31
 
 ### Added
 
@@ -27,8 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   (https://github.com/AssetSync/asset_sync/pull/419)
 
 
-=======
-## [2.14.1]
+## [2.14.1] - 2021-05-14
 
 ### Added
 
@@ -1020,7 +1026,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.14.2...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.0...HEAD
+[2.15.0]: https://github.com/AssetSync/asset_sync/compare/v2.14.2...v2.15.0
 [2.14.2]: https://github.com/AssetSync/asset_sync/compare/v2.14.1...v2.14.2
 [2.14.1]: https://github.com/AssetSync/asset_sync/compare/v2.14.0...v2.14.1
 [2.14.0]: https://github.com/AssetSync/asset_sync/compare/v2.13.1...v2.14.0
