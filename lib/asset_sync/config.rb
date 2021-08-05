@@ -37,7 +37,15 @@ module AssetSync
     attr_reader   :fog_public            # e.g. true, false, "default"
 
     # Amazon AWS
-    attr_accessor :aws_access_key_id, :aws_secret_access_key, :aws_session_token, :aws_reduced_redundancy, :aws_iam_roles, :aws_signature_version, :aws_acl
+    attr_accessor :aws_access_key_id
+    attr_accessor :aws_secret_access_key
+    attr_accessor :aws_session_token
+    attr_accessor :aws_reduced_redundancy
+    attr_accessor :aws_iam_roles
+    attr_accessor :aws_signature_version
+    attr_accessor :aws_acl
+
+    # Fog
     attr_accessor :fog_host              # e.g. 's3.amazonaws.com'
     attr_accessor :fog_port              # e.g. '9000'
     attr_accessor :fog_path_style        # e.g. true
