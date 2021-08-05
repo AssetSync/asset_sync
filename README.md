@@ -239,6 +239,11 @@ AssetSync.configure do |config|
   # Change AWS signature version. Default is 4
   # config.aws_signature_version = 4
   #
+  # Change canned ACL of uploaded object. Default is unset. Will override fog_public if set.
+  # Choose from: private | public-read | public-read-write | aws-exec-read |
+  #              authenticated-read | bucket-owner-read | bucket-owner-full-control 
+  # config.aws_acl = nil 
+  #
   # Change host option in fog (only if you need to)
   # config.fog_host = 's3.amazonaws.com'
   #
@@ -308,6 +313,11 @@ defaults: &defaults
   #
   # Change AWS signature version. Default is 4
   # aws_signature_version: 4
+  #
+  # Change canned ACL of uploaded object. Default is unset. Will override fog_public if set.
+  # Choose from: private | public-read | public-read-write | aws-exec-read |
+  #              authenticated-read | bucket-owner-read | bucket-owner-full-control 
+  # aws_acl: null
   #
   # Change host option in fog (only if you need to)
   # fog_host: "s3.amazonaws.com"
