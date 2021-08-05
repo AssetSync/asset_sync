@@ -195,7 +195,9 @@ module AssetSync
 
       # region fog_public
 
-      if config.fog_public.use_explicit_value?
+      if config.aws? && config.aws_acl
+        file[:acl] = config.aws_acl
+      elsif config.fog_public.use_explicit_value?
         file[:public] = config.fog_public.to_bool
       end
 
