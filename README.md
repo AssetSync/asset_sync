@@ -430,6 +430,7 @@ The blocks are run when local files are being scanned and uploaded
 
 * **aws\_access\_key\_id**: your Amazon S3 access key
 * **aws\_secret\_access\_key**: your Amazon S3 access secret
+* **aws\_acl**: set [canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) of uploaded object, will override fog_public if set
 
 #### Rackspace
 
