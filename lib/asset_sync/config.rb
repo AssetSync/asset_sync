@@ -229,6 +229,7 @@ module AssetSync
       self.aws_reduced_redundancy = yml["aws_reduced_redundancy"]
       self.aws_iam_roles          = yml["aws_iam_roles"]
       self.aws_signature_version  = yml["aws_signature_version"]
+      self.aws_acl                = yml["aws_acl"]
       self.rackspace_username     = yml["rackspace_username"]
       self.rackspace_auth_url     = yml["rackspace_auth_url"] if yml.has_key?("rackspace_auth_url")
       self.rackspace_api_key      = yml["rackspace_api_key"]
