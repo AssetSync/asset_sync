@@ -2,7 +2,6 @@
 
 require "active_model"
 require "erb"
-require "yaml"
 
 module AssetSync
   class Config
@@ -184,7 +183,7 @@ module AssetSync
     end
 
     def yml
-      @yml ||= ::YAML.load(::ERB.new(IO.read(yml_path)).result)[::Rails.env] || {}
+      @yml ||= ::AssetSync.load_yaml(::ERB.new(IO.read(yml_path)).result)[::Rails.env] || {}
     end
 
     def yml_path
