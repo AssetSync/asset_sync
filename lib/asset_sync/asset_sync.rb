@@ -1,3 +1,5 @@
+require "yaml"
+
 module AssetSync
 
   class << self
@@ -58,6 +60,14 @@ module AssetSync
 
     def log(msg)
       stdout.puts msg unless config.log_silently?
+    end
+
+    def load_yaml(yaml)
+      if YAML.respond_to?(:unsafe_load)
+        YAML.unsafe_load(yaml)
+      else
+        YAML.load(yaml)
+      end
     end
 
     def enabled?

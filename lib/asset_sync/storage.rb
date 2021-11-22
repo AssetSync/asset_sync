@@ -117,7 +117,7 @@ module AssetSync
           return manifest.assets.values.map { |f| File.join(self.config.assets_prefix, f) }
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
-          yml = YAML.load(IO.read(self.config.manifest_path))
+          yml = AssetSync.load_yaml(IO.read(self.config.manifest_path))
 
           return yml.map do |original, compiled|
             # Upload font originals and compiled
