@@ -35,7 +35,10 @@ Or, to use Azure Blob storage, configure as this.
 
 ``` ruby
 gem "asset_sync"
-gem "fog-azure-rm"
+gem "gitlab-fog-azure-rm"
+
+# This gem seems unmaintianed
+# gem "fog-azure-rm"
 ```
 
 To use Backblaze B2, insert these.
