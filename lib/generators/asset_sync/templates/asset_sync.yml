@@ -19,7 +19,7 @@ defaults: &defaults
   # fog_host: "s3.amazonaws.com"
   #
   # Change port option in fog (only if you need to)
-  # config.fog_port = "9000"
+  # fog_port: "9000"
   #
   # Use http instead of https. Default should be "https" (at least for fog-aws)
   # fog_scheme: "http"
@@ -53,7 +53,7 @@ defaults: &defaults
   # Set `public` option when uploading file depending on value,
   # Setting to "default" makes asset sync skip setting the option
   # Possible values: true, false, "default" (default: true)
-  # config.fog_public = true
+  # fog_public: "true"
 
   existing_remote_files: keep
   # To delete existing remote files.
