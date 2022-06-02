@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.15.2] - 2022-06-02
+
+### Fixed
+
+- Fix incorrect commented code in asset_sync.yml
+  (https://github.com/AssetSync/asset_sync/pull/426)
+
+
 ## [2.15.1] - 2021-11-22
 
 ### Changed
@@ -1038,7 +1046,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.2...HEAD
+[2.15.2]: https://github.com/AssetSync/asset_sync/compare/v2.15.1...v2.15.2
 [2.15.1]: https://github.com/AssetSync/asset_sync/compare/v2.15.0...v2.15.1
 [2.15.0]: https://github.com/AssetSync/asset_sync/compare/v2.14.2...v2.15.0
 [2.14.2]: https://github.com/AssetSync/asset_sync/compare/v2.14.1...v2.14.2
