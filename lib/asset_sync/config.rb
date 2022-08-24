@@ -244,6 +244,7 @@ module AssetSync
       self.log_silently           = yml["log_silently"] if yml.has_key?("log_silently")
       self.always_upload          = yml["always_upload"] if yml.has_key?("always_upload")
       self.ignored_files          = yml["ignored_files"] if yml.has_key?("ignored_files")
+      self.prefix                 = yml["prefix"] if yml.has_key?("prefix")
       self.custom_headers         = yml["custom_headers"] if yml.has_key?("custom_headers")
       self.run_on_precompile      = yml["run_on_precompile"] if yml.has_key?("run_on_precompile")
       self.invalidate             = yml["invalidate"] if yml.has_key?("invalidate")
