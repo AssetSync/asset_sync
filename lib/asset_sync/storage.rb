@@ -78,7 +78,7 @@ module AssetSync
 
       if remote_file_list_remote_path && remote_file_list_cache_file_path
         log "Downloading file list file from remote"
-        remote_cache_file = directories.files.get(remote_file_list_remote_path)
+        remote_cache_file = bucket.files.get(remote_file_list_remote_path)
         if remote_cache_file
           File.open(remote_file_list_cache_file_path, 'w') do |local_file|
             local_file.write(remote_cache_file.body)
@@ -112,7 +112,7 @@ module AssetSync
       return if ignore_existing_remote_files?
       return unless remote_file_list_cache_file_path
       log "Updating file list file in remote"
-      remote_file = directory.files.new({
+      remote_file = bucket.files.new({
         :key    => remote_file_list_remote_path,
         :body   => File.open(remote_file_list_cache_file_path)
       })
