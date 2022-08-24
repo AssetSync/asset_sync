@@ -344,7 +344,7 @@ defaults: &defaults
   # Ignored files. Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy.
   # ignored_files: ['ignore_me.js', !ruby/regexp '/ignore_some/\d{32}\.css/']
   # Public path. To change the public directory.
-  # prefix: 'public'
+  # public_path: 'public'
   # Prefix. To change the directory to sync relative to public_path.
   # prefix: 'assets'
   # Allow custom assets to be cacheable. Note: The base filename will be matched
