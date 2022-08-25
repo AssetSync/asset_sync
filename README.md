@@ -343,6 +343,10 @@ defaults: &defaults
   # always_upload: ['application.js', 'application.css', !ruby/regexp '/application-/\d{32}\.css/']
   # Ignored files. Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy.
   # ignored_files: ['ignore_me.js', !ruby/regexp '/ignore_some/\d{32}\.css/']
+  # Public path. To change the public directory.
+  # public_path: 'public'
+  # Prefix. To change the directory to sync relative to public_path.
+  # prefix: 'assets'
   # Allow custom assets to be cacheable. Note: The base filename will be matched
   # If you have an asset with name "app.0b1a4cd3.js", only "app.0b1a4cd3" will need to be matched
   # cache_asset_regexps: ['cache_me.js', !ruby/regexp '/cache_some\.\d{8}\.css/']
