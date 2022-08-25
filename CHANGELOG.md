@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.15.3] - 2022-08-25
+
+### Fixed
+
+- Fix config `prefix` about env var & YAML support
+  (https://github.com/AssetSync/asset_sync/pull/427)
+
+
 ## [2.15.2] - 2022-06-02
 
 ### Fixed
@@ -1046,7 +1054,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.2...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.3...HEAD
+[2.15.3]: https://github.com/AssetSync/asset_sync/compare/v2.15.2...v2.15.3
 [2.15.2]: https://github.com/AssetSync/asset_sync/compare/v2.15.1...v2.15.2
 [2.15.1]: https://github.com/AssetSync/asset_sync/compare/v2.15.0...v2.15.1
 [2.15.0]: https://github.com/AssetSync/asset_sync/compare/v2.14.2...v2.15.0
