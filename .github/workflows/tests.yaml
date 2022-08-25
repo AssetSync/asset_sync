@@ -26,31 +26,25 @@ jobs:
         os:
           - ubuntu
         ruby:
-          - 2.5
-          - 2.6
           - 2.7
           - 3.0
+          - 3.1
           - jruby
         gemfile:
-          - gemfiles/rails_5_2.gemfile
           - gemfiles/rails_6_0.gemfile
           - gemfiles/rails_6_1.gemfile
+          - gemfiles/rails_7_0.gemfile
         allow_failures:
           - false
         include:
           - os: ubuntu
             ruby: ruby-head
-            gemfile: gemfiles/rails_6_1.gemfile
+            gemfile: gemfiles/rails_7_0.gemfile
             allow_failures: true
           - os: ubuntu
             ruby: jruby-head
-            gemfile: gemfiles/rails_6_1.gemfile
+            gemfile: gemfiles/rails_7_0.gemfile
             allow_failures: true
-        exclude:
-          - os: ubuntu
-            ruby: 3.0
-            gemfile: gemfiles/rails_5_2.gemfile
-            allow_failures: false
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       ALLOW_FAILURES: "${{ matrix.allow_failures }}"
@@ -58,7 +52,7 @@ jobs:
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
