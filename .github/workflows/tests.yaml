@@ -45,6 +45,13 @@ jobs:
             ruby: jruby-head
             gemfile: gemfiles/rails_7_0.gemfile
             allow_failures: true
+        exclude:
+          - os: ubuntu
+            ruby: jruby
+            # Rails 7 requires Ruby 2.7
+            # `jruby-9.3.7.0` only supports 2.6.x
+            gemfile: gemfiles/rails_7_0.gemfile
+            allow_failures: false
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       ALLOW_FAILURES: "${{ matrix.allow_failures }}"
