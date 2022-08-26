@@ -110,6 +110,7 @@ module AssetSync
 
     def update_remote_file_list_in_remote
       return if ignore_existing_remote_files?
+      return unless remote_file_list_remote_path
       return unless remote_file_list_cache_file_path
       log "Updating file list file in remote"
       remote_file = bucket.files.new({
@@ -342,7 +343,7 @@ module AssetSync
       end
 
       update_remote_file_list_cache(local_files_to_upload)
-      update_remote_file_list_in_remote if remote_file_list_remote_path
+      update_remote_file_list_in_remote
     end
 
     def sync
