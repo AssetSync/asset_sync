@@ -94,6 +94,10 @@ describe AssetSync do
     it "should default asset_regexps to empty array" do
       expect(AssetSync.config.cache_asset_regexps).to eq([])
     end
+
+    it "should default remote_file_list_remote_path to nil" do
+      expect(AssetSync.config.remote_file_list_remote_path).to be_nil
+    end
   end
 
   describe 'from yml' do

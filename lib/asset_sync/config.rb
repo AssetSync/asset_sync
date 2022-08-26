@@ -28,6 +28,7 @@ module AssetSync
     attr_accessor :concurrent_uploads
     attr_accessor :concurrent_uploads_max_threads
     attr_accessor :remote_file_list_cache_file_path
+    attr_accessor :remote_file_list_remote_path
 
     # FOG configuration
     attr_accessor :fog_provider          # Currently Supported ['AWS', 'Rackspace']
@@ -107,6 +108,7 @@ module AssetSync
       self.concurrent_uploads = false
       self.concurrent_uploads_max_threads = 10
       self.remote_file_list_cache_file_path = nil
+      self.remote_file_list_remote_path = nil
       @additional_local_file_paths_procs = []
 
       load_yml! if defined?(::Rails) && yml_exists?
@@ -254,6 +256,7 @@ module AssetSync
       self.concurrent_uploads     = yml['concurrent_uploads'] if yml.has_key?('concurrent_uploads')
       self.concurrent_uploads_max_threads = yml['concurrent_uploads_max_threads'] if yml.has_key?('concurrent_uploads_max_threads')
       self.remote_file_list_cache_file_path = yml['remote_file_list_cache_file_path'] if yml.has_key?('remote_file_list_cache_file_path')
+      self.remote_file_list_remote_path = yml['remote_file_list_remote_path'] if yml.has_key?('remote_file_list_remote_path')
 
       self.azure_storage_account_name = yml['azure_storage_account_name'] if yml.has_key?("azure_storage_account_name")
       self.azure_storage_access_key   = yml['azure_storage_access_key'] if yml.has_key?("azure_storage_access_key")

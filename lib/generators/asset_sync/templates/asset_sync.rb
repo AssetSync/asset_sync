@@ -81,6 +81,9 @@ if defined?(AssetSync)
     # Path to cache file to skip scanning remote
     # config.remote_file_list_cache_file_path = './.asset_sync_remote_file_list_cache.json'
     #
+    # Path on remote storage to persist remote file list file
+    # config.remote_file_list_remote_path = '/remote/asset_sync_remote_file.json'
+    #
     # Fail silently.  Useful for environments such as Heroku
     # config.fail_silently = true
     #

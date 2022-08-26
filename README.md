@@ -275,6 +275,9 @@ AssetSync.configure do |config|
   # Path to cache file to skip scanning remote
   # config.remote_file_list_cache_file_path = './.asset_sync_remote_file_list_cache.json'
   #
+  # Path on remote storage to persist remote file list file
+  # config.remote_file_list_remote_path = '/remote/asset_sync_remote_file.json'
+  #
   # Fail silently.  Useful for environments such as Heroku
   # config.fail_silently = true
   #
@@ -384,6 +387,7 @@ AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
 * **concurrent_uploads**: (`true, false`) when enabled, will upload the files in different Threads, this greatly improves the upload speed. **default:** `'false'`
 * **concurrent_uploads_max_threads**: when concurrent_uploads is enabled, this determines the number of threads that will be created. **default:** `10`
 * **remote_file_list_cache_file_path**: if present, use this path to cache remote file list to skip scanning remote **default:** `nil`
+* **remote_file_list_remote_path**: if present, use this path to download remote file list file to cache file list in local to skip scanning remote. useful in container environment where you cannot maintain the local file, remote_file_list_cache_file_path also needed to make use of this option **default:** `nil`
 * **enabled**: (`true, false`) when false, will disable asset sync. **default:** `'true'` (enabled)
 * **ignored\_files**: an array of files to ignore e.g. `['ignore_me.js', %r(ignore_some/\d{32}\.css)]` Useful if there are some files that are created dynamically on the server and you don't want to upload on deploy **default**: `[]`
 * **cache\_asset\_regexps**: an array of files to add cache headers e.g. `['cache_me.js', %r(cache_some\.\d{8}\.css)]` Useful if there are some files that are added to sprockets assets list and need to be set as 'Cacheable' on uploaded server.  Only rails compiled regexp is matched internally **default**: `[]`
