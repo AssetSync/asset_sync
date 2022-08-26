@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.16.0] - 2022-08-26
+
+### Added
+
+- Add option `remote_file_list_cache_file_path`
+  (https://github.com/AssetSync/asset_sync/pull/428)
+
+
 ## [2.15.3] - 2022-08-25
 
 ### Fixed
@@ -1054,7 +1062,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.15.3...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.16.0...HEAD
+[2.16.0]: https://github.com/AssetSync/asset_sync/compare/v2.15.3...v2.16.0
 [2.15.3]: https://github.com/AssetSync/asset_sync/compare/v2.15.2...v2.15.3
 [2.15.2]: https://github.com/AssetSync/asset_sync/compare/v2.15.1...v2.15.2
 [2.15.1]: https://github.com/AssetSync/asset_sync/compare/v2.15.0...v2.15.1
