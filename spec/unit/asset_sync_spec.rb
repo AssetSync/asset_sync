@@ -278,6 +278,28 @@ describe AssetSync do
     end
   end
 
+  describe 'with fog_options' do
+    before(:each) do
+      AssetSync.config = AssetSync::Config.new
+      AssetSync.configure do |config|
+        config.fog_provider = 'AWS'
+        config.fog_region = 'eu-west-1'
+        config.fog_path_style = 'true'
+        config.fog_options = { enable_signature_v4_streaming: true }
+      end
+    end
+
+    it "assigns fog_options" do
+      AssetSync.config.fog_options = { enable_signature_v4_streaming: true }
+      expect(AssetSync.config.fog_options).to include(
+        provider: 'AWS',
+        region: 'eu-west-1',
+        path_style: 'true',
+        enable_signature_v4_streaming: true,
+      )
+    end
+  end
+
   describe 'with invalid yml' do
     before(:each) do
       set_rails_root('with_invalid_yml')
