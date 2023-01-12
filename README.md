@@ -257,6 +257,7 @@ AssetSync.configure do |config|
   # config.fog_scheme = 'http'
   #
   # Extra fog options.
+  # Overrides any existing value (even those set by AssetSync)
   # config.fog_options = {}
   #
   # Automatically replace files with their equivalent gzip compressed version
@@ -439,7 +440,7 @@ The blocks are run when local files are being scanned and uploaded
 
 * **fog\_region**: the region your storage bucket is in e.g. *eu-west-1* (AWS),  *ord* (Rackspace), *japanwest* (Azure Blob)
 * **fog\_path\_style**: To use buckets with dot in names, check https://github.com/fog/fog/issues/2381#issuecomment-28088524
-* **fog\_options**: For extra fog options.
+* **fog\_options**: For extra fog options. Overrides any existing value (even those set by AssetSync)
 
 #### AWS
 
