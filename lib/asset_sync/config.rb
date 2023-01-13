@@ -35,6 +35,7 @@ module AssetSync
     attr_accessor :fog_directory         # e.g. 'the-bucket-name'
     attr_accessor :fog_region            # e.g. 'eu-west-1'
     attr_reader   :fog_public            # e.g. true, false, "default"
+    attr_accessor :fog_options           # e.g. { enable_signature_v4_streaming: true }
 
     # Amazon AWS
     attr_accessor :aws_access_key_id
@@ -338,6 +339,7 @@ module AssetSync
         raise ArgumentError, "AssetSync Unknown provider: #{fog_provider} only AWS, Rackspace and Google are supported currently."
       end
 
+      options.merge!(@fog_options) if @fog_options
       options
     end
 

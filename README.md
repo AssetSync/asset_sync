@@ -244,8 +244,8 @@ AssetSync.configure do |config|
   #
   # Change canned ACL of uploaded object. Default is unset. Will override fog_public if set.
   # Choose from: private | public-read | public-read-write | aws-exec-read |
-  #              authenticated-read | bucket-owner-read | bucket-owner-full-control 
-  # config.aws_acl = nil 
+  #              authenticated-read | bucket-owner-read | bucket-owner-full-control
+  # config.aws_acl = nil
   #
   # Change host option in fog (only if you need to)
   # config.fog_host = 's3.amazonaws.com'
@@ -255,6 +255,10 @@ AssetSync.configure do |config|
   #
   # Use http instead of https.
   # config.fog_scheme = 'http'
+  #
+  # Extra fog options.
+  # Overrides any existing value (even those set by AssetSync)
+  # config.fog_options = {}
   #
   # Automatically replace files with their equivalent gzip compressed version
   # config.gzip_compression = true
@@ -322,7 +326,7 @@ defaults: &defaults
   #
   # Change canned ACL of uploaded object. Default is unset. Will override fog_public if set.
   # Choose from: private | public-read | public-read-write | aws-exec-read |
-  #              authenticated-read | bucket-owner-read | bucket-owner-full-control 
+  #              authenticated-read | bucket-owner-read | bucket-owner-full-control
   # aws_acl: null
   #
   # Change host option in fog (only if you need to)
@@ -436,6 +440,7 @@ The blocks are run when local files are being scanned and uploaded
 
 * **fog\_region**: the region your storage bucket is in e.g. *eu-west-1* (AWS),  *ord* (Rackspace), *japanwest* (Azure Blob)
 * **fog\_path\_style**: To use buckets with dot in names, check https://github.com/fog/fog/issues/2381#issuecomment-28088524
+* **fog\_options**: For extra fog options. Overrides any existing value (even those set by AssetSync)
 
 #### AWS
 
