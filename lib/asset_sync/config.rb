@@ -56,6 +56,7 @@ module AssetSync
     attr_accessor :rackspace_username, :rackspace_api_key, :rackspace_auth_url
 
     # Google Storage
+    attr_accessor :google_auth # when using generic auth (like access tokens)
     attr_accessor :google_storage_secret_access_key, :google_storage_access_key_id  # when using S3 interop
     attr_accessor :google_json_key_location # when using service accounts
     attr_accessor :google_json_key_string # when using service accounts
@@ -81,7 +82,7 @@ module AssetSync
     validates :rackspace_api_key,     :presence => true, :if => :rackspace?
     validates :google_storage_secret_access_key,  :presence => true, :if => :google_interop?
     validates :google_storage_access_key_id,      :presence => true, :if => :google_interop?
-    validates :google_project,                    :presence => true, :if => :google_service_account?
+    validates :google_project,                    :presence => true, :if => -> (c) { c.google_auth || c.google_service_account? }
     validate(:if => :google_service_account?) do
       unless google_json_key_location.present? || google_json_key_string.present?
         errors.add(:base, 'must provide either google_json_key_location or google_json_key_string if using Google service account')
@@ -162,7 +163,7 @@ module AssetSync
     end
 
     def google_interop?
-      google? && google_json_key_location.nil? && google_json_key_string.nil?
+      google? && google_auth.nil? && google_json_key_location.nil? && google_json_key_string.nil?
     end
 
     def google_service_account?
@@ -310,7 +311,9 @@ module AssetSync
         options.merge!({ :rackspace_region => fog_region }) if fog_region
         options.merge!({ :rackspace_auth_url => rackspace_auth_url }) if rackspace_auth_url
       elsif google?
-        if google_json_key_location
+        if google_auth
+          options.merge!({:google_auth => google_auth, :google_project => google_project})
+        elsif google_json_key_location
           options.merge!({:google_json_key_location => google_json_key_location, :google_project => google_project})
         elsif google_json_key_string
           options.merge!({:google_json_key_string => google_json_key_string, :google_project => google_project})

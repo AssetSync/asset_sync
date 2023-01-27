@@ -38,6 +38,30 @@ describe AssetSync do
       expect(AssetSync.config.manifest).to be_falsey
     end
 
+    describe "when using user-specified google credentials" do
+      before(:each) do
+        AssetSync.configure do |config|
+          config.google_auth = "access-token"
+          config.google_project = 'a-google-project-name'
+        end
+      end
+
+      it "should configure google_auth" do
+        expect(AssetSync.config.google_auth).to eq("access-token")
+      end
+
+      it "should return the correct fog_options" do
+        expected_fog_options = { google_auth: "access-token",
+                                google_project: 'a-google-project-name',
+                                provider: "Google"}
+        expect(AssetSync.config.fog_options).to eq(expected_fog_options)
+      end
+
+      it "should not require that other parameters be set" do
+        expect(AssetSync.config.valid?).to eq(true)
+      end
+    end
+
     describe "when using S3 interop API" do
       before(:each) do
         AssetSync.configure do |config|

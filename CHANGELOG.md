@@ -7,7 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Add `fog_options` configuration option.
+- Add `google_auth` configuration option
+  (https://github.com/AssetSync/asset_sync/pull/432)
 
 ### Changed
 
