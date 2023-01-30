@@ -7,8 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Add `google_auth` configuration option
-  (https://github.com/AssetSync/asset_sync/pull/432)
+- Nothing
 
 ### Changed
 
@@ -17,6 +16,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Nothing
+
+
+## [2.18.0] - 2023-01-30
+
+### Added
+
+- Add `google_auth` configuration option
+  (https://github.com/AssetSync/asset_sync/pull/432)
 
 
 ## [2.17.0] - 2023-01-13
