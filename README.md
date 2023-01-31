@@ -1,6 +1,6 @@
 
 [![Gem Version](https://img.shields.io/gem/v/asset_sync.svg?style=flat-square)](http://badge.fury.io/rb/asset_sync)
-[![Tests](https://github.com/AssetSync/asset_sync/actions/workflows/tests.yaml/badge.svg)](https://github.com/AssetSync/asset_sync/actions/workflows/tests.yaml)
+[![GitHub Build Status](https://img.shields.io/github/actions/workflow/status/AssetSync/asset_sync/tests.yaml?branch=master&style=flat-square)](https://github.com/AssetSync/asset_sync/actions/workflows/tests.yaml)
 [![Coverage Status](http://img.shields.io/coveralls/AssetSync/asset_sync.svg?style=flat-square)](https://coveralls.io/r/AssetSync/asset_sync)
 
 
