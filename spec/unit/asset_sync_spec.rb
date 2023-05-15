@@ -59,8 +59,8 @@ describe AssetSync do
       expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
-    it "should default gzip_compression to false" do
-      expect(AssetSync.config.gzip_compression).to be_falsey
+    it "should default compression to nil" do
+      expect(AssetSync.config.compression).to be_nil
     end
 
     it "should default manifest to false" do
@@ -139,8 +139,8 @@ describe AssetSync do
       expect(AssetSync.config.existing_remote_files).to eq("keep")
     end
 
-    it "should default gzip_compression to false" do
-      expect(AssetSync.config.gzip_compression).to be_falsey
+    it "should default compression to nil" do
+      expect(AssetSync.config.compression).to be_nil
     end
 
     it "should default manifest to false" do

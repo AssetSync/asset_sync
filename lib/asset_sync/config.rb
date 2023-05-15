@@ -11,8 +11,7 @@ module AssetSync
 
     # AssetSync
     attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
-    attr_accessor :gzip_compression
-    attr_accessor :brotli_compression
+    attr_accessor :compression
     attr_accessor :manifest
     attr_accessor :fail_silently
     attr_accessor :log_silently
@@ -95,8 +94,7 @@ module AssetSync
       self.fog_region = nil
       self.fog_public = true
       self.existing_remote_files = 'keep'
-      self.gzip_compression = false
-      self.brotli_compression = false
+      self.compression = nil
       self.manifest = false
       self.fail_silently = false
       self.log_silently = true
@@ -125,11 +123,15 @@ module AssetSync
     end
 
     def gzip?
-      self.gzip_compression
+      self.compression == 'gz'
     end
 
-    def brotli?
-      self.brotli_compression
+    def gzip_compression= bool
+      if bool
+        self.compression = 'gz'
+      else
+        self.compression = nil
+      end
     end
 
     def existing_remote_files?
@@ -248,8 +250,8 @@ module AssetSync
       self.google_storage_access_key_id     = yml["google_storage_access_key_id"] if yml.has_key?("google_storage_access_key_id")
       self.google_json_key_string           = yml["google_json_key_string"] if yml.has_key?("google_json_key_string")
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
-      self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
-      self.brotli_compression     = yml["brotli_compression"] if yml.has_key?("brotli_compression")
+      self.compression            = yml["compression"] if yml.has_key?("compression")
+      self.compression            = 'gz' if yml.has_key?("gzip_compression") and yml.has_key?("gzip_compression")
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
       self.fail_silently          = yml["fail_silently"] if yml.has_key?("fail_silently")
       self.log_silently           = yml["log_silently"] if yml.has_key?("log_silently")
