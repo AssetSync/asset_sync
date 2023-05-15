@@ -12,6 +12,7 @@ module AssetSync
     # AssetSync
     attr_accessor :existing_remote_files # What to do with your existing remote files? (keep or delete)
     attr_accessor :gzip_compression
+    attr_accessor :brotli_compression
     attr_accessor :manifest
     attr_accessor :fail_silently
     attr_accessor :log_silently
@@ -95,6 +96,7 @@ module AssetSync
       self.fog_public = true
       self.existing_remote_files = 'keep'
       self.gzip_compression = false
+      self.brotli_compression = false
       self.manifest = false
       self.fail_silently = false
       self.log_silently = true
@@ -124,6 +126,10 @@ module AssetSync
 
     def gzip?
       self.gzip_compression
+    end
+
+    def brotli?
+      self.brotli_compression
     end
 
     def existing_remote_files?
@@ -243,6 +249,7 @@ module AssetSync
       self.google_json_key_string           = yml["google_json_key_string"] if yml.has_key?("google_json_key_string")
       self.existing_remote_files  = yml["existing_remote_files"] if yml.has_key?("existing_remote_files")
       self.gzip_compression       = yml["gzip_compression"] if yml.has_key?("gzip_compression")
+      self.brotli_compression     = yml["brotli_compression"] if yml.has_key?("brotli_compression")
       self.manifest               = yml["manifest"] if yml.has_key?("manifest")
       self.fail_silently          = yml["fail_silently"] if yml.has_key?("fail_silently")
       self.log_silently           = yml["log_silently"] if yml.has_key?("log_silently")

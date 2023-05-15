@@ -212,6 +212,7 @@ module AssetSync
       ext = File.extname(f)[1..-1]
       mime = MultiMime.lookup(ext)
       gzip_file_handle = nil
+      brotli_file_handle = nil
       file_handle = File.open("#{path}/#{f}")
       file = {
         :key => f,
@@ -256,11 +257,17 @@ module AssetSync
 
 
       gzipped = "#{path}/#{f}.gz"
+      brotlied = "#{path}/#{f}.br"
       ignore = false
 
       if config.gzip? && File.extname(f) == ".gz"
         # Don't bother uploading gzipped assets if we are in gzip_compression mode
         # as we will overwrite file.css with file.css.gz if it exists.
+        log "Ignoring: #{f}"
+        ignore = true
+      elsif config.brotli? && File.extname(f) == ".br"
+        # Don't bother uploading brotli assets if we are in brotli_compression mode
+        # as we will overwrite file.css with file.css.br if it exists.
         log "Ignoring: #{f}"
         ignore = true
       elsif config.gzip? && File.exist?(gzipped)
@@ -280,6 +287,23 @@ module AssetSync
           percentage = ((original_size.to_f/gzipped_size.to_f)*100).round(2)
           log "Uploading: #{f} instead of #{gzipped} (compression increases this file by #{percentage}%)"
         end
+      elsif config.brotli? && File.exist?(brotlied)
+        original_size = File.size("#{path}/#{f}")
+        brotlied_size = File.size(brotlied)
+
+        if brotlied_size < original_size
+          percentage = ((brotlied_size.to_f/original_size.to_f)*100).round(2)
+          brotli_file_handle = File.open(brotlied)
+          file.merge!({
+                        :key => f,
+                        :body => brotli_file_handle,
+                        :content_encoding => 'br'
+                      })
+          log "Uploading: #{brotlied} in place of #{f} saving #{percentage}%"
+        else
+          percentage = ((original_size.to_f/brotlied_size.to_f)*100).round(2)
+          log "Uploading: #{f} instead of #{brotlied} (compression increases this file by #{percentage}%)"
+        end
       else
         if !config.gzip? && File.extname(f) == ".gz"
           # set content encoding for gzipped files this allows cloudfront to properly handle requests with Accept-Encoding
@@ -290,6 +314,17 @@ module AssetSync
           file.merge!({
             :content_type     => mime,
             :content_encoding => 'gzip'
+          })
+        end
+        if !config.brotli? && File.extname(f) == ".br"
+          # set content encoding for brotlied files this allows cloudfront to properly handle requests with Accept-Encoding
+          # http://docs.amazonwebservices.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html
+          uncompressed_filename = f[0..-4]
+          ext = File.extname(uncompressed_filename)[1..-1]
+          mime = MultiMime.lookup(ext)
+          file.merge!({
+            :content_type     => mime,
+            :content_encoding => 'br'
           })
         end
         log "Uploading: #{f}"
@@ -304,6 +339,7 @@ module AssetSync
       bucket.files.create( file ) unless ignore
       file_handle.close
       gzip_file_handle.close if gzip_file_handle
+      brotli_file_handle.close if brotli_file_handle
     end
 
     def upload_files

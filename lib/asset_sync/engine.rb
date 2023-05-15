@@ -45,6 +45,7 @@ module AssetSync
 
           config.existing_remote_files = ENV['ASSET_SYNC_EXISTING_REMOTE_FILES'] || "keep"
           config.gzip_compression = (ENV['ASSET_SYNC_GZIP_COMPRESSION'] == 'true') if ENV.has_key?('ASSET_SYNC_GZIP_COMPRESSION')
+          config.brotli_compression = (ENV['ASSET_SYNC_BROTLI_COMPRESSION'] == 'true') if ENV.has_key?('ASSET_SYNC_BROTLI_COMPRESSION')
           config.manifest = (ENV['ASSET_SYNC_MANIFEST'] == 'true') if ENV.has_key?('ASSET_SYNC_MANIFEST')
           config.prefix = ENV['ASSET_SYNC_PREFIX'] if ENV.has_key?('ASSET_SYNC_PREFIX')
           config.include_manifest = (ENV['ASSET_SYNC_INCLUDE_MANIFEST'] == 'true') if ENV.has_key?('ASSET_SYNC_INCLUDE_MANIFEST')
