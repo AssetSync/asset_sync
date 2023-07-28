@@ -258,6 +258,11 @@ describe AssetSync do
       Rails.application.config.assets.prefix = 'custom_assets'
       expect(AssetSync.config.manifest_path).to match(/public\/custom_assets\/manifest.yml/)
     end
+
+    it "config.manifest_path should point to explicit path" do
+      Rails.application.config.assets.manifest = 'config/manifest.json'
+      expect(AssetSync.config.manifest_path).to start_with('config/manifest.json')
+    end
   end
 
   describe 'with cache_asset_regexps' do

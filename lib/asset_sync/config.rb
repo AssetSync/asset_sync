@@ -117,7 +117,7 @@ module AssetSync
     end
 
     def manifest_path
-      if ActionView::Base.respond_to?(:assets_manifest)
+      if defined?(ActionView) && ActionView::Base.respond_to?(:assets_manifest)
         ::Rails.application.config.assets.manifest
       else
         directory =
