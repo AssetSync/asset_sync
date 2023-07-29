@@ -117,9 +117,13 @@ module AssetSync
     end
 
     def manifest_path
-      directory =
+      if defined?(ActionView) && ActionView::Base.respond_to?(:assets_manifest)
+        ::Rails.application.config.assets.manifest
+      else
+        directory =
         ::Rails.application.config.assets.manifest || default_manifest_directory
-      File.join(directory, "manifest.yml")
+        File.join(directory, "manifest.yml")
+      end
     end
 
     def gzip?
