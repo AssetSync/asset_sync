@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.18.1] - 2023-08-02
+
+### Changed
+
+- Respect explicitly set `Rails.application.config.assets.manifest`
+  (https://github.com/AssetSync/asset_sync/pull/434)
+
+
 ## [2.18.0] - 2023-01-30
 
 ### Added
@@ -1078,7 +1086,9 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.17.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.18.1...HEAD
+[2.18.1]: https://github.com/AssetSync/asset_sync/compare/v2.18.0...v2.18.1
+[2.18.0]: https://github.com/AssetSync/asset_sync/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/AssetSync/asset_sync/compare/v2.16.0...v2.17.0
 [2.16.0]: https://github.com/AssetSync/asset_sync/compare/v2.15.3...v2.16.0
 [2.15.3]: https://github.com/AssetSync/asset_sync/compare/v2.15.2...v2.15.3
