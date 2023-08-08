@@ -122,10 +122,6 @@ module AssetSync
       File.join(directory, "manifest.yml")
     end
 
-    def gzip?
-      self.compression == 'gz'
-    end
-
     def gzip_compression= bool
       if bool
         self.compression = 'gz'

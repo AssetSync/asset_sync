@@ -230,8 +230,8 @@ describe AssetSync do
       AssetSync.config.gzip_compression = true
     end
 
-    it "config.gzip? should be true" do
-      expect(AssetSync.config.gzip?).to be_truthy
+    it "config.compression should be 'gz'" do
+      expect(AssetSync.config.compression).to eq("gz")
     end
   end
 
