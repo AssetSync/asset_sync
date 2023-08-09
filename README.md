@@ -165,7 +165,7 @@ heroku config:add FOG_DIRECTORY=xxxx
 heroku config:add FOG_PROVIDER=AWS
 # and optionally:
 heroku config:add FOG_REGION=eu-west-1
-heroku config:add ASSET_SYNC_GZIP_COMPRESSION=true
+heroku config:add ASSET_SYNC_COMPRESSION=gz
 heroku config:add ASSET_SYNC_MANIFEST=true
 heroku config:add ASSET_SYNC_EXISTING_REMOTE_FILES=keep
 ```
@@ -379,7 +379,7 @@ AssetSync.config.fog_provider == ENV['FOG_PROVIDER']
 Simply **upcase** the ruby attribute names to get the equivalent environment variable to set. The only exception to that rule are the internal **AssetSync** config variables, they must be prepended with `ASSET_SYNC_*` e.g.
 
 ```ruby
-AssetSync.config.gzip_compression == ENV['ASSET_SYNC_GZIP_COMPRESSION']
+AssetSync.config.compression == ENV['ASSET_SYNC_COMPRESSION']
 ```
 
 #### AssetSync (optional)
