@@ -18,6 +18,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.19.0] - 2023-08-15
+
+### Added
+
+- Add brotli support (new option `compression` which supports both gzip/brotli to replace now deprecated `gzip_compression`)
+  (https://github.com/AssetSync/asset_sync/pull/435)
+
+
 ## [2.18.1] - 2023-08-02
 
 ### Changed
@@ -1086,7 +1094,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.18.1...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.19.0...HEAD
+[2.19.0]: https://github.com/AssetSync/asset_sync/compare/v2.18.1...v2.19.0
 [2.18.1]: https://github.com/AssetSync/asset_sync/compare/v2.18.0...v2.18.1
 [2.18.0]: https://github.com/AssetSync/asset_sync/compare/v2.17.0...v2.18.0
 [2.17.0]: https://github.com/AssetSync/asset_sync/compare/v2.16.0...v2.17.0
