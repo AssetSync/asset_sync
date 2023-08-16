@@ -269,7 +269,7 @@ module AssetSync
           # as we will overwrite file.css with file.css.gz if it exists.
           log "Ignoring: #{f}"
           ignore = true
-        elsif File.exist?(compressed)
+        elsif File.exist?(compressed_name)
           original_size = File.size("#{path}/#{f}")
           compressed_size = File.size(compressed_name)
 
