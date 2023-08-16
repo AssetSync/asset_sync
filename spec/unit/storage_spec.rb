@@ -393,6 +393,46 @@ describe AssetSync::Storage do
       end
       storage.upload_file('assets/some_longer_path/local_image2.jpg')
     end
+
+    context 'config.gzip_compression is enabled' do
+      context 'when the file is a css file' do
+        it 'should upload the file' do
+          @config.gzip_compression = true
+
+          storage = AssetSync::Storage.new(@config)
+          allow(storage).to receive(:get_local_files).and_return(@local_files)
+          allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+          # Pretend they all exist
+          allow(File).to receive(:open).and_return(file_like_object)
+          bucket = double
+          files = double
+          allow(storage).to receive(:bucket).and_return(bucket)
+          allow(bucket).to receive(:files).and_return(files)
+
+          expect(files).to receive(:create).with({ body: file_like_object, content_type: "text/css", key: "assets/local.css", public: true }).once
+          storage.upload_file('assets/local.css')
+        end
+      end
+
+      context 'when the file is a gz file' do
+        it 'should not upload the file' do
+          @config.gzip_compression = true
+
+          storage = AssetSync::Storage.new(@config)
+          allow(storage).to receive(:get_local_files).and_return(@local_files)
+          allow(storage).to receive(:get_remote_files).and_return(@remote_files)
+          # Pretend they all exist
+          allow(File).to receive(:open).and_return(file_like_object)
+          bucket = double
+          files = double
+          allow(storage).to receive(:bucket).and_return(bucket)
+          allow(bucket).to receive(:files).and_return(files)
+
+          expect(files).to_not receive(:create)
+          storage.upload_file('assets/local.css.gz')
+        end
+      end
+    end
   end
 
   describe '#delete_extra_remote_files' do
