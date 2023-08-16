@@ -264,6 +264,7 @@ module AssetSync
       if config.compression
         compressed_name = "#{path}/#{f}.#{config.compression}"
 
+        # `File.extname` returns value with `.` prefix, `config.compression` contains value without `.`
         if File.extname(f)[1..-1] == config.compression
           # Don't bother uploading compressed assets if we are in compression mode
           # as we will overwrite file.css with file.css.gz if it exists.
