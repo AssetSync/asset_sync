@@ -18,6 +18,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.19.1] - 2023-08-17
+
+### Fixed
+
+- Fix issues from https://github.com/AssetSync/asset_sync/pull/435
+  - https://github.com/AssetSync/asset_sync/commit/35bef657e9c65268e4888d489950184b238ba13f
+  - https://github.com/AssetSync/asset_sync/pull/437
+
+
 ## [2.19.0] - 2023-08-15
 
 ### Added
@@ -1094,7 +1103,8 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.19.0...HEAD
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.19.1...HEAD
+[2.19.1]: https://github.com/AssetSync/asset_sync/compare/v2.19.0...v2.19.1
 [2.19.0]: https://github.com/AssetSync/asset_sync/compare/v2.18.1...v2.19.0
 [2.18.1]: https://github.com/AssetSync/asset_sync/compare/v2.18.0...v2.18.1
 [2.18.0]: https://github.com/AssetSync/asset_sync/compare/v2.17.0...v2.18.0
