@@ -13,14 +13,17 @@ module AssetSync
     attr_accessor :config
 
     def initialize(cfg)
+      puts "INVOKING: #{self.class.name} => def initialize(cfg)"
       @config = cfg
     end
 
     def connection
+      puts "INVOKING: #{self.class.name} => def connection"
       @connection ||= Fog::Storage.new(self.config.fog_options)
     end
 
     def bucket
+      puts "INVOKING: #{self.class.name} => def bucket"
       # fixes: https://github.com/rumblelabs/asset_sync/issues/18
 
       @bucket ||= if self.config.backblaze?
@@ -32,26 +35,32 @@ module AssetSync
     end
 
     def log(msg)
+      puts "INVOKING: #{self.class.name} => def log(msg)"
       AssetSync.log(msg)
     end
 
     def keep_existing_remote_files?
+      puts "INVOKING: #{self.class.name} => def keep_existing_remote_files?"
       self.config.existing_remote_files?
     end
 
     def path
+      puts "INVOKING: #{self.class.name} => def path"
       self.config.public_path
     end
 
     def remote_file_list_cache_file_path
+      puts "INVOKING: #{self.class.name} => def remote_file_list_cache_file_path"
       self.config.remote_file_list_cache_file_path
     end
 
     def ignored_files
+      puts "INVOKING: #{self.class.name} => def ignored_files"
       expand_file_names(self.config.ignored_files)
     end
 
     def get_manifest_path
+      puts "INVOKING: #{self.class.name} => def get_manifest_path"
       return [] unless self.config.include_manifest
 
       if ActionView::Base.respond_to?(:assets_manifest)
@@ -64,11 +73,13 @@ module AssetSync
     end
 
     def local_files
+      puts "INVOKING: #{self.class.name} => def local_files"
       @local_files ||=
         (get_local_files + config.additional_local_file_paths).uniq
     end
 
     def remote_files
+      puts "INVOKING: #{self.class.name} => def remote_files"
       return [] if ignore_existing_remote_files?
       return @remote_files if @remote_files
 
@@ -85,6 +96,7 @@ module AssetSync
     end
 
     def update_remote_file_list_cache(local_files_to_upload)
+      puts "INVOKING: #{self.class.name} => def update_remote_file_list_cache(local_files_to_upload)"
       return unless remote_file_list_cache_file_path
       return if ignore_existing_remote_files?
 
@@ -95,14 +107,17 @@ module AssetSync
     end
 
     def always_upload_files
+      puts "INVOKING: #{self.class.name} => def always_upload_files"
       expand_file_names(self.config.always_upload) + get_manifest_path
     end
 
     def files_with_custom_headers
+      puts "INVOKING: #{self.class.name} => def files_with_custom_headers"
       self.config.custom_headers.inject({}) { |h,(k, v)| h[File.join(self.config.assets_prefix, k)] = v; h; }
     end
 
     def files_to_invalidate
+      puts "INVOKING: #{self.class.name} => def files_to_invalidate"
       self.config.invalidate.map { |filename| File.join("/", self.config.assets_prefix, filename) }
     end
 
@@ -110,6 +125,7 @@ module AssetSync
     #   To get a list of asset files indicated in a manifest file.
     #   It makes sense if a user sets `config.manifest` is true.
     def get_asset_files_from_manifest
+      puts "INVOKING: #{self.class.name} => def get_asset_files_from_manifest"
       if self.config.manifest
         if ActionView::Base.respond_to?(:assets_manifest)
           log "Using: Rails 4.0 manifest access"
@@ -134,6 +150,7 @@ module AssetSync
     end
 
     def get_local_files
+      puts "INVOKING: #{self.class.name} => def get_local_files"
       if from_manifest = get_asset_files_from_manifest
         return from_manifest
       end
@@ -146,6 +163,7 @@ module AssetSync
     end
 
     def get_remote_files
+      puts "INVOKING: #{self.class.name} => def get_remote_files"
       raise BucketNotFound.new("#{self.config.fog_provider} Bucket: #{self.config.fog_directory} not found.") unless bucket
       # fixes: https://github.com/rumblelabs/asset_sync/issues/16
       #        (work-around for https://github.com/fog/fog/issues/596)
@@ -155,6 +173,7 @@ module AssetSync
     end
 
     def delete_file(f, remote_files_to_delete)
+      puts "INVOKING: #{self.class.name} => def delete_file(f, remote_files_to_delete)"
       if remote_files_to_delete.include?(f.key)
         log "Deleting: #{f.key}"
         f.destroy
@@ -162,6 +181,7 @@ module AssetSync
     end
 
     def delete_extra_remote_files
+      puts "INVOKING: #{self.class.name} => def delete_extra_remote_files"
       log "Fetching files to flag for delete"
       remote_files = get_remote_files
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
@@ -181,6 +201,7 @@ module AssetSync
     end
 
     def upload_file(f)
+      puts "INVOKING: #{self.class.name} => def upload_file(f)"
       # TODO output files in debug logs as asset filename only.
       one_year = 31557600
       ext = File.extname(f)[1..-1]
@@ -281,6 +302,7 @@ module AssetSync
     end
 
     def upload_files
+      puts "INVOKING: #{self.class.name} => def upload_files"
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       local_files_to_upload = local_files - ignored_files - remote_files + always_upload_files
       local_files_to_upload = (local_files_to_upload + get_non_fingerprinted(local_files_to_upload)).uniq
@@ -320,6 +342,7 @@ module AssetSync
     end
 
     def sync
+      puts "INVOKING: #{self.class.name} => def sync"
       # fixes: https://github.com/rumblelabs/asset_sync/issues/19
       log "AssetSync: Syncing."
       upload_files
@@ -330,10 +353,12 @@ module AssetSync
     private
 
     def ignore_existing_remote_files?
+      puts "INVOKING: #{self.class.name} => def ignore_existing_remote_files?"
       self.config.existing_remote_files == 'ignore'
     end
 
     def get_non_fingerprinted(files)
+      puts "INVOKING: #{self.class.name} => def get_non_fingerprinted(files)"
       files.map do |file|
         match_data = file.match(REGEXP_FINGERPRINTED_FILES)
         match_data && "#{match_data[1]}/#{match_data[2]}.#{match_data[3]}"
@@ -341,6 +366,7 @@ module AssetSync
     end
 
     def expand_file_names(names)
+      puts "INVOKING: #{self.class.name} => def expand_file_names(names)"
       files = []
       Array(names).each do |name|
         case name

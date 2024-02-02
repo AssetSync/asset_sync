@@ -4,6 +4,7 @@ module AssetSync
   class MultiMime
 
     def self.lookup(ext)
+      puts "INVOKING: #{self.class.name} => def self.lookup(ext)"
       overrides =
         ::AssetSync.config.file_ext_to_mime_type_overrides
       if overrides.key?(ext)
