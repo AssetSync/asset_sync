@@ -18,6 +18,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.19.2] - 2024-08-29
+
+### Fixed
+
+- Avoid duplicate files in remote files list cache
+  (https://github.com/AssetSync/asset_sync/pull/439)
+- Drop trailing slash of prefix in #get_local_files
+  (https://github.com/AssetSync/asset_sync/pull/425)
+
+
 ## [2.19.1] - 2023-08-17
 
 ### Fixed
