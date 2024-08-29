@@ -108,7 +108,7 @@ module AssetSync
       return if ignore_existing_remote_files?
 
       File.open(self.remote_file_list_cache_file_path, 'w') do |file|
-        uploaded = (local_files_to_upload + remote_files).uniq
+        uploaded = (local_files_to_upload + remote_files).uniq.sort
         file.write(uploaded.to_json)
       end
     end
