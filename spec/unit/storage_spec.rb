@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require 'fileutils'
 
 describe AssetSync::Storage do
   include_context "mock Rails without_yml"
@@ -487,6 +488,54 @@ describe AssetSync::Storage do
         expect(file).to receive(:destroy)
 
         storage.delete_extra_remote_files
+      end
+    end
+  end
+
+  describe '#get_local_files' do
+    around(:each) do |example|
+      Dir.mktmpdir do |public_path|
+        @public_path = public_path
+        example.call
+      end
+    end
+
+    before(:each) do
+      @config = AssetSync::Config.new
+      @config.public_path = @public_path
+      @config.prefix = 'assets'
+      @storage = AssetSync::Storage.new(@config)
+
+      Dir.mkdir("#{@public_path}/assets")
+    end
+
+    context 'with empty directory' do
+      it 'has no files' do
+        expect(@storage.get_local_files).to eq([])
+      end
+    end
+
+    context 'with non-empty directory' do
+      before(:each) do
+        FileUtils.touch("#{@public_path}/assets/application.js")
+      end
+
+      it 'lists available files' do
+        expect(@storage.get_local_files).to eq([
+          'assets/application.js'
+        ])
+      end
+
+      context 'with trailing slash on asset prefix' do
+        before(:each) do
+          @config.prefix = 'assets/'
+        end
+
+        it 'lists available files with single slashes' do
+          expect(@storage.get_local_files).to eq([
+            'assets/application.js'
+          ])
+        end
       end
     end
   end
