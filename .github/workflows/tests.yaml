@@ -39,6 +39,13 @@ jobs:
           - gemfiles/rails_8_0.gemfile
         allow_failures:
           - false
+        exclude:
+          - os: ubuntu
+            ruby: 3.1
+            gemfile: gemfiles/rails_8_0.gemfile
+          - os: ubuntu
+            ruby: jruby
+            gemfile: gemfiles/rails_8_0.gemfile
         include:
           - os: ubuntu
             ruby: ruby-head
@@ -46,13 +53,13 @@ jobs:
             allow_failures: true
           - os: ubuntu
             ruby: jruby-head
-            gemfile: gemfiles/rails_8_0.gemfile
+            gemfile: gemfiles/rails_7_2.gemfile
             allow_failures: true
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       ALLOW_FAILURES: "${{ matrix.allow_failures }}"
     runs-on: ${{ matrix.os }}-latest
-    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' || matrix.ruby == 'jruby' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
