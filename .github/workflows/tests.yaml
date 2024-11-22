@@ -26,7 +26,7 @@ jobs:
         os:
           - ubuntu
         ruby:
-          - 3.0
+          - "3.0"
           - 3.1
           - 3.2
           - 3.3
@@ -36,12 +36,26 @@ jobs:
           - gemfiles/rails_7_0.gemfile
           - gemfiles/rails_7_1.gemfile
           - gemfiles/rails_7_2.gemfile
+          - gemfiles/rails_8_0.gemfile
         allow_failures:
           - false
+        exclude:
+          - os: ubuntu
+            ruby: "3.0"
+            gemfile: gemfiles/rails_7_2.gemfile
+          - os: ubuntu
+            ruby: "3.0"
+            gemfile: gemfiles/rails_8_0.gemfile
+          - os: ubuntu
+            ruby: 3.1
+            gemfile: gemfiles/rails_8_0.gemfile
+          - os: ubuntu
+            ruby: jruby
+            gemfile: gemfiles/rails_8_0.gemfile
         include:
           - os: ubuntu
             ruby: ruby-head
-            gemfile: gemfiles/rails_7_2.gemfile
+            gemfile: gemfiles/rails_8_0.gemfile
             allow_failures: true
           - os: ubuntu
             ruby: jruby-head
