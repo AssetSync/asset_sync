@@ -4,7 +4,8 @@ source "https://rubygems.org"
 
 gem "rcov", platforms: :mri_18, group: [:development, :test]
 gem "simplecov", platforms: [:jruby, :mri_19, :ruby_19, :mri_20, :rbx], group: [:development, :test], require: false
-gem "jruby-openssl", platform: :jruby
+gem "jruby-openssl", platforms: :jruby
+gem "jar-dependencies", "0.4.1", platforms: :jruby
 gem "rails", "~> 8.0.0"
 
 gemspec path: "../"
