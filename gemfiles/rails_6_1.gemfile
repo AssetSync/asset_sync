@@ -8,5 +8,6 @@ gem "jruby-openssl", platforms: :jruby
 gem "jar-dependencies", "0.4.1", platforms: :jruby
 gem "rails", "~> 6.1.0"
 gem "mutex_m"
+gem "logger"
 
 gemspec path: "../"
