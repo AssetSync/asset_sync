@@ -287,6 +287,8 @@ module AssetSync
             percentage = ((original_size.to_f/compressed_size.to_f)*100).round(2)
             log "Uploading: #{f} instead of #{compressed_name} (compression increases this file by #{percentage}%)"
           end
+        else
+          log "Uploading: #{f}"
         end
       else
         compressed_encoding = CONTENT_ENCODING[File.extname(f).delete('.')]
