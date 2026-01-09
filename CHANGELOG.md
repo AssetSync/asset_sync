@@ -18,6 +18,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Nothing
 
 
+## [2.19.3] - 2026-01-10
+
+### Changed
+
+- Improvement: Ensure "Uploading" logs are output when compression is enabled
+  (https://github.com/AssetSync/asset_sync/pull/452)
+
+### Fixed
+- Fix compatibility with ruby 4.0+ due to `CGI library is removed from the default gems`
+  (https://bugs.ruby-lang.org/issues/21258)
+
+[2.19.3]: https://github.com/AssetSync/asset_sync/compare/v2.19.2...v2.19.3
+
+
 ## [2.19.2] - 2024-08-29
 
 ### Fixed
@@ -26,6 +40,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
   (https://github.com/AssetSync/asset_sync/pull/439)
 - Drop trailing slash of prefix in #get_local_files
   (https://github.com/AssetSync/asset_sync/pull/425)
+
+[2.19.2]: https://github.com/AssetSync/asset_sync/compare/v2.19.1...v2.19.2
 
 
 ## [2.19.1] - 2023-08-17
