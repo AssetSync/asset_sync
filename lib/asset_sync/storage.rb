@@ -1,3 +1,4 @@
+require "cgi"
 require "fog/core"
 
 require "asset_sync/multi_mime"
