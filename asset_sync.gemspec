@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fog-backblaze"
 
   s.add_development_dependency "uglifier"
-  s.add_development_dependency "appraisal"
+  s.add_development_dependency "appraisal2"
 
   s.add_development_dependency "gem-release"
 
