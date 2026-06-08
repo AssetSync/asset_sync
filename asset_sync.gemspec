@@ -46,4 +46,9 @@ Gem::Specification.new do |s|
     "changelog_uri"     => "#{s.homepage}/blob/master/CHANGELOG.md",
     "source_code_uri"   => s.homepage,
   }
+
+  # requiring all owners to enable MFA on their account
+  # https://guides.rubygems.org/mfa-requirement-opt-in/
+  s.metadata["rubygems_mfa_required"] = "true"
+
 end
