@@ -23,8 +23,12 @@ end
 
 appraise "rails_8_0" do
   gem "rails", "~> 8.0.0"
+  # For JRuby, remove after 4.1.0 released
+  gem 'rbs', '>= 4.1.0.pre.2' # FIXME: https://github.com/ruby/rdoc/issues/1746
 end
 
 appraise "rails_8_1" do
   gem "rails", "~> 8.1.0"
+  # For JRuby, remove after 4.1.0 released
+  gem 'rbs', '>= 4.1.0.pre.2' # FIXME: https://github.com/ruby/rdoc/issues/1746
 end

@@ -7,5 +7,6 @@ gem "simplecov", :platforms => [:jruby, :mri_19, :ruby_19, :mri_20, :rbx], :grou
 gem "jruby-openssl", :platforms => :jruby
 gem "jar-dependencies", "0.4.1", :platforms => :jruby
 gem "rails", "~> 8.0.0"
+gem "rbs", ">= 4.1.0.pre.2"
 
 gemspec :path => "../"
