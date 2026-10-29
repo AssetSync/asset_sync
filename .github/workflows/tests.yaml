@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu
+          - ubuntu-24.04
         ruby:
           - "3.0"
           - "3.1"
@@ -43,40 +43,40 @@ jobs:
         allow_failures:
           - false
         exclude:
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: jruby
             gemfile: gemfiles/rails_7_1.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: jruby
             gemfile: gemfiles/rails_7_2.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: "3.0"
             gemfile: gemfiles/rails_7_2.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: "3.0"
             gemfile: gemfiles/rails_8_0.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: "3.1"
             gemfile: gemfiles/rails_8_0.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: "3.0"
             gemfile: gemfiles/rails_8_1.gemfile
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: "3.1"
             gemfile: gemfiles/rails_8_1.gemfile
         include:
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: ruby-head
             gemfile: gemfiles/rails_8_1.gemfile
             allow_failures: true
-          - os: ubuntu
+          - os: ubuntu-24.04
             ruby: jruby-head
             gemfile: gemfiles/rails_8_1.gemfile
             allow_failures: true
     env:
       BUNDLE_GEMFILE: "${{ matrix.gemfile }}"
       ALLOW_FAILURES: "${{ matrix.allow_failures }}"
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
       - name: Checkout
