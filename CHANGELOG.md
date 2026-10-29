@@ -17,6 +17,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Nothing
 
+[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.19.4...HEAD
+
+
+## [2.19.4] - 2026-10-29
+
+### Fixed
+- Fix manifest file list when no duplicates exist
+  (https://github.com/AssetSync/asset_sync/pull/480)
+
+[2.19.4]: https://github.com/AssetSync/asset_sync/compare/v2.19.3...v2.19.4
+
 
 ## [2.19.3] - 2026-01-10
 
@@ -1129,7 +1140,6 @@ Changes:
     * Merge branch 'sinatra'
 
 
-[Unreleased]: https://github.com/AssetSync/asset_sync/compare/v2.19.1...HEAD
 [2.19.1]: https://github.com/AssetSync/asset_sync/compare/v2.19.0...v2.19.1
 [2.19.0]: https://github.com/AssetSync/asset_sync/compare/v2.18.1...v2.19.0
 [2.18.1]: https://github.com/AssetSync/asset_sync/compare/v2.18.0...v2.18.1
