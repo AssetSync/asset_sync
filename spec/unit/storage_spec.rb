@@ -526,6 +526,18 @@ describe AssetSync::Storage do
         ])
       end
 
+      it 'uses the manifest even when it contains no duplicate files' do
+        stub_const('ActionView', Module.new)
+        stub_const('ActionView::Base', Class.new)
+        manifest_path = File.join(@public_path, 'manifest.yml')
+        File.write(manifest_path, "application.js: application-deadbeef.js\n")
+        FileUtils.touch("#{@public_path}/assets/unreferenced.js")
+        @config.manifest = true
+        allow(@config).to receive(:manifest_path).and_return(manifest_path)
+
+        expect(@storage.get_local_files).to eq(['assets/application-deadbeef.js'])
+      end
+
       context 'with trailing slash on asset prefix' do
         before(:each) do
           @config.prefix = 'assets/'

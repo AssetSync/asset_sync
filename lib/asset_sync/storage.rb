@@ -158,7 +158,7 @@ module AssetSync
             else
               compiled
             end
-          end.flatten.map { |f| File.join(self.config.assets_prefix, f) }.uniq!
+          end.flatten.map { |f| File.join(self.config.assets_prefix, f) }.uniq
         else
           log "Warning: Manifest could not be found"
         end
